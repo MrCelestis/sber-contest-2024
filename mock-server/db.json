@@ -1,0 +1,94 @@
+{
+    "category-metadata": [
+      {
+        "id": 1,
+        "text": "Unspecified",
+        "iconUrl": "http://localhost:3000/question-circle.svg"
+      },
+      {
+        "id": 2,
+        "text": "Restaurants",
+        "iconUrl": "http://localhost:3000/cup-hot.svg"
+      },
+      {
+        "id": 3,
+        "text": "Leisure",
+        "iconUrl": "http://localhost:3000/film.svg"
+      },
+      {
+        "id": 4,
+        "text": "Supermarkets",
+        "iconUrl": "http://localhost:3000/cart4.svg"
+      },
+      {
+        "id": 5,
+        "text": "Transport",
+        "iconUrl": "http://localhost:3000/bus-front.svg"
+      },
+      {
+        "id": 6,
+        "text": "Car & gas",
+        "iconUrl": "http://localhost:3000/car-front.svg"
+      },
+      {
+        "id": 7,
+        "text": "Education",
+        "iconUrl": "http://localhost:3000/mortarboard-fill.svg"
+      },
+      {
+        "id": 8,
+        "text": "Salary",
+        "iconUrl": "http://localhost:3000/briefcase.svg"
+      },
+      {
+        "id": 9,
+        "text": "Mortrage/Rent",
+        "iconUrl": "http://localhost:3000/building.svg"
+      },
+      {
+        "id": 10,
+        "text": "Health",
+        "iconUrl": "http://localhost:3000/capsule.svg"
+      },
+      {
+        "id": 11,
+        "text": "Jewelry",
+        "iconUrl": "http://localhost:3000/gem.svg"
+      },
+      {
+        "id": 12,
+        "text": "Travelling",
+        "iconUrl": "http://localhost:3000/globe-americas.svg"
+      },
+      {
+        "id": 13,
+        "text": "Hobby",
+        "iconUrl": "http://localhost:3000/palette.svg"
+      },
+      {
+        "id": 14,
+        "text": "Electronics",
+        "iconUrl": "http://localhost:3000/phone.svg"
+      }
+    ],
+    "transactions": [
+        {
+            "id": 1,
+            "category": 3,
+            "timestamp": 1728637533,
+            "amount": -3200
+        },
+        {
+            "id": 2,
+            "category": 3,
+            "timestamp": 1733907933,
+            "amount": -164
+        },
+        {
+            "id": 3,
+            "category": 6,
+            "timestamp": 1726045533,
+            "amount": -13000
+        }
+    ]
+  }

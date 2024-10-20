@@ -1,0 +1,60 @@
+.app {
+    display: grid;
+    gap: 1rem;
+    grid-template-areas:
+        "header"
+        "chart"
+        "income"
+        "expenses"
+        "categories"
+        "transactions"
+        "footer";
+}
+
+@media (min-width: 500px) {
+    .app {
+        grid-template-columns: 1fr 3fr;
+        grid-template-areas:
+            "header header header"
+            "chart chart income"
+            "chart chart expenses"
+            "transactions transactions categories"
+            "footer footer footer";
+    }
+}
+
+.app>* {
+    border: 1px solid gray;
+    background-color: aliceblue;
+}
+
+.app__header {
+    grid-area: header;
+    height: 5vh;
+}
+
+.app__chart {
+    grid-area: chart;
+    min-height: 30vh;
+}
+
+.app__income {
+    grid-area: income;
+}
+
+.app__expenses {
+    grid-area: expenses;
+}
+
+.app__categories {
+    grid-area: categories;
+}
+
+.app__transactions {
+    grid-area: transactions;
+}
+
+.app__footer {
+    grid-area: footer;
+    height: 10vh;
+}
