@@ -4,10 +4,11 @@ export const useCategoryMetadataStore = defineStore("categoryMetadata", {
   state: () => ({ categories: [] as CategoryMetadata[] }),
   getters: {
     categoryById: (state) => {
-      const result = new Map<number, CategoryMetadata>();
+      const result = new Map<string, CategoryMetadata>();
       for (const category of state.categories) {
         result.set(category.id, category);
       }
+      console.log('catbyid', result)
       return result;
     },
   },
@@ -25,7 +26,7 @@ export const useCategoryMetadataStore = defineStore("categoryMetadata", {
 });
 
 export interface CategoryMetadata {
-  id: number;
+  id: string;
   text: string;
   iconUrl: string;
 }

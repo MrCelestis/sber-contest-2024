@@ -27,7 +27,8 @@ export const useTransactionsStore = defineStore("transactions", {
 });
 
 export interface Transaction {
-  id: number;
-  category: number;
+  id: string;
+  category: string;
   amount: number;
+  timestamp: number;
 }

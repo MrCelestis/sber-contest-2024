@@ -1,14 +1,15 @@
 .app {
     display: grid;
     gap: 1rem;
+    padding: 0 1rem;
+    background-color: aliceblue;
     grid-template-areas:
         "header"
         "chart"
         "income"
         "expenses"
         "categories"
-        "transactions"
-        "footer";
+        "transactions";
 }
 
 @media (min-width: 500px) {
@@ -18,14 +19,8 @@
             "header header header"
             "chart chart income"
             "chart chart expenses"
-            "transactions transactions categories"
-            "footer footer footer";
+            "transactions transactions categories";
     }
-}
-
-.app>* {
-    border: 1px solid gray;
-    background-color: aliceblue;
 }
 
 .app__header {
@@ -52,9 +47,4 @@
 
 .app__transactions {
     grid-area: transactions;
-}
-
-.app__footer {
-    grid-area: footer;
-    height: 10vh;
 }

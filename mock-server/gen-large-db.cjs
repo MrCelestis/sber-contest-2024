@@ -17,9 +17,9 @@ function generateDataSet() {
   const msInOneDay = 24 * 60 * 60 * 1000;
   for (let i = 0; i < count; i++) {
     transactions.push({
-      id: 1000 + i,
-      amount: randomInt(20000),
-      category: randomSample(categoryMetadata).id,
+      id: String(1000 + i),
+      amount: -randomInt(20000),
+      category: String(randomSample(categoryMetadata).id),
       timestamp: today - randomInt(150) * msInOneDay
     });
   }
