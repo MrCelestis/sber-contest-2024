@@ -10,11 +10,15 @@ export const useVisibleCategoryStore = defineStore(
     const appConfig = useAppConfig();
 
     const visibleCategoryDetails = computed(() => {
+      let totalIncome = 0;
+      let totalExpenses = 0;
       const categoryDetails = new Map<string, CategoryDetails>();
       for (const transaction of transactionStore.transactions) {
         if (transaction.amount >= 0) {
+          totalIncome += transaction.amount;
           continue;
         }
+        totalExpenses += transaction.amount;
         let details = categoryDetails.get(transaction.category);
         if (!details) {
           const metadata = categoryMetadataStore.categoryById.get(
@@ -35,29 +39,43 @@ export const useVisibleCategoryStore = defineStore(
       );
       const remainder = allCategories.reduce(
         (prev, cur, i) =>
-          i <= appConfig.maxCategoriesInFilter ? prev : prev + cur.totalExpenses,
+          i <= appConfig.maxCategoriesInFilter
+            ? prev
+            : prev + cur.totalExpenses,
         0
       );
-      const clampedCategories = allCategories.slice(0, appConfig.maxCategoriesInFilter);
-      if (remainder !== 0) {
-        clampedCategories.push({
-          category: "n/a", //TODO
-          label: "Other",//TODO
-          totalExpenses: remainder,
-          badge: String(allCategories.length - appConfig.maxCategoriesInFilter),
-          iconUrl: "",
-        });
-      }
-      return clampedCategories;
+      const primaryCategories = allCategories.slice(
+        0,
+        appConfig.maxCategoriesInFilter
+      );
+      const remainderCategories = allCategories.slice(
+        appConfig.maxCategoriesInFilter
+      );
+      console.log('> ',[ ...primaryCategories], [...remainderCategories])
+      let remainderData =
+        remainder === 0
+          ? null
+          : {
+              category: null,
+              totalExpenses: remainder,
+              categories: new Set(remainderCategories.map((c) => c.category)),
+              iconUrl: "",
+              label: `Other (${remainderCategories.length})`,
+            };
+      return {
+        categoryDetails: primaryCategories,
+        remainder: remainderData,
+        totalExpenses,
+        totalIncome,
+      };
     });
     return { visibleCategoryDetails };
   }
 );
 
 export interface CategoryDetails {
-  category: string;
+  category: string | null;
   label: string;
   totalExpenses: number;
   iconUrl: string;
-  badge?: string;
 }

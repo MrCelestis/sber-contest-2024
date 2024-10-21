@@ -1,31 +1,34 @@
 .app {
     display: grid;
-    gap: 1rem;
-    padding: 0 1rem;
+    height: 100%;
     background-color: aliceblue;
+    grid-template-rows: auto 3fr auto 3fr;
     grid-template-areas:
         "header"
         "chart"
-        "income"
-        "expenses"
-        "categories"
+        "totals"
         "transactions";
+    --generic-spacing: 0.5rem;
+    --positive-color: #65b12d;
+    --negative-color: #ff5656;
+    --p-card-body-padding: 1rem;
+    gap: var(--generic-spacing);
+    padding: var(--generic-spacing);
 }
 
 @media (min-width: 500px) {
     .app {
-        grid-template-columns: 1fr 3fr;
+        grid-template-columns: 4fr 4fr 1fr;
+        grid-template-rows: auto 2fr 3fr;
         grid-template-areas:
             "header header header"
-            "chart chart income"
-            "chart chart expenses"
-            "transactions transactions categories";
+            "chart chart totals"
+            "transactions transactions transactions";
     }
 }
 
 .app__header {
     grid-area: header;
-    height: 5vh;
 }
 
 .app__chart {
@@ -33,18 +36,11 @@
     min-height: 30vh;
 }
 
-.app__income {
-    grid-area: income;
-}
-
-.app__expenses {
-    grid-area: expenses;
-}
-
-.app__categories {
-    grid-area: categories;
+.app__totals {
+    grid-area: totals;
 }
 
 .app__transactions {
     grid-area: transactions;
+    overflow: hidden;
 }

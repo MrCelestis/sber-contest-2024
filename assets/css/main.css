@@ -12,3 +12,8 @@ body {
 html, #__nuxt {
     height: 100%;
 }
+
+/*TODO: move?*/
+.p-card-body, .p-card-content {
+    height: 100%;
+}
