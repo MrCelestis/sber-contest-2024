@@ -1,12 +1,18 @@
 <script setup lang="ts">
-import { useTransactionDateFilterStore } from "~/stores/transaction-date-filter";
-
 const transactionDateFilterStore = useTransactionDateFilterStore();
 const dialogVisible = ref(false);
 // customIntervalLocal is used because datepicker works with local date,
 // value is converted back to UTC when applied
 const dateRange = ref<[Date, Date] | null>(
   transactionDateFilterStore.customIntervalLocal
+);
+
+const mode = computed(() => transactionDateFilterStore.mode);
+const effectiveUtcInterval = computed(
+  () => transactionDateFilterStore.effectiveUtcInterval
+);
+const customInterval = computed(
+  () => transactionDateFilterStore.customInterval
 );
 
 interface FilterButtonState {
@@ -18,34 +24,26 @@ interface FilterButtonState {
 const modeButtonStates = computed<FilterButtonState[]>(() => [
   {
     label:
-      transactionDateFilterStore.mode === "month"
-        ? formatUtcMonth(
-            transactionDateFilterStore.effectiveUtcInterval?.[0] ?? 0
-          )
+      mode.value === "month"
+        ? formatUtcMonth(effectiveUtcInterval.value?.[0] ?? 0)
         : "Month",
-    severity: getModeButtonSeverity(
-      transactionDateFilterStore.mode === "month"
-    ),
+    severity: getModeButtonSeverity(mode.value === "month"),
     command: () => transactionDateFilterStore.select("month"),
   },
   {
     label:
-      transactionDateFilterStore.mode === "year"
-        ? String(
-            transactionDateFilterStore.effectiveUtcInterval?.[0]?.getUTCFullYear()
-          )
+      mode.value === "year"
+        ? String(effectiveUtcInterval.value?.[0]?.getUTCFullYear())
         : "Year",
-    severity: getModeButtonSeverity(transactionDateFilterStore.mode === "year"),
+    severity: getModeButtonSeverity(mode.value === "year"),
     command: () => transactionDateFilterStore.select("year"),
   },
   {
     label:
-      transactionDateFilterStore.mode === "custom"
-        ? formatUtcDateRange(transactionDateFilterStore.customInterval)
+      mode.value === "custom"
+        ? formatUtcDateRange(customInterval.value)
         : "Custom",
-    severity: getModeButtonSeverity(
-      transactionDateFilterStore.mode === "custom"
-    ),
+    severity: getModeButtonSeverity(mode.value === "custom"),
     command: () => (dialogVisible.value = true),
   },
 ]);
@@ -75,7 +73,7 @@ function dismissDateRange() {
     <Button
       icon="pi pi-angle-left"
       severity="secondary"
-      :disabled="transactionDateFilterStore.mode === 'custom'"
+      :disabled="mode === 'custom'"
       @click="transactionDateFilterStore.selectAdjacentInterval(-1)"
     >
     </Button>
@@ -93,7 +91,7 @@ function dismissDateRange() {
     <Button
       icon="pi pi-angle-right"
       severity="secondary"
-      :disabled="transactionDateFilterStore.mode === 'custom'"
+      :disabled="mode === 'custom'"
       @click="transactionDateFilterStore.selectAdjacentInterval(1)"
     >
     </Button>
@@ -114,19 +112,29 @@ function dismissDateRange() {
   </Dialog>
 </template>
 
-<style>
+<style lang="scss">
 .transaction-date-filter {
   display: flex;
   justify-content: space-between;
   flex-grow: 1;
+
+  &__dialog__footer {
+    margin-top: var(--generic-spacing);
+    display: flex;
+    gap: var(--generic-spacing);
+    justify-content: flex-end;
+  }
+
+  &__mode-button__text {
+    text-transform: capitalize;
+  }
 }
-.transaction-date-filter__dialog__footer {
-  margin-top: var(--generic-spacing);
-  display: flex;
-  gap: var(--generic-spacing);
-  justify-content: flex-end;
-}
-.transaction-date-filter__mode-button__text {
-  text-transform: capitalize;
+
+@media (max-width: 370px) {
+    .transaction-date-filter .p-button {
+        $padding: 3px;
+        padding-left: $padding;
+        padding-right: $padding;
+    }
 }
 </style>

@@ -2,16 +2,12 @@
     display: grid;
     height: 100%;
     background-color: aliceblue;
-    grid-template-rows: auto 3fr auto 3fr;
+    grid-template-rows: auto 40vh 5rem 3fr;
     grid-template-areas:
         "header"
         "chart"
         "totals"
         "transactions";
-    --generic-spacing: 0.5rem;
-    --positive-color: #65b12d;
-    --negative-color: #ff5656;
-    --p-card-body-padding: 1rem;
     gap: var(--generic-spacing);
     padding: var(--generic-spacing);
 }

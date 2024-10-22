@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { CategoryDetails } from "~/stores/visible-category-details";
 
 const { color, selected } = defineProps<{
   color: string;

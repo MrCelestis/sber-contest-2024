@@ -1,10 +1,16 @@
-export function formatUtcDate(date: Date | number): string {
+export function formatUtcDate(
+  date: Date | number,
+  { monthFormat = "short" as "short" | "long" | null } = {}
+): string {
   const currentYear = new Date().getFullYear();
   const localDate = utcDateToLocal(new Date(date));
   return localDate.toLocaleString("default", {
-    month: "long",
     day: "numeric",
-    year: currentYear === localDate.getFullYear() ? undefined : "2-digit",
+    month: monthFormat ?? undefined,
+    year:
+      monthFormat == undefined || currentYear === localDate.getFullYear()
+        ? undefined
+        : "2-digit",
   });
 }
 
@@ -21,7 +27,15 @@ export function formatUtcDateRange(range: [Date, Date] | null) {
   if (!range) {
     return "";
   }
-  return range.map(formatUtcDate).join(" - ");
+  if (
+    range[0].getUTCFullYear() === range[1].getUTCFullYear() &&
+    range[0].getUTCMonth() === range[1].getUTCMonth()
+  ) {
+    const start = formatUtcDate(range[0], { monthFormat: null });
+    const end = formatUtcDate(range[1]);
+    return `${start}-${end}`;
+  }
+  return range.map((d) => formatUtcDate(d)).join(" - ");
 }
 
 export function utcDateToLocal(value: Date): Date {

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-const visibleCategoryStore = useVisibleCategoryStore();
+const { visibleCategories } = useVisibleCategories();
 
 const data = computed(() => {
-  const income = visibleCategoryStore.visibleCategoryDetails.totalIncome;
-  const expenses = visibleCategoryStore.visibleCategoryDetails.totalExpenses;
+  const income = visibleCategories.value.totalIncome;
+  const expenses = visibleCategories.value.totalExpenses;
   const sum = income - expenses; // expenses < 0
   const incomePercent = Math.round((income / sum) * 100);
   return {
@@ -18,10 +18,16 @@ const data = computed(() => {
 <template>
   <div class="totals">
     <div class="totals__numbers">
-      <span class="totals__numbers--income">{{ data.income }} ({{ data.incomePercent }})</span>
-      <span class="totals__numbers--expenses">{{ data.expenses }} ({{ data.expensesPercent }})</span>
+      <span class="totals__numbers--income">
+        {{ data.income }}
+        <span v-if="data.income">({{ data.incomePercent }})</span>
+      </span>
+      <span class="totals__numbers--expenses">
+        {{ data.expenses }}
+        <span v-if="data.expenses">({{ data.expensesPercent }})</span>
+      </span>
     </div>
-    <div class="totals__bar">
+    <div class="totals__bar" v-if="data.income || data.expenses">
       <div
         class="totals__bar__segment totals__bar__segment--income"
         :style="{ width: data.incomePercent }"
@@ -36,19 +42,19 @@ const data = computed(() => {
 
 <style>
 .totals {
-    display: flex;
-    flex-direction: column;
-    gap: var(--generic-spacing);
+  display: flex;
+  flex-direction: column;
+  gap: var(--generic-spacing);
 }
 .totals__numbers {
   display: flex;
   justify-content: space-between;
 }
 .totals__numbers--income {
-    color: var(--positive-color);
+  color: var(--positive-color);
 }
 .totals__numbers--expenses {
-    color: var(--negative-color);
+  color: var(--negative-color);
 }
 .totals__bar {
   display: flex;

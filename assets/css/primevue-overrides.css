@@ -1,0 +1,12 @@
+.p-card-body,
+.p-card-content {
+    height: 100%;
+}
+
+.p-card {
+    overflow: hidden;
+}
+
+.p-buttongroup {
+    display: flex; /* to allow wrapping of buttons in group if content doesn't fit */
+}

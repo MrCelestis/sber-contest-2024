@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { MenuItem } from "primevue/menuitem";
 
+const { showAddButton } = defineProps<{
+  showAddButton: boolean;
+}>();
+
 const transactionSortStore = useTransactionSortStore();
 const sortMenuItems: MenuItem[] = [
   {
@@ -25,12 +29,8 @@ const sortMenuRef = useTemplateRef("sortMenu");
 </script>
 
 <template>
-  <div class="transaction-toolbar">
-    <Button
-      class="transactions__add"
-      icon="pi pi-plus"
-      rounded
-    /><!-- :loading="true"-->
+  <div class="transactions-toolbar">
+    <AddTransactionButton v-if="showAddButton" />
     <Button
       class="transactions-toolbar__sort"
       type="button"
@@ -40,7 +40,7 @@ const sortMenuRef = useTemplateRef("sortMenu");
       aria-controls="transaction_sort_menu"
     >
       <i class="pi pi-sort-amount-down"></i>
-      <span class="transactions-toolbar__sort__label">{{ sortLabel }}</span>
+      {{ sortLabel }}
     </Button>
     <Menu
       ref="sortMenu"
@@ -51,18 +51,14 @@ const sortMenuRef = useTemplateRef("sortMenu");
   </div>
 </template>
 
-<style>
-.transaction-toolbar {
+<style lang="scss">
+.transactions-toolbar {
   display: flex;
-  gap: var(--generic-spacing);
-}
-.transactions-toolbar__sort {
-  margin-left: auto;
-}
 
-@media (max-width: 440px) {
-  .transactions-toolbar__sort__label {
-    display: none; /* save space by hiding current sort mode text */
+  &__sort {
+    margin-left: auto;
+    height: var(--p-button-icon-only-width); // to match + icon button height (to avoid jumping height when it's hidden)
   }
 }
+
 </style>

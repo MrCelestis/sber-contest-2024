@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { useCategoryMetadataStore } from "~/stores/category-metadata";
-import type { Transaction } from "~/stores/transactions";
-
 const { transaction, showDate } = defineProps<{
   transaction: Transaction;
   showDate: boolean;
 }>();
 
-const categoryMetadataStore = useCategoryMetadataStore();
+const { categoryMetadataById } = useCategoryMetadata();
 const category = computed(() =>
-  categoryMetadataStore.categoryById.get(transaction.category)
+  categoryMetadataById.value.get(transaction.category)
 );
 const dateFormatted = computed(() =>
-  showDate ? formatUtcDate(transaction.timestamp) : null
+  showDate
+    ? formatUtcDate(transaction.timestamp, { monthFormat: "long" })
+    : null
 );
 </script>
 

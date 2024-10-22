@@ -7,7 +7,11 @@ export default defineNuxtConfig({
   devServer: {
     port: 3001,
   },
-  css: ["~/assets/css/main.css"],
+  css: [
+    "~/assets/css/main.css",
+    "~/assets/css/primevue-overrides.css",
+    "primeicons/primeicons.css",
+  ],
   modules: ["@pinia/nuxt", "@primevue/nuxt-module"],
   primevue: {
     options: {
@@ -24,7 +28,7 @@ export default defineNuxtConfig({
     },
   },
   appConfig: {
-    maxCategoriesInFilter: 5
+    maxCategoriesInFilter: 5,
   },
   runtimeConfig: {
     public: {

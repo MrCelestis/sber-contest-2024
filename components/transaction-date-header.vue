@@ -2,7 +2,9 @@
 const { timestamp } = defineProps<{
   timestamp: number;
 }>();
-const formattedDate = computed(() => formatUtcDate(timestamp));
+const formattedDate = computed(() =>
+  formatUtcDate(timestamp, { monthFormat: "long" })
+);
 </script>
 
 <template>

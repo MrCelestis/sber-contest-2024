@@ -1,5 +1,3 @@
-@import 'primeicons/primeicons.css';
-
 * {
     box-sizing: border-box;
 }
@@ -7,13 +5,13 @@
 body {
     margin: 0;
     height: 100%;
+    --generic-spacing: 0.5rem;
+    --positive-color: #65b12d;
+    --negative-color: #ff5656;
+    --p-card-body-padding: 1rem;
 }
 
-html, #__nuxt {
-    height: 100%;
-}
-
-/*TODO: move?*/
-.p-card-body, .p-card-content {
+html,
+#__nuxt {
     height: 100%;
 }

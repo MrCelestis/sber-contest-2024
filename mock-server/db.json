@@ -1,94 +1,124 @@
 {
-    "category-metadata": [
-      {
-        "id": "1",
-        "text": "Unspecified",
-        "iconUrl": "http://localhost:3000/question-circle.svg"
-      },
-      {
-        "id": "2",
-        "text": "Restaurants",
-        "iconUrl": "http://localhost:3000/cup-hot.svg"
-      },
-      {
-        "id": "3",
-        "text": "Leisure",
-        "iconUrl": "http://localhost:3000/film.svg"
-      },
-      {
-        "id": "4",
-        "text": "Supermarkets",
-        "iconUrl": "http://localhost:3000/cart4.svg"
-      },
-      {
-        "id": "5",
-        "text": "Transport",
-        "iconUrl": "http://localhost:3000/bus-front.svg"
-      },
-      {
-        "id": "6",
-        "text": "Car & gas",
-        "iconUrl": "http://localhost:3000/car-front.svg"
-      },
-      {
-        "id": "7",
-        "text": "Education",
-        "iconUrl": "http://localhost:3000/mortarboard-fill.svg"
-      },
-      {
-        "id": "8",
-        "text": "Salary",
-        "iconUrl": "http://localhost:3000/briefcase.svg"
-      },
-      {
-        "id": "9",
-        "text": "Mortrage/Rent",
-        "iconUrl": "http://localhost:3000/building.svg"
-      },
-      {
-        "id": "10",
-        "text": "Health",
-        "iconUrl": "http://localhost:3000/capsule.svg"
-      },
-      {
-        "id": "11",
-        "text": "Jewelry",
-        "iconUrl": "http://localhost:3000/gem.svg"
-      },
-      {
-        "id": "12",
-        "text": "Travelling",
-        "iconUrl": "http://localhost:3000/globe-americas.svg"
-      },
-      {
-        "id": "13",
-        "text": "Hobby",
-        "iconUrl": "http://localhost:3000/palette.svg"
-      },
-      {
-        "id": "14",
-        "text": "Electronics",
-        "iconUrl": "http://localhost:3000/phone.svg"
-      }
-    ],
-    "transactions": [
-        {
-            "id": "1",
-            "category": "3",
-            "timestamp": 1728637533,
-            "amount": -3200
-        },
-        {
-            "id": "2",
-            "category": "3",
-            "timestamp": 1733907933,
-            "amount": -164
-        },
-        {
-            "id": "3",
-            "category": "6",
-            "timestamp": 1726045533,
-            "amount": -13000
-        }
-    ]
-  }
+  "category-metadata": [
+    {
+      "id": "1",
+      "text": "Unspecified",
+      "iconUrl": "http://localhost:3000/question-circle.svg"
+    },
+    {
+      "id": "2",
+      "text": "Restaurants",
+      "iconUrl": "http://localhost:3000/cup-hot.svg"
+    },
+    {
+      "id": "3",
+      "text": "Leisure",
+      "iconUrl": "http://localhost:3000/film.svg"
+    },
+    {
+      "id": "4",
+      "text": "Supermarkets",
+      "iconUrl": "http://localhost:3000/cart4.svg"
+    },
+    {
+      "id": "5",
+      "text": "Transport",
+      "iconUrl": "http://localhost:3000/bus-front.svg"
+    },
+    {
+      "id": "6",
+      "text": "Car & gas",
+      "iconUrl": "http://localhost:3000/car-front.svg"
+    },
+    {
+      "id": "7",
+      "text": "Education",
+      "iconUrl": "http://localhost:3000/mortarboard-fill.svg"
+    },
+    {
+      "id": "8",
+      "text": "Salary",
+      "iconUrl": "http://localhost:3000/briefcase.svg"
+    },
+    {
+      "id": "9",
+      "text": "Mortrage/Rent",
+      "iconUrl": "http://localhost:3000/building.svg"
+    },
+    {
+      "id": "10",
+      "text": "Health",
+      "iconUrl": "http://localhost:3000/capsule.svg"
+    },
+    {
+      "id": "11",
+      "text": "Jewelry",
+      "iconUrl": "http://localhost:3000/gem.svg"
+    },
+    {
+      "id": "12",
+      "text": "Travelling",
+      "iconUrl": "http://localhost:3000/globe-americas.svg"
+    },
+    {
+      "id": "13",
+      "text": "Hobby",
+      "iconUrl": "http://localhost:3000/palette.svg"
+    },
+    {
+      "id": "14",
+      "text": "Electronics",
+      "iconUrl": "http://localhost:3000/phone.svg"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "1",
+      "category": "3",
+      "timestamp": 1728637533,
+      "amount": -3200
+    },
+    {
+      "id": "2",
+      "category": "3",
+      "timestamp": 1733907933,
+      "amount": -164
+    },
+    {
+      "id": "3",
+      "category": "6",
+      "timestamp": 1726045533,
+      "amount": -13000
+    },
+    {
+      "id": "e039c01c-9b8d-418e-a99a-306e209892ef",
+      "amount": 111,
+      "category": "7",
+      "timestamp": 1729596360312
+    },
+    {
+      "id": "ba617495-0753-4d2a-8411-d2f1e8d12ba2",
+      "amount": 0.01,
+      "category": "6",
+      "timestamp": 1728691200000
+    },
+    {
+      "id": "734c9bb5-6bbf-452f-8ef7-2751400c3612",
+      "amount": 452,
+      "category": "14",
+      "timestamp": 1727740800000
+    },
+    {
+      "id": "3d0ae65b-6d2b-429c-96fd-7d23b4d17fce",
+      "amount": -25,
+      "category": "11",
+      "timestamp": 1728950400000
+    },
+    {
+      "id": "2f2742a6-4527-42e3-8799-836c1346887e",
+      "amount": -76,
+      "category": "10",
+      "timestamp": 1728432000000
+    }
+  ]
+}
