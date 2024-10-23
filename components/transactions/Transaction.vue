@@ -13,6 +13,7 @@ const dateFormatted = computed(() =>
     ? formatUtcDate(transaction.timestamp, { monthFormat: "long" })
     : null
 );
+const amount = computed(() => formatAmount(transaction.amount));
 </script>
 
 <template>
@@ -26,7 +27,7 @@ const dateFormatted = computed(() =>
       class="transaction__amount"
       :class="{ 'transaction__amount--positive': transaction.amount > 0 }"
     >
-      <span v-if="transaction.amount > 0">+</span>{{ transaction.amount }}
+      <span v-if="transaction.amount > 0">+</span>{{ amount }}
     </div>
   </div>
 </template>

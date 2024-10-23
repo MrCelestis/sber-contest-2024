@@ -1,14 +1,14 @@
 <script setup lang="ts">
 const { visibleCategories } = useVisibleCategories();
 
-const data = computed(() => {
+const formattedStats = computed(() => {
   const income = visibleCategories.value.totalIncome;
   const expenses = visibleCategories.value.totalExpenses;
   const sum = income - expenses; // expenses < 0
   const incomePercent = Math.round((income / sum) * 100);
   return {
-    income,
-    expenses,
+    income: formatAmount(income),
+    expenses: formatAmount(expenses),
     incomePercent: `${incomePercent}%`,
     expensesPercent: `${100 - incomePercent}%`,
   };
@@ -19,22 +19,29 @@ const data = computed(() => {
   <div class="totals">
     <div class="totals__numbers">
       <span class="totals__numbers--income">
-        {{ data.income }}
-        <span v-if="data.income">({{ data.incomePercent }})</span>
+        {{ formattedStats.income }}
+        <span v-if="visibleCategories.totalIncome"
+          >({{ formattedStats.incomePercent }})</span
+        >
       </span>
       <span class="totals__numbers--expenses">
-        {{ data.expenses }}
-        <span v-if="data.expenses">({{ data.expensesPercent }})</span>
+        {{ formattedStats.expenses }}
+        <span v-if="visibleCategories.totalExpenses"
+          >({{ formattedStats.expensesPercent }})</span
+        >
       </span>
     </div>
-    <div class="totals__bar" v-if="data.income || data.expenses">
+    <div
+      class="totals__bar"
+      v-if="formattedStats.income || formattedStats.expenses"
+    >
       <div
         class="totals__bar__segment totals__bar__segment--income"
-        :style="{ width: data.incomePercent }"
+        :style="{ width: formattedStats.incomePercent }"
       ></div>
       <div
         class="totals__bar__segment totals__bar__segment--expenses"
-        :style="{ width: data.expensesPercent }"
+        :style="{ width: formattedStats.expensesPercent }"
       ></div>
     </div>
   </div>
