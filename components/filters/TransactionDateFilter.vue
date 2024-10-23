@@ -117,6 +117,7 @@ function dismissDateRange() {
   display: flex;
   justify-content: space-between;
   flex-grow: 1;
+  gap: 3px; //minimum gap to distinguish between modes and arrows
 
   &__dialog__footer {
     margin-top: var(--generic-spacing);

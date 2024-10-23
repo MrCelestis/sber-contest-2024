@@ -7,6 +7,12 @@ export default defineNuxtConfig({
   devServer: {
     port: 3001,
   },
+  components: [
+    {
+      path: "~/components",
+      pathPrefix: false,
+    },
+  ],
   css: [
     "~/assets/css/main.css",
     "~/assets/css/primevue-overrides.css",
