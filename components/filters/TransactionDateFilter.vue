@@ -33,7 +33,9 @@ const modeButtonStates = computed<FilterButtonState[]>(() => [
   {
     label:
       mode.value === "year"
-        ? String(effectiveUtcInterval.value?.[0]?.getUTCFullYear())
+        ? String(
+            new Date(effectiveUtcInterval.value?.[0] ?? 0)?.getUTCFullYear()
+          )
         : "Year",
     severity: getModeButtonSeverity(mode.value === "year"),
     command: () => transactionDateFilterStore.select("year"),
@@ -41,7 +43,11 @@ const modeButtonStates = computed<FilterButtonState[]>(() => [
   {
     label:
       mode.value === "custom"
-        ? formatUtcDateRange(customInterval.value)
+        ? formatUtcDateRange(
+            customInterval.value?.map((t) => new Date(t)) as
+              | [Date, Date]
+              | undefined
+          )
         : "Custom",
     severity: getModeButtonSeverity(mode.value === "custom"),
     command: () => (dialogVisible.value = true),
@@ -96,18 +102,25 @@ function dismissDateRange() {
     >
     </Button>
   </div>
-  <Dialog v-model:visible="dialogVisible" modal header="Date range">
-    <div>
-      <DatePicker v-model="dateRange" selectionMode="range" inline />
-    </div>
-    <div class="transaction-date-filter__dialog__footer">
-      <Button
-        type="button"
-        label="Cancel"
-        severity="secondary"
-        @click="dismissDateRange"
-      ></Button>
-      <Button type="button" label="Save" @click="confirmDateRange"></Button>
+  <Dialog
+    v-model:visible="dialogVisible"
+    modal
+    header="Date range"
+    dismissable-mask
+  >
+    <div class="transaction-date-filter__dialog">
+      <div>
+        <DatePicker v-model="dateRange" selectionMode="range" inline />
+      </div>
+      <div class="transaction-date-filter__dialog__footer">
+        <Button
+          type="button"
+          label="Cancel"
+          severity="secondary"
+          @click="dismissDateRange"
+        ></Button>
+        <Button type="button" label="Save" @click="confirmDateRange"></Button>
+      </div>
     </div>
   </Dialog>
 </template>
@@ -119,11 +132,18 @@ function dismissDateRange() {
   flex-grow: 1;
   gap: 3px; //minimum gap to distinguish between modes and arrows
 
-  &__dialog__footer {
-    margin-top: var(--generic-spacing);
+  &__dialog {
     display: flex;
-    gap: var(--generic-spacing);
-    justify-content: flex-end;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 26rem; //extra space to avoid jumping height when switching between months with different number of weeks
+
+    &__footer {
+      margin-top: var(--generic-spacing);
+      display: flex;
+      gap: var(--generic-spacing);
+      justify-content: flex-end;
+    }
   }
 
   &__mode-button__text {
@@ -132,10 +152,10 @@ function dismissDateRange() {
 }
 
 @media (max-width: 370px) {
-    .transaction-date-filter .p-button {
-        $padding: 3px;
-        padding-left: $padding;
-        padding-right: $padding;
-    }
+  .transaction-date-filter .p-button {
+    $padding: 3px;
+    padding-left: $padding;
+    padding-right: $padding;
+  }
 }
 </style>

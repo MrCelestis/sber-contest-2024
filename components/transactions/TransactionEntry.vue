@@ -1,24 +1,43 @@
 <script setup lang="ts">
-import { v4 as uuidv4 } from "uuid";
 
-const { transaction: transactionToUpdate } = defineProps<{
+const {
+  transaction: transactionToUpdate,
+  commitInProgress,
+  removeInProgress,
+} = defineProps<{
   transaction?: Transaction;
+  commitInProgress?: boolean;
+  removeInProgress?: boolean;
 }>();
-const emit = defineEmits(["cancel", "commit"]);
+const emit = defineEmits(["cancel", "commit", "remove"]);
 
 const { categoryMetadata } = useCategoryMetadata();
 
+const disabled = computed(() => commitInProgress || removeInProgress);
+
 const TRANSACTION_TYPES = ["+", "-"] as const;
-const transactionType = ref<(typeof TRANSACTION_TYPES)[number]>("-");
+const transactionType = ref<(typeof TRANSACTION_TYPES)[number]>(
+  transactionToUpdate ? (transactionToUpdate.amount > 0 ? "+" : "-") : "-"
+);
 const transactionTypeOptions = [
   { value: "+", label: "Income" },
   { value: "-", label: "Expense" },
 ];
 
 const MIN_AMOUNT = 0.01;
-const amount = ref(MIN_AMOUNT);
-const date = ref(new Date());
-const category = ref<string>(categoryMetadata.value[0]?.id ?? "");
+const amount = ref(
+  transactionToUpdate ? Math.abs(transactionToUpdate.amount) : 1
+);
+const date = ref(
+  transactionToUpdate
+    ? utcDateToLocal(new Date(transactionToUpdate.timestamp))
+    : new Date()
+);
+const category = ref<string>(
+  transactionToUpdate
+    ? transactionToUpdate.category
+    : categoryMetadata.value[0]?.id ?? ""
+);
 
 const amountPrefix = computed(() => (transactionType.value === "-" ? "-" : ""));
 
@@ -34,7 +53,7 @@ function commit() {
         ...formValues,
       }
     : {
-        id: uuidv4(),
+        id: '',
         ...formValues,
       };
   emit("commit", result);
@@ -48,6 +67,7 @@ const optionStyle = { height: OPTION_SIZE_PX + "px" };
     <SelectButton
       v-model="transactionType"
       :options="transactionTypeOptions"
+      :disabled="disabled"
       optionLabel="label"
       optionValue="value"
       aria-labelledby="basic"
@@ -60,7 +80,7 @@ const optionStyle = { height: OPTION_SIZE_PX + "px" };
         option-label="text"
         option-value="id"
         inputId="category"
-        :disabled="transactionType === '+'"
+        :disabled="transactionType === '+' || disabled"
         :virtualScrollerOptions="{ itemSize: OPTION_SIZE_PX }"
       >
         <template #option="slotProps">
@@ -78,6 +98,7 @@ const optionStyle = { height: OPTION_SIZE_PX + "px" };
         inputId="amount"
         :min="MIN_AMOUNT"
         :max="999_999_999"
+        :disabled="disabled"
         fluid
         :prefix="amountPrefix"
         showButtons
@@ -85,7 +106,13 @@ const optionStyle = { height: OPTION_SIZE_PX + "px" };
     </div>
     <div class="transaction-entry__field">
       <label for="date">Date</label>
-      <DatePicker v-model="date" inputId="date" showIcon showOnFocus />
+      <DatePicker
+        v-model="date"
+        inputId="date"
+        showIcon
+        showOnFocus
+        :disabled="disabled"
+      />
     </div>
     <div class="transaction-entry__footer">
       <Button
@@ -94,11 +121,19 @@ const optionStyle = { height: OPTION_SIZE_PX + "px" };
         @click="emit('cancel')"
       ></Button>
       <Button
+        v-if="transactionToUpdate"
         label="Delete"
         severity="danger"
-        v-if="transactionToUpdate"
+        :loading="removeInProgress"
+        :disabled="disabled"
+        @click="emit('remove')"
       ></Button>
-      <Button label="Save" @click="commit"></Button>
+      <Button
+        label="Save"
+        :loading="commitInProgress"
+        :disabled="disabled"
+        @click="commit"
+      ></Button>
     </div>
   </div>
 </template>

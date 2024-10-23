@@ -3,14 +3,10 @@ const { showLabel } = defineProps<{
     showLabel?: boolean
 }>();
 
-const transactions = useTransactions();
 const transactionDialogVisible = ref(false);
 
 const label = computed(() => showLabel ? 'Add expenses/income' : '');
 
-function addTransaction(transaction: Transaction) {
-  //transactionsStore.add(transaction);
-}
 </script>
 
 <template>
@@ -23,6 +19,5 @@ function addTransaction(transaction: Transaction) {
   />
   <TransactionDialog
     v-model:visible="transactionDialogVisible"
-    @commit="addTransaction"
   />
 </template>

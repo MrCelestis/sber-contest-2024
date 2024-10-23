@@ -6,76 +6,145 @@ const formattedStats = computed(() => {
   const expenses = visibleCategories.value.totalExpenses;
   const sum = income - expenses; // expenses < 0
   const incomePercent = Math.round((income / sum) * 100);
+  const net = income + expenses;
   return {
     income: formatAmount(income),
     expenses: formatAmount(expenses),
     incomePercent: `${incomePercent}%`,
     expensesPercent: `${100 - incomePercent}%`,
+    net: formatAmount(net),
+    netClass:
+      net >= 0
+        ? "totals__numbers__net--positive"
+        : "totals__numbers__net--negative",
   };
 });
 </script>
 
 <template>
   <div class="totals">
-    <div class="totals__numbers">
-      <span class="totals__numbers--income">
-        {{ formattedStats.income }}
-        <span v-if="visibleCategories.totalIncome"
-          >({{ formattedStats.incomePercent }})</span
-        >
-      </span>
-      <span class="totals__numbers--expenses">
-        {{ formattedStats.expenses }}
-        <span v-if="visibleCategories.totalExpenses"
-          >({{ formattedStats.expensesPercent }})</span
-        >
-      </span>
-    </div>
+    <span class="totals__numbers__income">
+      {{ formattedStats.income }}
+      <span v-if="visibleCategories.totalIncome"
+        >({{ formattedStats.incomePercent }})</span
+      >
+    </span>
+    <span class="totals__numbers__net" :class="formattedStats.netClass"
+      >Net: {{ formattedStats.net }}</span
+    >
+    <span class="totals__numbers__expenses">
+      {{ formattedStats.expenses }}
+      <span v-if="visibleCategories.totalExpenses"
+        >({{ formattedStats.expensesPercent }})</span
+      >
+    </span>
     <div
       class="totals__bar"
       v-if="formattedStats.income || formattedStats.expenses"
     >
       <div
         class="totals__bar__segment totals__bar__segment--income"
-        :style="{ width: formattedStats.incomePercent }"
+        :style="{ flexBasis: formattedStats.incomePercent }"
       ></div>
       <div
         class="totals__bar__segment totals__bar__segment--expenses"
-        :style="{ width: formattedStats.expensesPercent }"
+        :style="{ flexBasis: formattedStats.expensesPercent }"
       ></div>
     </div>
   </div>
 </template>
 
-<style>
+<style lang="scss">
 .totals {
-  display: flex;
-  flex-direction: column;
+  $bar-border-radius: 0.25rem;
+
+  // responsive by container aspect ratio:
+  // switches between horizontal to vertical stacked layout
+  display: grid;
+  height: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 0.5rem;
+  grid-template-areas:
+    "income net expenses"
+    "bars bars bars";
   gap: var(--generic-spacing);
-}
-.totals__numbers {
-  display: flex;
-  justify-content: space-between;
-}
-.totals__numbers--income {
-  color: var(--positive-color);
-}
-.totals__numbers--expenses {
-  color: var(--negative-color);
-}
-.totals__bar {
-  display: flex;
-  border-radius: 0.25rem;
-  overflow: hidden;
-}
-.totals__bar__segment {
-  height: 0.5rem;
-  transition: linear 500ms;
-}
-.totals__bar__segment--income {
-  background-color: var(--positive-color);
-}
-.totals__bar__segment--expenses {
-  background-color: var(--negative-color);
+
+  &__numbers {
+    &__income {
+      grid-area: income;
+      color: var(--positive-color);
+    }
+
+    &__expenses {
+      grid-area: expenses;
+      color: var(--negative-color);
+      text-align: right;
+    }
+
+    &__net {
+      font-weight: bold;
+      text-align: center;
+      grid-area: net;
+
+      &--positive {
+        color: var(--positive-color);
+      }
+      &--negative {
+        color: var(--negative-color);
+      }
+    }
+  }
+
+  &__bar {
+    grid-area: bars;
+    display: flex;
+
+    &__segment {
+      transition: flex-basis linear 500ms;
+
+      &--income {
+        border-top-left-radius: $bar-border-radius;
+        border-bottom-left-radius: $bar-border-radius;
+        background-color: var(--positive-color);
+      }
+
+      &--expenses {
+        border-top-right-radius: $bar-border-radius;
+        border-bottom-right-radius: $bar-border-radius;
+        background-color: var(--negative-color);
+      }
+    }
+  }
+
+  @container (aspect-ratio < 1) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas:
+      "income"
+      "net"
+      "expenses"
+      "bars";
+
+    &__bar {
+      flex-direction: column-reverse;
+      padding: 0 25%;
+
+      &__segment--income {
+        border-top-left-radius: 0;
+        border-bottom-right-radius: $bar-border-radius;
+      }
+
+      &__segment--expenses {
+        border-bottom-right-radius: 0;
+        border-top-left-radius: $bar-border-radius;
+      }
+    }
+
+    &__numbers__income,
+    &__numbers__expenses,
+    &__numbers__net {
+      text-align: center;
+    }
+  }
 }
 </style>

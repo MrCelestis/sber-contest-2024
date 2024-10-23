@@ -12,13 +12,11 @@ export const useCategoryMetadata = () => {
         new URLSearchParams({
           _sort: "text",
         }).toString();
-      console.log("> fetch=", url);
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const res = (await response.json()) as CategoryMetadata[];
-      console.log("> result=", res);
       return res;
     },
   });

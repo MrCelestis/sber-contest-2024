@@ -1,40 +1,21 @@
 <script setup lang="ts">
 import { Doughnut } from "vue-chartjs";
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  LinearScale,
-  ArcElement,
-  type ChartOptions,
-} from "chart.js";
-import { Colors } from "chart.js";
+import type { ChartOptions } from "chart.js";
 
-ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  CategoryScale,
-  LinearScale,
-  Colors // to auto assign colors
-);
-
-const SECONDARY_CATEGORY_COLOR = "gray";
+const SECONDARY_CATEGORY_COLOR = "#b3b2b3";
+const SECONDARY_CATEGORY_COLOR_HIGHLIGHTED = "#6b6b6b";
 const CATEGORY_COLORS = [
-  "#1D3557",
-  "#E49273",
-  "#B8336A",
-  "#429EA6",
-  "#CFF27E",
+  "#3a7ad3",
+  "#d95151",
+  "#53b74c",
+  "#f1d33f",
+  "#b973e5",
   SECONDARY_CATEGORY_COLOR,
 ] as const;
 
 const transactionFilterStore = useCategoryFilterStore();
-const { visibleCategories, loading } = useVisibleCategories();
-const { categoryMetadata } = useCategoryMetadata();
+const { visibleCategories } = useVisibleCategories();
+const { transactions } = useTransactions();
 
 const chartData = computed(() => {
   const categoryDetails = visibleCategories.value.categoryDetails;
@@ -47,27 +28,51 @@ const chartData = computed(() => {
     datasets: [
       {
         data,
+        borderWidth: 4,
+        borderRadius: 6,
         backgroundColor:
           transactionFilterStore.selectedCategoryIds == null
             ? CATEGORY_COLORS
-            : CATEGORY_COLORS.map((color, index) =>
-                transactionFilterStore.selectedCategoryIds?.size === 1 &&
-                transactionFilterStore.selectedCategoryIds.has(
-                  categoryDetails[index]?.category ?? ""
-                )
-                  ? color
-                  : SECONDARY_CATEGORY_COLOR
-              ),
+            : getBackgroundColorWithSelection(),
       },
     ],
   };
 });
+
+function getBackgroundColorWithSelection() {
+  const categoryDetails = visibleCategories.value.categoryDetails;
+  return CATEGORY_COLORS.map((color, index) => {
+    if (
+      transactionFilterStore.selectedCategoryIds?.size === 1 &&
+      transactionFilterStore.selectedCategoryIds.has(
+        categoryDetails[index]?.category ?? ""
+      )
+    ) {
+      return color; // simple category selected
+    }
+    if (index === categoryDetails.length) {
+      //"Other" category group
+      return otherCategoriesSelected.value
+        ? SECONDARY_CATEGORY_COLOR_HIGHLIGHTED
+        : SECONDARY_CATEGORY_COLOR;
+    }
+    return SECONDARY_CATEGORY_COLOR;
+  });
+}
+
 const chartOptions: ChartOptions<any> = {
   responsive: true,
   cutout: "75%",
+  transitions: {
+    resize: {
+      animation: {
+        duration: 200,
+      },
+    },
+  },
   plugins: {
     legend: {
-      display: false, //TODO: disable plugin itself?
+      display: false,
     },
   },
 };
@@ -77,37 +82,35 @@ const otherCategoriesSelected = computed(() =>
     transactionFilterStore.selectedCategoryIds
   )
 );
-
-const sampleCategoriesForPlaceholder = computed(() => {
-  const placeholderCategories = categoryMetadata.value.slice(0, 8);
-  const n = placeholderCategories.length;
-  // position category icons in a circle
-  return placeholderCategories.map((category, i) => {
-    const angle = (i / n) * 2 * Math.PI;
-    const offsetPercent = 35;
-    const x = Math.round(Math.cos(angle) * offsetPercent);
-    const y = Math.round(Math.sin(angle) * offsetPercent);
-    return {
-      id: category.id,
-      iconUrl: category.iconUrl,
-      style: {
-        left: `calc(50% + ${x}%)`,
-        top: `calc(50% + ${y}%)`,
-      },
-    };
-  });
+const totalIncome = computed(() => {
+  return transactionFilterStore.selectedCategoryIds == null
+    ? `+${formatAmount(visibleCategories.value.totalIncome)}`
+    : null; //don't show income if category selected: it may be misleading
 });
-
-const CHART_SKELETON_SIZE = "12rem";
+const totalExpenses = computed(() => {
+  if (transactionFilterStore.selectedCategoryIds == null) {
+    return formatAmount(visibleCategories.value.totalExpenses);
+  }
+  const total = transactions.value.reduce(
+    (prev, cur) =>
+      prev +
+      (cur.amount < 0 &&
+      transactionFilterStore.selectedCategoryIds?.has(cur.category)
+        ? cur.amount
+        : 0),
+    0
+  );
+  return formatAmount(total);
+});
 </script>
 
 <template>
   <div class="category-chart">
     <div
-      class="category-chart__canvas"
+      class="category-chart__container"
       v-if="visibleCategories.categoryDetails.length"
     >
-      <!-- v-if on chart prevents it from jumping due to initial resize (due to categories being rendered) -->
+      <!-- v-if on chart area prevents it from jumping due to initial resize (due to categories being rendered) -->
       <Doughnut
         :options="chartOptions"
         :data="chartData"
@@ -116,28 +119,17 @@ const CHART_SKELETON_SIZE = "12rem";
       >
         Failed to show chart
       </Doughnut>
-    </div>
-    <div v-else class="category-chart__blank-space">
-      <Skeleton
-        v-if="loading"
-        :height="CHART_SKELETON_SIZE"
-        :width="CHART_SKELETON_SIZE"
-        :border-radius="CHART_SKELETON_SIZE"
-      />
-      <template v-else>
-        <div class="category-chart__blank-space__placeholder">
-          <img
-            v-for="category of sampleCategoriesForPlaceholder"
-            class="category-chart__blank-space__placeholder__image"
-            :key="category.id"
-            :src="category.iconUrl"
-            :style="category.style"
-          />
+      <div class="category-chart__container__overlay">
+        <div
+          v-if="totalIncome"
+          class="category-chart__container__overlay__income"
+        >
+          {{ totalIncome }}
         </div>
-        <div class="category-chart__blank-space__text">
-          No transactions found for selected period
+        <div class="category-chart__container__overlay__expenses">
+          {{ totalExpenses }}
         </div>
-      </template>
+      </div>
     </div>
     <div class="category-chart__filter">
       <CategoryFilterButton
@@ -171,39 +163,30 @@ const CHART_SKELETON_SIZE = "12rem";
   height: 100%;
   gap: var(--generic-spacing);
 
-  &__canvas {
+  &__container {
     display: flex;
     min-height: 0; // Allows chart canvas to shrink correctly if it doesn't fit
     max-height: 75%; // Somewhat prevents jumping due to resize when categories appear
-    flex-grow: 1;
     justify-content: center;
-  }
-
-  &__blank-space {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     flex-grow: 1;
     position: relative;
 
-    &__text {
-      text-align: center;
-      border-radius: var(--p-button-border-radius);
-      padding: var(--generic-spacing);
-      background-color: var(--p-button-secondary-background);
-      max-width: 50vw;
-      z-index: 1; //on top of animated placeholder
-    }
-
-    &__placeholder {
+    &__overlay {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       position: absolute;
       width: 100%;
       height: 100%;
-      animation: spin 25s linear infinite;
+      font-weight: bold;
 
-      &__image {
-        position: absolute;
-        opacity: 0.25;
+      &__income {
+        color: var(--positive-color);
+      }
+
+      &__expenses {
+        color: var(--negative-color);
       }
     }
   }
@@ -211,17 +194,12 @@ const CHART_SKELETON_SIZE = "12rem";
   &__filter {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: var(--generic-spacing);
 
     &__remove {
       height: auto !important;
       padding: 0;
-    }
-  }
-
-  @keyframes spin {
-    100% {
-      transform: rotate(360deg);
     }
   }
 }

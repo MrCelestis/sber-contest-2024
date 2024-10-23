@@ -4,14 +4,29 @@ export const useTransactionDateFilterStore = defineStore(
   "transactionDateFilterStore",
   () => {
     const categoryFilterStore = useCategoryFilterStore();
-    const mode = ref<TransactionDateFilterMode>("month");
-    const monthOffset = ref(0);
-    const yearOffset = ref(0);
-    const customInterval = ref<[Date, Date] | null>(null);
+
+    const mode = useCookie<TransactionDateFilterMode>("dateFilterMode", {
+      default: () => "month",
+    });
+    const monthOffset = useCookie<number>("dateFilterMonthOffset", {
+      default: () => 0,
+    });
+    const yearOffset = useCookie<number>("dateFilterYearOffset", {
+      default: () => 0,
+    });
+    const customInterval = useCookie<[number, number] | null>(
+      "dateFilterCustomInterval",
+      {
+        default: () => null,
+      }
+    );
 
     const customIntervalLocal = computed(() => {
       return customInterval.value
-        ? (customInterval.value.map(utcDateToLocal) as [Date, Date])
+        ? (customInterval.value.map((t) => utcDateToLocal(new Date(t))) as [
+            Date,
+            Date
+          ])
         : null;
     });
     const effectiveUtcInterval = computed(() => {
@@ -44,7 +59,7 @@ export const useTransactionDateFilterStore = defineStore(
           return [effectiveYearStart, effectiveYearEnd];
         }
         case "custom":
-          return customInterval.value;
+          return customInterval.value?.map(t => new Date(t));
       }
     });
     const select = (
@@ -57,9 +72,9 @@ export const useTransactionDateFilterStore = defineStore(
         throw new Error('Attempt to set custom interval for non-"custom" mode');
       }
       if (newCustomInterval) {
-        customInterval.value = utc
-          ? newCustomInterval
-          : (newCustomInterval.map(localDateToUtc) as [Date, Date]);
+        customInterval.value = (
+          utc ? newCustomInterval : newCustomInterval.map(localDateToUtc)
+        ).map((d) => d.getTime()) as [number, number];
       }
     };
 

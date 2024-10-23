@@ -1,3 +1,5 @@
+export const MS_IN_ONE_DAY = 24 * 60 * 60 * 1000;
+
 export function formatUtcDate(
   date: Date | number,
   { monthFormat = "short" as "short" | "long" | null } = {}
@@ -23,7 +25,7 @@ export function formatUtcMonth(date: Date | number): string {
   });
 }
 
-export function formatUtcDateRange(range: [Date, Date] | null) {
+export function formatUtcDateRange(range: [Date, Date] | null | undefined) {
   if (!range) {
     return "";
   }

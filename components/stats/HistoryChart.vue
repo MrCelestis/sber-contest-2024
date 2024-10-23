@@ -1,0 +1,99 @@
+<script setup lang="ts">
+import { Line } from "vue-chartjs";
+import type { ChartOptions } from "chart.js";
+
+const { transactions } = useTransactions();
+const transactionDateFilterStore = useTransactionDateFilterStore();
+
+function getDataset(): { labels: string[]; data: number[] } {
+  if (transactions.value.length === 0) {
+    return { labels: [], data: [] };
+  }
+  // timestamps will be groupe using this callback return value
+  const getTimeComponentToCompare =
+    transactionDateFilterStore.mode === "year"
+      ? (t: number) => {
+          const d = new Date(t);
+          return d.getFullYear() * 10 + d.getUTCMonth();
+        }
+      : (t: number) => Math.trunc(t / MS_IN_ONE_DAY);
+  const formatTimestamp =
+    transactionDateFilterStore.mode === "year"
+      ? formatUtcMonth
+      : (t: number) => formatUtcDate(t, { monthFormat: "short" });
+
+  const labels: string[] = [];
+  const data: number[] = [];
+  const lastI = transactions.value.length - 1;
+  let curTimestamp = transactions.value[lastI].timestamp;
+  let curAmount = transactions.value[lastI].amount;
+  for (let i = lastI - 1; i >= 0; --i) {
+    const transaction = transactions.value[i];
+    if (
+      getTimeComponentToCompare(transaction.timestamp) !==
+      getTimeComponentToCompare(curTimestamp)
+    ) {
+      data.push(curAmount);
+      labels.push(formatTimestamp(curTimestamp));
+      curTimestamp = transaction.timestamp;
+    }
+    curAmount += transaction.amount;
+  }
+  data.push(curAmount);
+  labels.push(formatTimestamp(curTimestamp));
+  return {
+    data,
+    labels,
+  };
+}
+
+const chartData = computed(() => {
+  const { labels, data } = getDataset();
+  return {
+    labels,
+    datasets: [
+      {
+        data,
+        label: "Net",
+        //typings issue: doesn't recognize `false` as valid option
+        pointStyle: (data.length <= 31 ? "circle" : false) as any,
+        pointRadius: 6,
+      },
+    ],
+  };
+});
+
+const chartOptions: ChartOptions<any> = {
+  responsive: true,
+  elements: {
+    line: {
+      borderColor: "#ff2200",
+      borderWidth: 1,
+      cubicInterpolationMode: "monotone",
+    },
+  },
+  maintainAspectRatio: false,
+};
+</script>
+
+<template>
+  <div class="history-chart">
+    <Line
+      :options="chartOptions"
+      :data="chartData"
+      aria-label="History"
+      aria-describedby="my-data-table"
+    >
+      Failed to show chart
+    </Line>
+  </div>
+</template>
+
+<style lang="scss">
+.history-chart {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+</style>

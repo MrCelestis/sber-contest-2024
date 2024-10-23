@@ -3,72 +3,72 @@
     {
       "id": "1",
       "text": "Unspecified",
-      "iconUrl": "http://localhost:3000/question-circle.svg"
+      "iconUrl": "http://localhost:3002/question-circle.svg"
     },
     {
       "id": "2",
       "text": "Restaurants",
-      "iconUrl": "http://localhost:3000/cup-hot.svg"
+      "iconUrl": "http://localhost:3002/cup-hot.svg"
     },
     {
       "id": "3",
       "text": "Leisure",
-      "iconUrl": "http://localhost:3000/film.svg"
+      "iconUrl": "http://localhost:3002/film.svg"
     },
     {
       "id": "4",
       "text": "Supermarkets",
-      "iconUrl": "http://localhost:3000/cart4.svg"
+      "iconUrl": "http://localhost:3002/cart4.svg"
     },
     {
       "id": "5",
       "text": "Transport",
-      "iconUrl": "http://localhost:3000/bus-front.svg"
+      "iconUrl": "http://localhost:3002/bus-front.svg"
     },
     {
       "id": "6",
       "text": "Car & gas",
-      "iconUrl": "http://localhost:3000/car-front.svg"
+      "iconUrl": "http://localhost:3002/car-front.svg"
     },
     {
       "id": "7",
       "text": "Education",
-      "iconUrl": "http://localhost:3000/mortarboard-fill.svg"
+      "iconUrl": "http://localhost:3002/mortarboard-fill.svg"
     },
     {
       "id": "8",
       "text": "Salary",
-      "iconUrl": "http://localhost:3000/briefcase.svg"
+      "iconUrl": "http://localhost:3002/briefcase.svg"
     },
     {
       "id": "9",
       "text": "Mortrage/Rent",
-      "iconUrl": "http://localhost:3000/building.svg"
+      "iconUrl": "http://localhost:3002/building.svg"
     },
     {
       "id": "10",
       "text": "Health",
-      "iconUrl": "http://localhost:3000/capsule.svg"
+      "iconUrl": "http://localhost:3002/capsule.svg"
     },
     {
       "id": "11",
       "text": "Jewelry",
-      "iconUrl": "http://localhost:3000/gem.svg"
+      "iconUrl": "http://localhost:3002/gem.svg"
     },
     {
       "id": "12",
       "text": "Travelling",
-      "iconUrl": "http://localhost:3000/globe-americas.svg"
+      "iconUrl": "http://localhost:3002/globe-americas.svg"
     },
     {
       "id": "13",
       "text": "Hobby",
-      "iconUrl": "http://localhost:3000/palette.svg"
+      "iconUrl": "http://localhost:3002/palette.svg"
     },
     {
       "id": "14",
       "text": "Electronics",
-      "iconUrl": "http://localhost:3000/phone.svg"
+      "iconUrl": "http://localhost:3002/phone.svg"
     }
   ],
   "transactions": [

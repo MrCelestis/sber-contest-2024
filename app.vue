@@ -4,7 +4,7 @@
       <template #content><AppHeader /></template>
     </Card>
     <Card class="app__chart">
-      <template #content><CategoryChart /></template>
+      <template #content><ChartArea /></template>
     </Card>
     <Card class="app__totals"
       ><template #content> <Totals /> </template
@@ -42,6 +42,7 @@
 
   &__totals {
     grid-area: totals;
+    container-type: size;
   }
 
   &__transactions {
@@ -52,7 +53,7 @@
 
 @media (min-width: 500px) {
   .app {
-    grid-template-columns: 4fr 4fr 1fr;
+    grid-template-columns: 4fr 4fr minmax(9rem, auto);
     grid-template-rows: auto 2fr 3fr;
     grid-template-areas:
       "header header header"

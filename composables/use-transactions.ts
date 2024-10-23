@@ -13,7 +13,7 @@ export const useTransactions = () => {
   const endTimestamp = computed(() => interval.value?.[1].getTime() ?? 0);
   const QUERY_KEY = "transactions";
 
-  const { data, status, suspense } = useQuery({
+  const { data, suspense, fetchStatus } = useQuery({
     queryKey: [QUERY_KEY, startTimestamp, endTimestamp],
     queryFn: async () => {
       const url =
@@ -24,39 +24,74 @@ export const useTransactions = () => {
           _limit: String(runtimeConfig.public.maxTransactions),
           _sort: "-timestamp", // DESC sort so that most recent transactions come first
         }).toString();
-      console.log("> fetch=", url);
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const res = (await response.json()) as Transaction[];
-      console.log("> result=", res);
       return res;
     },
   });
   onServerPrefetch(suspense);
+
+  async function invalidateRelatedQueries(timestamp: number) {
+    await queryClient.invalidateQueries({
+      predicate: (query) => {
+        const [key, start, end] = query.queryKey;
+        if (key !== QUERY_KEY) return false;
+        return timestamp >= (start as number) && timestamp <= (end as number);
+      },
+    });
+  }
+
+  const add = async (transaction: Transaction) => {
+    const response = await fetch(
+      `${runtimeConfig.public.apiBase}/transactions`,
+      {
+        method: "POST",
+        body: JSON.stringify(transaction),
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    //invalidate all matching intervals, this will re-run query is it's used ATM
+    await invalidateRelatedQueries(transaction.timestamp);
+  };
+
+  const update = async (transaction: Transaction) => {
+    const response = await fetch(
+      `${runtimeConfig.public.apiBase}/transactions/${transaction.id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(transaction),
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    //invalidate all matching intervals, this will re-run query is it's used ATM
+    await invalidateRelatedQueries(transaction.timestamp);
+  };
+
+  const remove = async (transaction: Transaction) => {
+    const response = await fetch(
+      `${runtimeConfig.public.apiBase}/transactions/${transaction.id}`,
+      { method: "DELETE" }
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    //invalidate all matching intervals, this will re-run query is it's used ATM
+    await invalidateRelatedQueries(transaction.timestamp);
+  };
+
   return {
     transactions: computed(() => data.value ?? []),
-    loading: computed(() => {
-      console.log("> status=", status.value);
-      return status.value === "pending";
-    }),
-    add: async (transaction: Transaction) => {
-      const runtimeConfig = useRuntimeConfig();
-      const response = await fetch(
-        `${runtimeConfig.public.apiBase}/transactions`,
-        {
-          method: "POST",
-          body: JSON.stringify(transaction),
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY] }); //invalidate all intervals
-      //   this.transactions = [...this.transactions, transaction];
-      //   this.transactions.sort((a, b) => b.timestamp - a.timestamp);
-    },
+    loading: computed(() => fetchStatus.value === "fetching"),
+    add,
+    remove,
+    update
   };
 };
 

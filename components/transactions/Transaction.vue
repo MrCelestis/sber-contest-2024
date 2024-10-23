@@ -1,7 +1,8 @@
 <script setup lang="ts">
-const { transaction, showDate } = defineProps<{
+const { transaction, showDate, odd } = defineProps<{
   transaction: Transaction;
   showDate: boolean;
+  odd: boolean;
 }>();
 
 const { categoryMetadataById } = useCategoryMetadata();
@@ -14,10 +15,11 @@ const dateFormatted = computed(() =>
     : null
 );
 const amount = computed(() => formatAmount(transaction.amount));
+
 </script>
 
 <template>
-  <div class="transaction">
+  <div class="transaction" :class="{ 'transaction--odd': odd }">
     <div v-if="showDate" class="transaction__date">{{ dateFormatted }}</div>
     <div class="transaction__category">
       <img v-if="category" v-bind:src="category.iconUrl" />
@@ -32,26 +34,39 @@ const amount = computed(() => formatAmount(transaction.amount));
   </div>
 </template>
 
-<style>
+<style lang="scss">
 .transaction {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--generic-spacing);
   padding: 0 var(--generic-spacing);
-}
-.transaction__category {
-  display: flex;
-  min-width: 40%;
-  gap: var(--generic-spacing);
-}
-.transaction__date {
-  min-width: 25%;
-}
-.transaction__amount {
-  color: var(--negative-color);
-}
-.transaction__amount--positive {
-  color: var(--positive-color);
+  cursor: pointer;
+
+  &--odd {
+    background-color: var(--p-button-secondary-background);
+  }
+
+  &:hover {
+    background-color: var(--p-button-secondary-hover-background);
+  }
+
+  &__category {
+    display: flex;
+    min-width: 40%;
+    gap: var(--generic-spacing);
+  }
+
+  &__date {
+    min-width: 25%;
+  }
+
+  &__amount {
+    color: var(--negative-color);
+  }
+
+  &__amount--positive {
+    color: var(--positive-color);
+  }
 }
 </style>

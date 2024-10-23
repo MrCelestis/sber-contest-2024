@@ -4,7 +4,6 @@ export default function useVisibleCategories() {
   const appConfig = useAppConfig();
 
   const visibleCategoryDetails = computed(() => {
-    console.log("> recalc visible cats");
     let totalIncome = 0;
     let totalExpenses = 0;
     const categoryDetails = new Map<string, CategoryDetails>();

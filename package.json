@@ -9,8 +9,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare & npm run mock-server:gen-large-db",
     "mock-server:gen-large-db": "node mock-server/gen-large-db.cjs",
-    "mock-server:start": "json-server mock-server/db.json -s node_modules/bootstrap-icons/icons",
-    "mock-server:start:large": "json-server mock-server/large-db.json -s node_modules/bootstrap-icons/icons"
+    "mock-server:start": "json-server mock-server/db.json",
+    "mock-server:start:large": "json-server mock-server/large-db.json",
+    "mock-server:start:static": "npx http-server ./node_modules/bootstrap-icons/icons -p 3002"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.5",
@@ -20,15 +21,14 @@
     "pinia": "^2.2.4",
     "primeicons": "^7.0.0",
     "primevue": "^4.1.1",
-    "uuid": "^10.0.0",
     "vue": "3.5.12",
     "vue-chartjs": "^5.3.1",
     "vue-router": "4.4.5"
   },
   "devDependencies": {
     "@primevue/nuxt-module": "^4.1.1",
-    "@types/uuid": "^10.0.0",
     "bootstrap-icons": "^1.11.3",
+    "http-server": "^14.1.1",
     "json-server": "^1.0.0-beta.3"
   }
 }

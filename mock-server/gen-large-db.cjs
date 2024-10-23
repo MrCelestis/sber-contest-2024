@@ -11,7 +11,7 @@ fs.writeFile("mock-server/large-db.json", content, (err) => {
 
 function generateDataSet() {
   const expenseCount = 900;
-  const incomeCount = 20;
+  const incomeCount = 40;
   const transactions = [];
   const categoryMetadata = db["category-metadata"];
   const today = Date.UTC(2024, 11, 25);
@@ -27,7 +27,7 @@ function generateDataSet() {
   for (let i = 0; i < incomeCount; i++) {
     transactions.push({
       id: String(100000 + i),
-      amount: 30000 + randomInt(50000),
+      amount: 40000 + randomInt(120000),
       category: "1",
       timestamp: today - randomInt(500) * msInOneDay
     });
