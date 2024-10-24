@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import VirtualScroller from "primevue/virtualscroller";
 
-const { transactions, loading } = useTransactions();
+const transactionsStore = useTransactionsStore();
 const categoryFilterStore = useCategoryFilterStore();
 const transactionSortStore = useTransactionSortStore();
 
@@ -10,9 +10,9 @@ const itemHeightStyle = { height: ITEM_HEIGHT_PX + "px" };
 
 const filteredTransactions = computed(() => {
   if (categoryFilterStore.selectedCategoryIds == null) {
-    return transactions.value;
+    return transactionsStore.transactions;
   }
-  return transactions.value.filter((t) =>
+  return transactionsStore.transactions.filter((t) =>
     categoryFilterStore.selectedCategoryIds!.has(t.category)
   );
 });
@@ -37,7 +37,7 @@ const showDate = computed(() => transactionSortStore.sort !== "date");
   <div class="transactions">
     <TransactionsToolbar :show-add-button="displayItems.length > 0" />
     <VirtualScroller
-      v-if="displayItems.length && !loading"
+      v-if="displayItems.length && !transactionsStore.loading"
       :items="displayItems"
       :itemSize="ITEM_HEIGHT_PX"
       :delay="10"
@@ -61,7 +61,7 @@ const showDate = computed(() => transactionSortStore.sort !== "date");
       </template>
     </VirtualScroller>
     <div v-else class="transactions__blank-space">
-      <template v-if="loading">
+      <template v-if="transactionsStore.loading">
         <Skeleton v-for="i in 4" />
       </template>
       <AddTransactionButton v-else :show-label="true" />

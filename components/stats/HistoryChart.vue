@@ -2,11 +2,12 @@
 import { Line } from "vue-chartjs";
 import type { ChartOptions } from "chart.js";
 
-const { transactions } = useTransactions();
+const transactionsStore = useTransactionsStore();
 const transactionDateFilterStore = useTransactionDateFilterStore();
 
 function getDataset(): { labels: string[]; data: number[] } {
-  if (transactions.value.length === 0) {
+  const transactions = transactionsStore.transactions;
+  if (transactions.length === 0) {
     return { labels: [], data: [] };
   }
   // timestamps will be groupe using this callback return value
@@ -24,11 +25,11 @@ function getDataset(): { labels: string[]; data: number[] } {
 
   const labels: string[] = [];
   const data: number[] = [];
-  const lastI = transactions.value.length - 1;
-  let curTimestamp = transactions.value[lastI].timestamp;
-  let curAmount = transactions.value[lastI].amount;
+  const lastI = transactions.length - 1;
+  let curTimestamp = transactions[lastI].timestamp;
+  let curAmount = transactions[lastI].amount;
   for (let i = lastI - 1; i >= 0; --i) {
-    const transaction = transactions.value[i];
+    const transaction = transactions[i];
     if (
       getTimeComponentToCompare(transaction.timestamp) !==
       getTimeComponentToCompare(curTimestamp)

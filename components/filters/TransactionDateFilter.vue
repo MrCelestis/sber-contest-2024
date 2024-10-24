@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const transactionDateFilterStore = useTransactionDateFilterStore();
+const transactionsStore = useTransactionsStore()
 const dialogVisible = ref(false);
 // customIntervalLocal is used because datepicker works with local date,
 // value is converted back to UTC when applied
@@ -72,6 +73,11 @@ function confirmDateRange() {
 function dismissDateRange() {
   dialogVisible.value = false;
 }
+
+watch(transactionDateFilterStore, interval => {
+    console.log('EXECUTE')
+    transactionsStore.execute()
+} );
 </script>
 
 <template>

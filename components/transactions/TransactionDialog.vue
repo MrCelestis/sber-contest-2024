@@ -6,7 +6,7 @@ const {
   add: addTransaction,
   remove: removeTransaction,
   update: updateTransaction,
-} = useTransactions();
+} = useTransactionsStore();
 
 const commitInProgress = ref(false);
 const removeInProgress = ref(false);

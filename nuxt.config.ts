@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     "~/assets/css/primevue-overrides.css",
     "primeicons/primeicons.css",
   ],
-  modules: ["@pinia/nuxt", "@primevue/nuxt-module"],
+  modules: ["@pinia/nuxt", "@primevue/nuxt-module", "@nuxtjs/i18n"],
   primevue: {
     options: {
       ripple: true,
@@ -32,6 +32,11 @@ export default defineNuxtConfig({
         },
       },
     },
+  },
+  i18n: {
+    locales: ["en", "ru"],
+    defaultLocale: "en",
+    detectBrowserLanguage: false // auto-detect has major issues with cache
   },
   appConfig: {
     maxCategoriesInFilter: 5,

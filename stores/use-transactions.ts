@@ -1,6 +1,9 @@
 import { useQuery, useQueryClient } from "@tanstack/vue-query";
+import { skipHydrate } from "pinia";
 
-export const useTransactions = () => {
+export const useTransactionsStore = defineStore("transactions", () => {
+
+    console.log('INSTANCE')
   const queryClient = useQueryClient();
   const transactionDateFilterStore = useTransactionDateFilterStore();
 
@@ -13,26 +16,18 @@ export const useTransactions = () => {
   const endTimestamp = computed(() => interval.value?.[1].getTime() ?? 0);
   const QUERY_KEY = "transactions";
 
-  const { data, suspense, fetchStatus } = useQuery({
-    queryKey: [QUERY_KEY, startTimestamp, endTimestamp],
-    queryFn: async () => {
-      const url =
-        `${runtimeConfig.public.apiBase}/transactions?` +
-        new URLSearchParams({
-          timestamp_gte: String(startTimestamp.value),
-          timestamp_lt: String(endTimestamp.value),
-          _limit: String(runtimeConfig.public.maxTransactions),
-          _sort: "-timestamp", // DESC sort so that most recent transactions come first
-        }).toString();
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const res = (await response.json()) as Transaction[];
-      return res;
+  const { data, status, execute, error } = useFetch(`transactions`, {
+    baseURL: runtimeConfig.public.apiBase,
+    params: {
+      timestamp_gte: startTimestamp,
+      timestamp_lt: endTimestamp,
+      _limit: String(runtimeConfig.public.maxTransactions),
+      _sort: "-timestamp", // DESC sort so that most recent transactions come first
     },
+    immediate: false,
+    onRequest: r => console.log('onRequest', r)
   });
-  onServerPrefetch(suspense);
+  console.log('> data',data.value)
 
   async function invalidateRelatedQueries(timestamp: number) {
     await queryClient.invalidateQueries({
@@ -87,13 +82,15 @@ export const useTransactions = () => {
   };
 
   return {
-    transactions: computed(() => data.value ?? []),
-    loading: computed(() => fetchStatus.value === "fetching"),
+    transactions: computed(() => data.value as Transaction[] ?? []),
+    loading: computed(() => status.value === "pending"),
+    isError: computed(() => !!error.value),
     add,
     remove,
-    update
+    update,
+    execute
   };
-};
+});
 
 export interface Transaction {
   id: string;

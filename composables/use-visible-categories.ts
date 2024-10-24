@@ -1,13 +1,13 @@
 export default function useVisibleCategories() {
   const { categoryMetadataById } = useCategoryMetadata();
-  const { transactions, loading: transactionsLoading } = useTransactions();
+  const transactionsStore = useTransactionsStore();
   const appConfig = useAppConfig();
 
   const visibleCategoryDetails = computed(() => {
     let totalIncome = 0;
     let totalExpenses = 0;
     const categoryDetails = new Map<string, CategoryDetails>();
-    for (const transaction of transactions.value) {
+    for (const transaction of transactionsStore.transactions) {
       if (transaction.amount >= 0) {
         totalIncome += transaction.amount;
         continue;
@@ -15,9 +15,7 @@ export default function useVisibleCategories() {
       totalExpenses += transaction.amount;
       let details = categoryDetails.get(transaction.category);
       if (!details) {
-        const metadata = categoryMetadataById.value.get(
-          transaction.category
-        );
+        const metadata = categoryMetadataById.value.get(transaction.category);
         details = {
           category: transaction.category,
           label: metadata?.text ?? "-",
@@ -62,7 +60,8 @@ export default function useVisibleCategories() {
   });
   return {
     visibleCategories: visibleCategoryDetails,
-    loading: transactionsLoading,
+    loading: transactionsStore.loading,
+    isError: transactionsStore.isError,
   };
 }
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { visibleCategories, loading } = useVisibleCategories();
+const { visibleCategories, loading, isError } = useVisibleCategories();
 const { categoryMetadata } = useCategoryMetadata();
 const categoryFilterStore = useCategoryFilterStore();
 
@@ -45,6 +45,7 @@ const sampleCategoriesForPlaceholder = computed(() => {
 
 <template>
   <div class="chart-area">
+    error:{{ isError }}
     <div
       class="chart-area__container"
       v-if="visibleCategories.categoryDetails.length"
@@ -86,7 +87,8 @@ const sampleCategoriesForPlaceholder = computed(() => {
           />
         </div>
         <div class="chart-area__blank-space__text">
-          No transactions found for selected period
+          <span v-if="isError">ERROR!</span>
+          <span v-else>No transactions found for selected period</span>
         </div>
       </template>
     </div>

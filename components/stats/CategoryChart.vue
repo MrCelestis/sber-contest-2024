@@ -15,7 +15,7 @@ const CATEGORY_COLORS = [
 
 const transactionFilterStore = useCategoryFilterStore();
 const { visibleCategories } = useVisibleCategories();
-const { transactions } = useTransactions();
+const transactionsStore = useTransactionsStore();
 
 const chartData = computed(() => {
   const categoryDetails = visibleCategories.value.categoryDetails;
@@ -91,7 +91,7 @@ const totalExpenses = computed(() => {
   if (transactionFilterStore.selectedCategoryIds == null) {
     return formatAmount(visibleCategories.value.totalExpenses);
   }
-  const total = transactions.value.reduce(
+  const total = transactionsStore.transactions.reduce(
     (prev, cur) =>
       prev +
       (cur.amount < 0 &&
