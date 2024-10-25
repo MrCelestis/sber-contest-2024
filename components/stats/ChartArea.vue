@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const { visibleCategories, loading, isError } = useVisibleCategories();
-const { categoryMetadata } = useCategoryMetadata();
+const visibleCategoriesStore = useVisibleCategoriesStore();
+const categoryMetadataStore = useCategoryMetadataStore();
 const categoryFilterStore = useCategoryFilterStore();
 
 const CHART_SKELETON_SIZE = "12rem";
@@ -23,7 +23,7 @@ function switchChart(offset: number) {
 }
 
 const sampleCategoriesForPlaceholder = computed(() => {
-  const placeholderCategories = categoryMetadata.value.slice(0, 8);
+  const placeholderCategories = categoryMetadataStore.categoryMetadata.slice(0, 8);
   const n = placeholderCategories.length;
   // position category icons in a circle
   return placeholderCategories.map((category, i) => {
@@ -41,14 +41,15 @@ const sampleCategoriesForPlaceholder = computed(() => {
     };
   });
 });
+
+const messageSeverity = computed(() => visibleCategoriesStore.error ? 'error' : 'secondary');
 </script>
 
 <template>
   <div class="chart-area">
-    error:{{ isError }}
     <div
       class="chart-area__container"
-      v-if="visibleCategories.categoryDetails.length"
+      v-if="visibleCategoriesStore.visibleCategories.categoryDetails.length"
     >
       <!-- v-if on chart area prevents it from jumping due to initial resize (due to categories being rendered) -->
       <Button
@@ -71,7 +72,7 @@ const sampleCategoriesForPlaceholder = computed(() => {
     </div>
     <div v-else class="chart-area__blank-space">
       <Skeleton
-        v-if="loading"
+        v-if="visibleCategoriesStore.loading"
         :height="CHART_SKELETON_SIZE"
         :width="CHART_SKELETON_SIZE"
         :border-radius="CHART_SKELETON_SIZE"
@@ -84,12 +85,16 @@ const sampleCategoriesForPlaceholder = computed(() => {
             :key="category.id"
             :src="category.iconUrl"
             :style="category.style"
+            alt=""
           />
         </div>
-        <div class="chart-area__blank-space__text">
-          <span v-if="isError">ERROR!</span>
-          <span v-else>No transactions found for selected period</span>
-        </div>
+        <Message :severity="messageSeverity" class="chart-area__blank-space__message">
+          <span v-if="visibleCategoriesStore.error">
+            <i class="pi pi-exclamation-triangle"></i>
+            {{ $t('chart.transactionLoadFailure') }}
+        </span>
+          <span v-else>{{ $t('chart.empty') }}</span>
+        </Message>
       </template>
     </div>
   </div>
@@ -127,13 +132,8 @@ const sampleCategoriesForPlaceholder = computed(() => {
     flex-grow: 1;
     position: relative;
 
-    &__text {
-      text-align: center;
-      border-radius: var(--p-button-border-radius);
-      padding: var(--generic-spacing);
-      background-color: var(--p-button-secondary-background);
-      max-width: 50vw;
-      z-index: 1; //on top of animated placeholder
+    &__message {
+        z-index: 1; //place above placeholder images
     }
 
     &__placeholder {

@@ -6,14 +6,16 @@ const { showAddButton } = defineProps<{
 }>();
 
 const transactionSortStore = useTransactionSortStore();
+const { t } = useI18n();
+
 const sortMenuItems: MenuItem[] = [
   {
-    label: "By Date", //TODO: t
+    label: t('transactions.sortByDate'),
     key: "date",
     command: () => transactionSortStore.select("date"),
   },
   {
-    label: "By Amount", //TODO: t
+    label: t('transactions.sortByAmount'),
     key: "amount",
     command: () => transactionSortStore.select("amount"),
   },

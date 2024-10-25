@@ -1,5 +1,7 @@
-export default function useVisibleCategories() {
-  const { categoryMetadataById } = useCategoryMetadata();
+// this is a purely computed store, but it's shared and executes logic only once per update
+export const useVisibleCategoriesStore = defineStore('visibleCategories', () => {
+  const { t } = useI18n()
+  const categoryMetadataStore = useCategoryMetadataStore();
   const transactionsStore = useTransactionsStore();
   const appConfig = useAppConfig();
 
@@ -15,7 +17,7 @@ export default function useVisibleCategories() {
       totalExpenses += transaction.amount;
       let details = categoryDetails.get(transaction.category);
       if (!details) {
-        const metadata = categoryMetadataById.value.get(transaction.category);
+        const metadata = categoryMetadataStore.categoryMetadataById.get(transaction.category);
         details = {
           category: transaction.category,
           label: metadata?.text ?? "-",
@@ -49,7 +51,7 @@ export default function useVisibleCategories() {
             totalExpenses: remainder,
             categories: new Set(remainderCategories.map((c) => c.category!)),
             iconUrl: "",
-            label: `Other (${remainderCategories.length})`,
+            label: `${t('transactions.categoryOther')} (${remainderCategories.length})`,
           };
     return {
       categoryDetails: primaryCategories,
@@ -60,10 +62,10 @@ export default function useVisibleCategories() {
   });
   return {
     visibleCategories: visibleCategoryDetails,
-    loading: transactionsStore.loading,
-    isError: transactionsStore.isError,
+    loading: computed(() => transactionsStore.loading),
+    error: computed(() => transactionsStore.error),
   };
-}
+});
 
 export interface CategoryDetails {
   category: string | null;

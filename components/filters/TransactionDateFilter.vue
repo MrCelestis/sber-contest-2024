@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const transactionDateFilterStore = useTransactionDateFilterStore();
 const transactionsStore = useTransactionsStore()
+const { t } = useI18n();
+
 const dialogVisible = ref(false);
 // customIntervalLocal is used because datepicker works with local date,
 // value is converted back to UTC when applied
@@ -27,7 +29,7 @@ const modeButtonStates = computed<FilterButtonState[]>(() => [
     label:
       mode.value === "month"
         ? formatUtcMonth(effectiveUtcInterval.value?.[0] ?? 0)
-        : "Month",
+        : t('dateFilter.month'),
     severity: getModeButtonSeverity(mode.value === "month"),
     command: () => transactionDateFilterStore.select("month"),
   },
@@ -37,7 +39,7 @@ const modeButtonStates = computed<FilterButtonState[]>(() => [
         ? String(
             new Date(effectiveUtcInterval.value?.[0] ?? 0)?.getUTCFullYear()
           )
-        : "Year",
+        : t('dateFilter.year'),
     severity: getModeButtonSeverity(mode.value === "year"),
     command: () => transactionDateFilterStore.select("year"),
   },
@@ -49,7 +51,7 @@ const modeButtonStates = computed<FilterButtonState[]>(() => [
               | [Date, Date]
               | undefined
           )
-        : "Custom",
+        : t('dateFilter.custom'),
     severity: getModeButtonSeverity(mode.value === "custom"),
     command: () => (dialogVisible.value = true),
   },
@@ -74,10 +76,8 @@ function dismissDateRange() {
   dialogVisible.value = false;
 }
 
-watch(transactionDateFilterStore, interval => {
-    console.log('EXECUTE')
-    transactionsStore.execute()
-} );
+// refresh transactions based on new filter
+watch(transactionDateFilterStore, () => transactionsStore.execute());
 </script>
 
 <template>

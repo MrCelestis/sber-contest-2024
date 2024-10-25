@@ -1,9 +1,9 @@
 <script setup lang="ts">
-const { visibleCategories } = useVisibleCategories();
+const visibleCategoriesStore = useVisibleCategoriesStore();
 
 const formattedStats = computed(() => {
-  const income = visibleCategories.value.totalIncome;
-  const expenses = visibleCategories.value.totalExpenses;
+  const income = visibleCategoriesStore.visibleCategories.totalIncome;
+  const expenses = visibleCategoriesStore.visibleCategories.totalExpenses;
   const sum = income - expenses; // expenses < 0
   const incomePercent = Math.round((income / sum) * 100);
   const net = income + expenses;
@@ -25,7 +25,7 @@ const formattedStats = computed(() => {
   <div class="totals">
     <span class="totals__numbers__income">
       {{ formattedStats.income }}
-      <span v-if="visibleCategories.totalIncome"
+      <span v-if="visibleCategoriesStore.visibleCategories.totalIncome"
         >({{ formattedStats.incomePercent }})</span
       >
     </span>
@@ -34,13 +34,13 @@ const formattedStats = computed(() => {
     >
     <span class="totals__numbers__expenses">
       {{ formattedStats.expenses }}
-      <span v-if="visibleCategories.totalExpenses"
+      <span v-if="visibleCategoriesStore.visibleCategories.totalExpenses"
         >({{ formattedStats.expensesPercent }})</span
       >
     </span>
     <div
       class="totals__bar"
-      v-if="formattedStats.income || formattedStats.expenses"
+      v-if="visibleCategoriesStore.visibleCategories.totalIncome || visibleCategoriesStore.visibleCategories.totalExpenses"
     >
       <div
         class="totals__bar__segment totals__bar__segment--income"

@@ -2,10 +2,11 @@
 const { showLabel } = defineProps<{
     showLabel?: boolean
 }>();
+const { t } = useI18n();
 
 const transactionDialogVisible = ref(false);
 
-const label = computed(() => showLabel ? 'Add expenses/income' : '');
+const label = computed(() => showLabel ? t('transactions.add') : '');
 
 </script>
 

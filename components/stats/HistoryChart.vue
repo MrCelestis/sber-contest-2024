@@ -85,7 +85,7 @@ const chartOptions: ChartOptions<any> = {
       aria-label="History"
       aria-describedby="my-data-table"
     >
-      Failed to show chart
+      {{ $t('chart.alt') }}
     </Line>
   </div>
 </template>

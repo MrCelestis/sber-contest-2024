@@ -14,14 +14,14 @@ const CATEGORY_COLORS = [
 ] as const;
 
 const transactionFilterStore = useCategoryFilterStore();
-const { visibleCategories } = useVisibleCategories();
+const visibleCategoriesStore = useVisibleCategoriesStore();
 const transactionsStore = useTransactionsStore();
 
 const chartData = computed(() => {
-  const categoryDetails = visibleCategories.value.categoryDetails;
+  const categoryDetails = visibleCategoriesStore.visibleCategories.categoryDetails;
   const data = categoryDetails.map((details) => details.totalExpenses);
-  if (visibleCategories.value.remainder) {
-    data.push(visibleCategories.value.remainder.totalExpenses);
+  if (visibleCategoriesStore.visibleCategories.remainder) {
+    data.push(visibleCategoriesStore.visibleCategories.remainder.totalExpenses);
   }
   return {
     labels: categoryDetails.map((details) => details.label),
@@ -40,7 +40,7 @@ const chartData = computed(() => {
 });
 
 function getBackgroundColorWithSelection() {
-  const categoryDetails = visibleCategories.value.categoryDetails;
+  const categoryDetails = visibleCategoriesStore.visibleCategories.categoryDetails;
   return CATEGORY_COLORS.map((color, index) => {
     if (
       transactionFilterStore.selectedCategoryIds?.size === 1 &&
@@ -78,18 +78,18 @@ const chartOptions: ChartOptions<any> = {
 };
 const otherCategoriesSelected = computed(() =>
   areSetsEqual(
-    visibleCategories.value.remainder?.categories,
+    visibleCategoriesStore.visibleCategories.remainder?.categories,
     transactionFilterStore.selectedCategoryIds
   )
 );
 const totalIncome = computed(() => {
   return transactionFilterStore.selectedCategoryIds == null
-    ? `+${formatAmount(visibleCategories.value.totalIncome)}`
+    ? `+${formatAmount(visibleCategoriesStore.visibleCategories.totalIncome)}`
     : null; //don't show income if category selected: it may be misleading
 });
 const totalExpenses = computed(() => {
   if (transactionFilterStore.selectedCategoryIds == null) {
-    return formatAmount(visibleCategories.value.totalExpenses);
+    return formatAmount(visibleCategoriesStore.visibleCategories.totalExpenses);
   }
   const total = transactionsStore.transactions.reduce(
     (prev, cur) =>
@@ -108,7 +108,7 @@ const totalExpenses = computed(() => {
   <div class="category-chart">
     <div
       class="category-chart__container"
-      v-if="visibleCategories.categoryDetails.length"
+      v-if="visibleCategoriesStore.visibleCategories.categoryDetails.length"
     >
       <!-- v-if on chart area prevents it from jumping due to initial resize (due to categories being rendered) -->
       <Doughnut
@@ -117,7 +117,7 @@ const totalExpenses = computed(() => {
         aria-label="Expenses by category"
         aria-describedby="my-data-table"
       >
-        Failed to show chart
+        {{ $t('chart.alt') }}
       </Doughnut>
       <div class="category-chart__container__overlay">
         <div
@@ -133,7 +133,7 @@ const totalExpenses = computed(() => {
     </div>
     <div class="category-chart__filter">
       <CategoryFilterButton
-        v-for="(categoryDetails, index) of visibleCategories.categoryDetails"
+        v-for="(categoryDetails, index) of visibleCategoriesStore.visibleCategories.categoryDetails"
         :key="categoryDetails.category!"
         :category-details="categoryDetails"
         :selected="
@@ -143,12 +143,12 @@ const totalExpenses = computed(() => {
         v-on:click="transactionFilterStore.toggle([categoryDetails.category!])"
       ></CategoryFilterButton>
       <CategoryFilterButton
-        v-if="visibleCategories.remainder"
-        :category-details="visibleCategories.remainder"
+        v-if="visibleCategoriesStore.visibleCategories.remainder"
+        :category-details="visibleCategoriesStore.visibleCategories.remainder"
         :selected="otherCategoriesSelected"
         :color="SECONDARY_CATEGORY_COLOR"
         v-on:click="
-          transactionFilterStore.toggle(visibleCategories.remainder?.categories)
+          transactionFilterStore.toggle(visibleCategoriesStore.visibleCategories.remainder?.categories)
         "
       ></CategoryFilterButton>
     </div>

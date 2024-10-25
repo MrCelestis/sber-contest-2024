@@ -10,14 +10,12 @@
     "postinstall": "nuxt prepare & npm run mock-server:gen-large-db",
     "mock-server:gen-large-db": "node mock-server/gen-large-db.cjs",
     "mock-server:start": "json-server mock-server/db.json",
-    "mock-server:start:large": "json-server mock-server/large-db.json",
-    "mock-server:start:static": "npx http-server ./node_modules/bootstrap-icons/icons -p 3002"
+    "mock-server:start:large": "json-server mock-server/large-db.json"
   },
   "dependencies": {
     "@nuxtjs/i18n": "^8.5.5",
     "@pinia/nuxt": "^0.5.5",
     "@primevue/themes": "^4.1.1",
-    "@tanstack/vue-query": "^5.59.13",
     "nuxt": "^3.13.0",
     "pinia": "^2.2.4",
     "primeicons": "^7.0.0",

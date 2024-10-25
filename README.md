@@ -53,14 +53,8 @@ can be re-generated using
 npm run mock-server:gen-large-db
 ```
 
-Expense category metadata includes icon paths, which target another static dev server (port 3002).
-It should also be started if you want icons to load correctly (the reason not to use
-json-server for that is because it doesn't add proper cache headers and icons are reloaded
-without need, which spoils UX):
-
-```bash
-npm run mock-server:start:static
-```
+Expense category metadata includes icon URLS in data-URL encoded format, but it supports
+any valid path.
 
 
 ## Production
@@ -93,7 +87,7 @@ using arrow buttons. Custom interval can be selected with date picker.
 Chart area hosts 2 views for analytics: category donut chart and net history line chart, user
 can switch between them with arrow buttons.
 
-Category chart shows several top used categories and groups the rest under "Other" category.
+Category chart shows several top used categories (configurable) and groups the rest under "Other" category.
 These categories are shown below chart to allow quick filtering.
 Expense totals are shows in chart center.
 
@@ -125,11 +119,10 @@ There is no limit for categories because too many might overwhelm user and such 
 
 App caches category metadata query and never re-runs it.
 
-Transaction queries are cached for 2 minutes by default, but modifying transaction list in
-any way will invalidate queries with intersecting intervals, thus executing them again.
-
-For category icons app relies on remote server to send proper cache headers to work correctly,
-there may be UI glitches if these headers are missing.
+Transaction queries are cached using Least Recently Used cache, number of entries is
+configurable (defaults to 5).
+Modifying transaction list in any way will invalidate queries with intersecting intervals,
+thus executing them again.
 
 ### SSR
 

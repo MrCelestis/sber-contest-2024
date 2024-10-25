@@ -40,6 +40,7 @@ export default defineNuxtConfig({
   },
   appConfig: {
     maxCategoriesInFilter: 5,
+    transactionsCacheSize: 5
   },
   runtimeConfig: {
     public: {

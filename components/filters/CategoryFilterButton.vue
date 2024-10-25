@@ -25,6 +25,7 @@ const severity = computed(() => (selected ? "success" : "secondary"));
       v-if="categoryDetails.iconUrl"
       :src="categoryDetails.iconUrl"
       class="category-filter-button__image"
+      alt=""
     />
     {{ categoryDetails.label }}
   </Button>
