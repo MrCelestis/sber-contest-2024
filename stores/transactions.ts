@@ -31,47 +31,53 @@ export const useTransactionsStore = defineStore("transactions", () => {
     immediate: false,
     deep: false,
     watch: false,
-    dedupe: 'defer'
+    dedupe: "defer",
   });
 
-  watch(() => data.value, () => {
-    if (!error.value) {
+  watch(
+    () => data.value,
+    () => {
+      if (!error.value) {
         // fill cache if success
         cache.set(key.value, {
-            data: (data.value ?? []) as Transaction[],
-            startTimestamp: startTimestamp.value,
-            endTimestamp: endTimestamp.value
+          data: (data.value ?? []) as Transaction[],
+          startTimestamp: startTimestamp.value,
+          endTimestamp: endTimestamp.value,
         });
+      }
     }
-  });
+  );
 
   async function executeInternal() {
     const cached = cache.get(key.value);
     if (cached) {
-        currentCachedResponse.value = cached.data;
+      currentCachedResponse.value = cached.data;
     } else {
-        currentCachedResponse.value = undefined;
-        return await execute();
+      currentCachedResponse.value = undefined;
+      return await execute();
     }
   }
 
   async function invalidateRelatedQueries(timestamp: number) {
     //invalidate cache entries with intersecting interval
-    cache.clear(entry => timestamp >= entry.startTimestamp && timestamp <= entry.endTimestamp);
+    cache.clear(
+      (entry) =>
+        timestamp >= entry.startTimestamp && timestamp <= entry.endTimestamp
+    );
     if (timestamp >= startTimestamp.value && timestamp <= endTimestamp.value) {
-        console.log('intersecting interval, refresh');
-        //reload current query if intersecting interval
-        await execute();
+      console.log("intersecting interval, refresh");
+      //reload current query if intersecting interval
+      await execute();
     } else {
-        console.log('NO intersecting interval');
+      console.log("NO intersecting interval");
     }
   }
 
   const add = async (transaction: Transaction) => {
-    await $fetch('transactions', {
-        baseURL: runtimeConfig.public.apiBase,
-        method: "POST",
-        body: transaction
+    await $fetch("transactions", {
+      baseURL: runtimeConfig.public.apiBase,
+      method: "POST",
+      body: transaction,
     });
     //invalidate all matching intervals, this will re-run query is it's used ATM
     await invalidateRelatedQueries(transaction.timestamp);
@@ -79,9 +85,9 @@ export const useTransactionsStore = defineStore("transactions", () => {
 
   const update = async (transaction: Transaction) => {
     await $fetch(`transactions/${transaction.id}`, {
-        baseURL: runtimeConfig.public.apiBase,
-        method: "PUT",
-        body: transaction
+      baseURL: runtimeConfig.public.apiBase,
+      method: "PUT",
+      body: transaction,
     });
     //invalidate all matching intervals, this will re-run query is it's used ATM
     await invalidateRelatedQueries(transaction.timestamp);
@@ -89,23 +95,49 @@ export const useTransactionsStore = defineStore("transactions", () => {
 
   const remove = async (transaction: Transaction) => {
     await $fetch(`transactions/${transaction.id}`, {
-        baseURL: runtimeConfig.public.apiBase,
-        method: "DELETE"
+      baseURL: runtimeConfig.public.apiBase,
+      method: "DELETE",
     });
     //invalidate all matching intervals, this will re-run query is it's used ATM
     await invalidateRelatedQueries(transaction.timestamp);
   };
 
+  const transactionsRespectingCache = computed(
+    () => (currentCachedResponse.value ?? data.value ?? []) as Transaction[]
+  );
+
+  const limitExceeded = computed(
+    () =>
+      transactionsRespectingCache.value.length ===
+      runtimeConfig.public.maxTransactions
+  );
+
+  const effectiveTransactions = computed(() =>
+    limitExceeded.value ? [] : transactionsRespectingCache.value
+  );
+
   return {
-    transactions: computed(() => ((currentCachedResponse.value ? currentCachedResponse.value : data.value) ?? []) as Transaction[]),
-    loading: computed(() => !currentCachedResponse.value && status.value === "pending"),
-    error: computed(() => !currentCachedResponse.value && !!error.value),
+    transactions: effectiveTransactions,
+    loading: computed(
+      () => !currentCachedResponse.value && status.value === "pending"
+    ),
+    error: computed<TransactionsLoadReason | null>(() => {
+      if (limitExceeded.value) {
+        return "limit_exceeded";
+      }
+      if (!currentCachedResponse.value && error.value) {
+        return "generic";
+      }
+      return null;
+    }),
     add,
     remove,
     update,
-    execute: executeInternal
+    execute: executeInternal,
   };
 });
+
+export type TransactionsLoadReason = "generic" | "limit_exceeded";
 
 export interface Transaction {
   id: string;

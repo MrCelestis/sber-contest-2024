@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import type { TransactionsLoadReason } from "~/stores/transactions";
+
 const visibleCategoriesStore = useVisibleCategoriesStore();
 const categoryMetadataStore = useCategoryMetadataStore();
 const categoryFilterStore = useCategoryFilterStore();
+const { t } = useI18n();
 
 const CHART_SKELETON_SIZE = "12rem";
 
@@ -23,7 +26,10 @@ function switchChart(offset: number) {
 }
 
 const sampleCategoriesForPlaceholder = computed(() => {
-  const placeholderCategories = categoryMetadataStore.categoryMetadata.slice(0, 8);
+  const placeholderCategories = categoryMetadataStore.categoryMetadata.slice(
+    0,
+    8
+  );
   const n = placeholderCategories.length;
   // position category icons in a circle
   return placeholderCategories.map((category, i) => {
@@ -42,7 +48,25 @@ const sampleCategoriesForPlaceholder = computed(() => {
   });
 });
 
-const messageSeverity = computed(() => visibleCategoriesStore.error ? 'error' : 'secondary');
+const messageSeverityByErrorReason = new Map<
+  TransactionsLoadReason | null,
+  string
+>([
+  ["generic", "error"],
+  ["limit_exceeded", "warn"],
+]);
+const messageSeverity = computed(
+  () =>
+    messageSeverityByErrorReason.get(visibleCategoriesStore.error) ??
+    "secondary"
+);
+const errorMessage = computed(() =>
+  visibleCategoriesStore.error
+    ? visibleCategoriesStore.error === "generic"
+      ? t("chart.transactionLoadFailure")
+      : t("chart.transactionLimitExceeded")
+    : null
+);
 </script>
 
 <template>
@@ -88,12 +112,15 @@ const messageSeverity = computed(() => visibleCategoriesStore.error ? 'error' : 
             alt=""
           />
         </div>
-        <Message :severity="messageSeverity" class="chart-area__blank-space__message">
+        <Message
+          :severity="messageSeverity"
+          class="chart-area__blank-space__message"
+        >
           <span v-if="visibleCategoriesStore.error">
             <i class="pi pi-exclamation-triangle"></i>
-            {{ $t('chart.transactionLoadFailure') }}
-        </span>
-          <span v-else>{{ $t('chart.empty') }}</span>
+            {{ errorMessage }}
+          </span>
+          <span v-else>{{ $t("chart.empty") }}</span>
         </Message>
       </template>
     </div>
@@ -131,9 +158,11 @@ const messageSeverity = computed(() => visibleCategoriesStore.error ? 'error' : 
     align-items: center;
     flex-grow: 1;
     position: relative;
+    padding: 0 15%;
 
     &__message {
-        z-index: 1; //place above placeholder images
+      z-index: 1; //place above placeholder images
+      text-align: center;
     }
 
     &__placeholder {

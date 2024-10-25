@@ -45,7 +45,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBase: "http://localhost:3000",
-      maxTransactions: 1000,
+      maxTransactions: 10000,
     },
   },
 });

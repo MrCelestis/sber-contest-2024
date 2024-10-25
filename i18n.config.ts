@@ -11,6 +11,7 @@ export default defineI18nConfig(() => ({
       chart: {
         alt: "Failed to show chart",
         transactionLoadFailure: "Failed to load transactions",
+        transactionLimitExceeded: "Too many transactions, adjust filter",
         empty: "No transactions found for selected period"
       },
       transactions: {
@@ -40,6 +41,7 @@ export default defineI18nConfig(() => ({
         chart: {
           alt: "Не удалось показать график",
           transactionLoadFailure: "Ошибка загрузки транзакций",
+          transactionLimitExceeded: "Слишком много транзакций в указанном диапазоне",
           empty: "Нет транзакций"
         },
         transactions: {

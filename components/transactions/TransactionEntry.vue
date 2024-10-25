@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 const { disabled } = defineProps<{ disabled?: boolean }>();
-const model = defineModel<Transaction | undefined>({ required: true });
+const model = defineModel<Transaction>({ required: true });
 
 const categoryMetadataStore = useCategoryMetadataStore();
 const { t } = useI18n();
