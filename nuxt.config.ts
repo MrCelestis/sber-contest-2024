@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     '~/assets/css/primevue-overrides.css',
     'primeicons/primeicons.css',
   ],
-  modules: ['@pinia/nuxt', '@primevue/nuxt-module', '@nuxtjs/i18n'],
+  modules: ['@pinia/nuxt', '@primevue/nuxt-module', '@nuxtjs/i18n', '@nuxtjs/color-mode'],
   primevue: {
     options: {
       ripple: true,

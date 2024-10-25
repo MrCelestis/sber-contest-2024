@@ -54,7 +54,7 @@ npm run mock-server:gen-large-db
 ```
 
 Expense category metadata includes icon URLS in data-URL encoded format, but it supports
-any valid path.
+any valid path. App assumes these icons to be black.
 
 
 ## Production
@@ -134,3 +134,7 @@ on server to apply state and run initial transactions query before sending resou
 
 Most of the app is loaded immediately because it's always visible.
 Transaction modification dialog is loaded on demand.
+
+### Dark mode
+
+App automatically detects dark mode and switches styles accordingly.

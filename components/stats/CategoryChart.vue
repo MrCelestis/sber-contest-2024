@@ -13,9 +13,21 @@ const CATEGORY_COLORS = [
   SECONDARY_CATEGORY_COLOR,
 ] as const;
 
+const colorMode = useColorMode();
 const transactionFilterStore = useCategoryFilterStore();
 const visibleCategoriesStore = useVisibleCategoriesStore();
 const transactionsStore = useTransactionsStore();
+
+// need to track effective background color in js to pass it to chart to draw on canvas
+const cardBackgroundColor = ref<string>();
+watch(
+  colorMode,
+  () =>
+    (cardBackgroundColor.value = getComputedStyle(
+      document.body
+    ).getPropertyValue('--p-card-background')),
+  { immediate: true }
+);
 
 const chartData = computed(() => {
   const categoryDetails =
@@ -31,6 +43,7 @@ const chartData = computed(() => {
         data,
         borderWidth: 4,
         borderRadius: 6,
+        borderColor: cardBackgroundColor.value,
         backgroundColor:
           transactionFilterStore.selectedCategoryIds == null
             ? CATEGORY_COLORS
@@ -143,14 +156,14 @@ const totalExpenses = computed(() => {
             (transactionFilterStore.selectedCategoryIds?.size === 1 && transactionFilterStore.selectedCategoryIds?.has(categoryDetails.category!)) ?? false
           "
         :color="CATEGORY_COLORS[index]"
-        v-on:click="transactionFilterStore.toggle([categoryDetails.category!])"
+        @click="transactionFilterStore.toggle([categoryDetails.category!])"
       ></CategoryFilterButton>
       <CategoryFilterButton
         v-if="visibleCategoriesStore.visibleCategories.remainder"
         :category-details="visibleCategoriesStore.visibleCategories.remainder"
         :selected="otherCategoriesSelected"
         :color="SECONDARY_CATEGORY_COLOR"
-        v-on:click="
+        @click="
           transactionFilterStore.toggle(
             visibleCategoriesStore.visibleCategories.remainder?.categories
           )

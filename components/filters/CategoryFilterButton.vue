@@ -26,21 +26,33 @@ const severity = computed(() => (selected ? 'success' : 'secondary'));
       class="category-filter-button__image"
       alt=""
     />
-    <span class="category-filter-button__text">{{ categoryDetails.label }}</span>
+    <span class="category-filter-button__text">{{
+      categoryDetails.label
+    }}</span>
   </Button>
 </template>
 
 <style>
-.category-filter-button--selected > .category-filter-button__image {
-  filter: invert(
-    100%
-  ); /* assume all icons are black, invert when selected to be visible on contrast background */
+/* Assume all icons are black, invert when selected to be visible on contrast background. */
+@media (prefers-color-scheme: dark) {
+  .category-filter-button__image {
+    filter: invert(100%);
+  }
+  .category-filter-button--selected > .category-filter-button__image {
+    filter: none;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .category-filter-button--selected > .category-filter-button__image {
+    filter: invert(100%);
+  }
 }
 
 .category-filter-button__text {
-    max-width: 8rem;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+  max-width: 8rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 </style>

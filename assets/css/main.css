@@ -11,6 +11,13 @@ body {
     --p-card-body-padding: 1rem;
 }
 
+@media (prefers-color-scheme: dark) {
+    :root {
+        --positive-color: #79d039;
+        --negative-color: #ff5151;
+    }
+}
+
 html,
 #__nuxt {
     height: 100%;

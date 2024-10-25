@@ -21,7 +21,12 @@ const amount = computed(() => formatAmount(transaction.amount));
   <div class="transaction" :class="{ 'transaction--odd': odd }">
     <div v-if="showDate" class="transaction__date">{{ dateFormatted }}</div>
     <div class="transaction__category">
-      <img v-if="category" v-bind:src="category.iconUrl" alt="" />
+      <img
+        class="transaction__category__image"
+        v-if="category"
+        v-bind:src="category.iconUrl"
+        alt=""
+      />
       <div class="transaction__category__text">{{ category?.text }}</div>
     </div>
     <div
@@ -72,6 +77,13 @@ const amount = computed(() => formatAmount(transaction.amount));
 
   &__amount--positive {
     color: var(--positive-color);
+  }
+}
+
+/* Assume all icons are black, invert to be visible on dark background. */
+@media (prefers-color-scheme: dark) {
+  .transaction__category__image {
+    filter: invert(100%);
   }
 }
 </style>

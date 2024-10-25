@@ -21,13 +21,12 @@
 .app {
   display: grid;
   height: 100%;
-  background-color: aliceblue;
   grid-template-rows: auto 40vh 5rem 3fr;
   grid-template-areas:
-    "header"
-    "chart"
-    "totals"
-    "transactions";
+    'header'
+    'chart'
+    'totals'
+    'transactions';
   gap: var(--generic-spacing);
   padding: var(--generic-spacing);
 
@@ -56,9 +55,9 @@
     grid-template-columns: 4fr 4fr minmax(9rem, auto);
     grid-template-rows: auto 2fr 3fr;
     grid-template-areas:
-      "header header header"
-      "chart chart totals"
-      "transactions transactions transactions";
+      'header header header'
+      'chart chart totals'
+      'transactions transactions transactions';
   }
 }
 </style>

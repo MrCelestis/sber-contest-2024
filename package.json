@@ -13,6 +13,7 @@
     "mock-server:start:large": "json-server mock-server/large-db.json"
   },
   "dependencies": {
+    "@nuxtjs/color-mode": "^3.5.2",
     "@nuxtjs/i18n": "^8.5.5",
     "@pinia/nuxt": "^0.5.5",
     "@primevue/themes": "^4.1.1",
