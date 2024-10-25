@@ -6,8 +6,8 @@ export const useCategoryMetadataStore = defineStore('categoryMetadata', () => {
     baseURL: runtimeConfig.public.apiBase,
     deep: false,
     params: {
-        _sort: "text"
-    }
+      _sort: 'text',
+    },
   });
   const categoryMetadata = computed(
     () => (data.value ?? []) as CategoryMetadata[]
@@ -22,7 +22,7 @@ export const useCategoryMetadataStore = defineStore('categoryMetadata', () => {
   return {
     categoryMetadata,
     categoryMetadataById,
-    loading: computed(() => status.value === "pending"),
+    loading: computed(() => status.value === 'pending'),
   };
 });
 

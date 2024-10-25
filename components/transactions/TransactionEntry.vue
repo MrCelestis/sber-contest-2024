@@ -1,16 +1,17 @@
 <script setup lang="ts">
-
 const { disabled } = defineProps<{ disabled?: boolean }>();
 const model = defineModel<Transaction>({ required: true });
 
 const categoryMetadataStore = useCategoryMetadataStore();
 const { t } = useI18n();
 
-const TRANSACTION_TYPES = ["+", "-"] as const;
-const transactionType = ref<(typeof TRANSACTION_TYPES)[number]>(model.value.amount > 0 ? "+" : "-");
+const TRANSACTION_TYPES = ['+', '-'] as const;
+const transactionType = ref<(typeof TRANSACTION_TYPES)[number]>(
+  model.value.amount > 0 ? '+' : '-'
+);
 const transactionTypeOptions = [
-  { value: "+", label: t('transactions.income') },
-  { value: "-", label: t('transactions.expense')  },
+  { value: '+', label: t('transactions.income') },
+  { value: '-', label: t('transactions.expense') },
 ];
 
 const MIN_AMOUNT = 0.01;
@@ -18,11 +19,11 @@ const amount = ref(Math.abs(model.value.amount));
 const date = ref(utcDateToLocal(new Date(model.value.timestamp)));
 const category = ref(model.value.category);
 
-const amountPrefix = computed(() => (transactionType.value === "-" ? "-" : ""));
+const amountPrefix = computed(() => (transactionType.value === '-' ? '-' : ''));
 
 watch([transactionType, amount, date, category], () => {
   const formValues = {
-    amount: transactionType.value === "+" ? amount.value : -amount.value,
+    amount: transactionType.value === '+' ? amount.value : -amount.value,
     category: category.value,
     timestamp: localDateToUtc(date.value).getTime(),
   };
@@ -38,7 +39,7 @@ watch([transactionType, amount, date, category], () => {
 });
 
 const OPTION_SIZE_PX = 32; //virtual scroll needs predefined px size
-const optionStyle = { height: OPTION_SIZE_PX + "px" };
+const optionStyle = { height: OPTION_SIZE_PX + 'px' };
 </script>
 
 <template>
@@ -64,7 +65,7 @@ const optionStyle = { height: OPTION_SIZE_PX + "px" };
       >
         <template #option="slotProps">
           <div class="transaction-entry__field__option" :style="optionStyle">
-            <img :src="slotProps.option.iconUrl" alt=""/>
+            <img :src="slotProps.option.iconUrl" alt="" />
             <div>{{ slotProps.option.text }}</div>
           </div>
         </template></Select

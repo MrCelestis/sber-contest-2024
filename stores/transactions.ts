@@ -1,4 +1,4 @@
-export const useTransactionsStore = defineStore("transactions", () => {
+export const useTransactionsStore = defineStore('transactions', () => {
   const transactionDateFilterStore = useTransactionDateFilterStore();
 
   const runtimeConfig = useRuntimeConfig();
@@ -25,13 +25,13 @@ export const useTransactionsStore = defineStore("transactions", () => {
       timestamp_gte: startTimestamp,
       timestamp_lt: endTimestamp,
       _limit: runtimeConfig.public.maxTransactions,
-      _sort: "-timestamp", // DESC sort so that most recent transactions come first
+      _sort: '-timestamp', // DESC sort so that most recent transactions come first
     },
     key: key.value,
     immediate: false,
     deep: false,
     watch: false,
-    dedupe: "defer",
+    dedupe: 'defer',
   });
 
   watch(
@@ -65,18 +65,18 @@ export const useTransactionsStore = defineStore("transactions", () => {
         timestamp >= entry.startTimestamp && timestamp <= entry.endTimestamp
     );
     if (timestamp >= startTimestamp.value && timestamp <= endTimestamp.value) {
-      console.log("intersecting interval, refresh");
+      console.log('intersecting interval, refresh');
       //reload current query if intersecting interval
       await execute();
     } else {
-      console.log("NO intersecting interval");
+      console.log('NO intersecting interval');
     }
   }
 
   const add = async (transaction: Transaction) => {
-    await $fetch("transactions", {
+    await $fetch('transactions', {
       baseURL: runtimeConfig.public.apiBase,
-      method: "POST",
+      method: 'POST',
       body: transaction,
     });
     //invalidate all matching intervals, this will re-run query is it's used ATM
@@ -86,7 +86,7 @@ export const useTransactionsStore = defineStore("transactions", () => {
   const update = async (transaction: Transaction) => {
     await $fetch(`transactions/${transaction.id}`, {
       baseURL: runtimeConfig.public.apiBase,
-      method: "PUT",
+      method: 'PUT',
       body: transaction,
     });
     //invalidate all matching intervals, this will re-run query is it's used ATM
@@ -96,7 +96,7 @@ export const useTransactionsStore = defineStore("transactions", () => {
   const remove = async (transaction: Transaction) => {
     await $fetch(`transactions/${transaction.id}`, {
       baseURL: runtimeConfig.public.apiBase,
-      method: "DELETE",
+      method: 'DELETE',
     });
     //invalidate all matching intervals, this will re-run query is it's used ATM
     await invalidateRelatedQueries(transaction.timestamp);
@@ -119,14 +119,14 @@ export const useTransactionsStore = defineStore("transactions", () => {
   return {
     transactions: effectiveTransactions,
     loading: computed(
-      () => !currentCachedResponse.value && status.value === "pending"
+      () => !currentCachedResponse.value && status.value === 'pending'
     ),
     error: computed<TransactionsLoadReason | null>(() => {
       if (limitExceeded.value) {
-        return "limit_exceeded";
+        return 'limit_exceeded';
       }
       if (!currentCachedResponse.value && error.value) {
-        return "generic";
+        return 'generic';
       }
       return null;
     }),
@@ -137,7 +137,7 @@ export const useTransactionsStore = defineStore("transactions", () => {
   };
 });
 
-export type TransactionsLoadReason = "generic" | "limit_exceeded";
+export type TransactionsLoadReason = 'generic' | 'limit_exceeded';
 
 export interface Transaction {
   id: string;

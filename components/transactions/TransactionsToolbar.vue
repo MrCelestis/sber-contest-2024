@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MenuItem } from "primevue/menuitem";
+import type { MenuItem } from 'primevue/menuitem';
 
 const { showAddButton } = defineProps<{
   showAddButton: boolean;
@@ -11,23 +11,23 @@ const { t } = useI18n();
 const sortMenuItems: MenuItem[] = [
   {
     label: t('transactions.sortByDate'),
-    key: "date",
-    command: () => transactionSortStore.select("date"),
+    key: 'date',
+    command: () => transactionSortStore.select('date'),
   },
   {
     label: t('transactions.sortByAmount'),
-    key: "amount",
-    command: () => transactionSortStore.select("amount"),
+    key: 'amount',
+    command: () => transactionSortStore.select('amount'),
   },
 ];
 
 const sortLabel = computed(
   () =>
     (sortMenuItems.find((item) => item.key === transactionSortStore.sort)
-      ?.label as string) ?? ""
+      ?.label as string) ?? ''
 );
 
-const sortMenuRef = useTemplateRef("sortMenu");
+const sortMenuRef = useTemplateRef('sortMenu');
 </script>
 
 <template>
@@ -59,8 +59,9 @@ const sortMenuRef = useTemplateRef("sortMenu");
 
   &__sort {
     margin-left: auto;
-    height: var(--p-button-icon-only-width); // to match + icon button height (to avoid jumping height when it's hidden)
+    height: var(
+      --p-button-icon-only-width
+    ); // to match + icon button height (to avoid jumping height when it's hidden)
   }
 }
-
 </style>

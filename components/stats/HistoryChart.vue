@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Line } from "vue-chartjs";
-import type { ChartOptions } from "chart.js";
+import { Line } from 'vue-chartjs';
+import type { ChartOptions } from 'chart.js';
 
 const transactionsStore = useTransactionsStore();
 const transactionDateFilterStore = useTransactionDateFilterStore();
@@ -12,16 +12,16 @@ function getDataset(): { labels: string[]; data: number[] } {
   }
   // timestamps will be groupe using this callback return value
   const getTimeComponentToCompare =
-    transactionDateFilterStore.mode === "year"
+    transactionDateFilterStore.mode === 'year'
       ? (t: number) => {
           const d = new Date(t);
           return d.getFullYear() * 10 + d.getUTCMonth();
         }
       : (t: number) => Math.trunc(t / MS_IN_ONE_DAY);
   const formatTimestamp =
-    transactionDateFilterStore.mode === "year"
+    transactionDateFilterStore.mode === 'year'
       ? formatUtcMonth
-      : (t: number) => formatUtcDate(t, { monthFormat: "short" });
+      : (t: number) => formatUtcDate(t, { monthFormat: 'short' });
 
   const labels: string[] = [];
   const data: number[] = [];
@@ -55,9 +55,9 @@ const chartData = computed(() => {
     datasets: [
       {
         data,
-        label: "Net",
+        label: 'Net',
         //typings issue: doesn't recognize `false` as valid option
-        pointStyle: (data.length <= 31 ? "circle" : false) as any,
+        pointStyle: (data.length <= 31 ? 'circle' : false) as any,
         pointRadius: 6,
       },
     ],
@@ -68,9 +68,9 @@ const chartOptions: ChartOptions<any> = {
   responsive: true,
   elements: {
     line: {
-      borderColor: "#ff2200",
+      borderColor: '#ff2200',
       borderWidth: 1,
-      cubicInterpolationMode: "monotone",
+      cubicInterpolationMode: 'monotone',
     },
   },
   maintainAspectRatio: false,

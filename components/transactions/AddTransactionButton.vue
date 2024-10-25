@@ -1,13 +1,12 @@
 <script setup lang="ts">
 const { showLabel } = defineProps<{
-    showLabel?: boolean
+  showLabel?: boolean;
 }>();
 const { t } = useI18n();
 
 const transactionDialogVisible = ref(false);
 
-const label = computed(() => showLabel ? t('transactions.add') : '');
-
+const label = computed(() => (showLabel ? t('transactions.add') : ''));
 </script>
 
 <template>
@@ -18,7 +17,5 @@ const label = computed(() => showLabel ? t('transactions.add') : '');
     :label="label"
     @click="transactionDialogVisible = true"
   />
-  <TransactionDialog
-    v-model:visible="transactionDialogVisible"
-  />
+  <TransactionDialog v-model:visible="transactionDialogVisible" />
 </template>

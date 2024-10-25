@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import VirtualScroller from "primevue/virtualscroller";
+import VirtualScroller from 'primevue/virtualscroller';
 
 const transactionsStore = useTransactionsStore();
 const categoryFilterStore = useCategoryFilterStore();
 const transactionSortStore = useTransactionSortStore();
 
 const ITEM_HEIGHT_PX = 44;
-const itemHeightStyle = { height: ITEM_HEIGHT_PX + "px" };
+const itemHeightStyle = { height: ITEM_HEIGHT_PX + 'px' };
 
 const filteredTransactions = computed(() => {
   if (categoryFilterStore.selectedCategoryIds == null) {
@@ -21,16 +21,16 @@ const transactionToEdit = ref<Transaction | undefined>();
 
 const displayItems = computed(() => {
   switch (transactionSortStore.sort) {
-    case "date":
+    case 'date':
       return getTransactionDisplayItemsByDate(filteredTransactions.value);
-    case "amount":
+    case 'amount':
       return getTransactionDisplayItemsByAmount(filteredTransactions.value);
     default:
       throw new Error(`Unknown sort mode: ${transactionSortStore.sort}`);
   }
 });
 
-const showDate = computed(() => transactionSortStore.sort !== "date");
+const showDate = computed(() => transactionSortStore.sort !== 'date');
 </script>
 
 <template>

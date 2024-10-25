@@ -1,10 +1,10 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 
 export const useTransactionSortStore = defineStore(
-  "transactionSortStore",
+  'transactionSortStore',
   () => {
-    const transactionSortCookie = useCookie("transactionSort", {
-      default: () => "date" as TransactionSortOption,
+    const transactionSortCookie = useCookie('transactionSort', {
+      default: () => 'date' as TransactionSortOption,
     });
     const sort = computed(() => transactionSortCookie.value);
 
@@ -15,5 +15,5 @@ export const useTransactionSortStore = defineStore(
   }
 );
 
-const transactionSortOptions = ["date", "amount"] as const;
+const transactionSortOptions = ['date', 'amount'] as const;
 export type TransactionSortOption = (typeof transactionSortOptions)[number];

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const transactionDateFilterStore = useTransactionDateFilterStore();
-const transactionsStore = useTransactionsStore()
+const transactionsStore = useTransactionsStore();
 const { t } = useI18n();
 
 const dialogVisible = ref(false);
@@ -27,45 +27,45 @@ interface FilterButtonState {
 const modeButtonStates = computed<FilterButtonState[]>(() => [
   {
     label:
-      mode.value === "month"
+      mode.value === 'month'
         ? formatUtcMonth(effectiveUtcInterval.value?.[0] ?? 0)
         : t('dateFilter.month'),
-    severity: getModeButtonSeverity(mode.value === "month"),
-    command: () => transactionDateFilterStore.select("month"),
+    severity: getModeButtonSeverity(mode.value === 'month'),
+    command: () => transactionDateFilterStore.select('month'),
   },
   {
     label:
-      mode.value === "year"
+      mode.value === 'year'
         ? String(
             new Date(effectiveUtcInterval.value?.[0] ?? 0)?.getUTCFullYear()
           )
         : t('dateFilter.year'),
-    severity: getModeButtonSeverity(mode.value === "year"),
-    command: () => transactionDateFilterStore.select("year"),
+    severity: getModeButtonSeverity(mode.value === 'year'),
+    command: () => transactionDateFilterStore.select('year'),
   },
   {
     label:
-      mode.value === "custom"
+      mode.value === 'custom'
         ? formatUtcDateRange(
             customInterval.value?.map((t) => new Date(t)) as
               | [Date, Date]
               | undefined
           )
         : t('dateFilter.custom'),
-    severity: getModeButtonSeverity(mode.value === "custom"),
+    severity: getModeButtonSeverity(mode.value === 'custom'),
     command: () => (dialogVisible.value = true),
   },
 ]);
 
 function getModeButtonSeverity(selected: boolean) {
-  return selected ? "primary" : "secondary";
+  return selected ? 'primary' : 'secondary';
 }
 
 function confirmDateRange() {
   dialogVisible.value = false;
   if (dateRange.value) {
     transactionDateFilterStore.select(
-      "custom",
+      'custom',
       dateRange.value,
       false /* convert back to UTC */
     );

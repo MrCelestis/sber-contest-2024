@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import type { TransactionsLoadReason } from "~/stores/transactions";
+import type { TransactionsLoadReason } from '~/stores/transactions';
 
 const visibleCategoriesStore = useVisibleCategoriesStore();
 const categoryMetadataStore = useCategoryMetadataStore();
 const categoryFilterStore = useCategoryFilterStore();
 const { t } = useI18n();
 
-const CHART_SKELETON_SIZE = "12rem";
+const CHART_SKELETON_SIZE = '12rem';
 
-const chartTypes = ["category", "history"] as const;
-const selectedChart = useCookie<(typeof chartTypes)[number]>("selectedChart", {
-  default: () => "category",
+const chartTypes = ['category', 'history'] as const;
+const selectedChart = useCookie<(typeof chartTypes)[number]>('selectedChart', {
+  default: () => 'category',
 });
 
 function switchChart(offset: number) {
@@ -52,19 +52,19 @@ const messageSeverityByErrorReason = new Map<
   TransactionsLoadReason | null,
   string
 >([
-  ["generic", "error"],
-  ["limit_exceeded", "warn"],
+  ['generic', 'error'],
+  ['limit_exceeded', 'warn'],
 ]);
 const messageSeverity = computed(
   () =>
     messageSeverityByErrorReason.get(visibleCategoriesStore.error) ??
-    "secondary"
+    'secondary'
 );
 const errorMessage = computed(() =>
   visibleCategoriesStore.error
-    ? visibleCategoriesStore.error === "generic"
-      ? t("chart.transactionLoadFailure")
-      : t("chart.transactionLimitExceeded")
+    ? visibleCategoriesStore.error === 'generic'
+      ? t('chart.transactionLoadFailure')
+      : t('chart.transactionLimitExceeded')
     : null
 );
 </script>
@@ -120,7 +120,7 @@ const errorMessage = computed(() =>
             <i class="pi pi-exclamation-triangle"></i>
             {{ errorMessage }}
           </span>
-          <span v-else>{{ $t("chart.empty") }}</span>
+          <span v-else>{{ $t('chart.empty') }}</span>
         </Message>
       </template>
     </div>

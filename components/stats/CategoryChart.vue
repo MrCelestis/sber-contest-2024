@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { Doughnut } from "vue-chartjs";
-import type { ChartOptions } from "chart.js";
+import { Doughnut } from 'vue-chartjs';
+import type { ChartOptions } from 'chart.js';
 
-const SECONDARY_CATEGORY_COLOR = "#b3b2b3";
-const SECONDARY_CATEGORY_COLOR_HIGHLIGHTED = "#6b6b6b";
+const SECONDARY_CATEGORY_COLOR = '#b3b2b3';
+const SECONDARY_CATEGORY_COLOR_HIGHLIGHTED = '#6b6b6b';
 const CATEGORY_COLORS = [
-  "#3a7ad3",
-  "#d95151",
-  "#53b74c",
-  "#f1d33f",
-  "#b973e5",
+  '#3a7ad3',
+  '#d95151',
+  '#53b74c',
+  '#f1d33f',
+  '#b973e5',
   SECONDARY_CATEGORY_COLOR,
 ] as const;
 
@@ -18,7 +18,8 @@ const visibleCategoriesStore = useVisibleCategoriesStore();
 const transactionsStore = useTransactionsStore();
 
 const chartData = computed(() => {
-  const categoryDetails = visibleCategoriesStore.visibleCategories.categoryDetails;
+  const categoryDetails =
+    visibleCategoriesStore.visibleCategories.categoryDetails;
   const data = categoryDetails.map((details) => details.totalExpenses);
   if (visibleCategoriesStore.visibleCategories.remainder) {
     data.push(visibleCategoriesStore.visibleCategories.remainder.totalExpenses);
@@ -40,12 +41,13 @@ const chartData = computed(() => {
 });
 
 function getBackgroundColorWithSelection() {
-  const categoryDetails = visibleCategoriesStore.visibleCategories.categoryDetails;
+  const categoryDetails =
+    visibleCategoriesStore.visibleCategories.categoryDetails;
   return CATEGORY_COLORS.map((color, index) => {
     if (
       transactionFilterStore.selectedCategoryIds?.size === 1 &&
       transactionFilterStore.selectedCategoryIds.has(
-        categoryDetails[index]?.category ?? ""
+        categoryDetails[index]?.category ?? ''
       )
     ) {
       return color; // simple category selected
@@ -62,7 +64,7 @@ function getBackgroundColorWithSelection() {
 
 const chartOptions: ChartOptions<any> = {
   responsive: true,
-  cutout: "75%",
+  cutout: '75%',
   transitions: {
     resize: {
       animation: {
@@ -133,7 +135,8 @@ const totalExpenses = computed(() => {
     </div>
     <div class="category-chart__filter">
       <CategoryFilterButton
-        v-for="(categoryDetails, index) of visibleCategoriesStore.visibleCategories.categoryDetails"
+        v-for="(categoryDetails, index) of visibleCategoriesStore
+          .visibleCategories.categoryDetails"
         :key="categoryDetails.category!"
         :category-details="categoryDetails"
         :selected="
@@ -148,7 +151,9 @@ const totalExpenses = computed(() => {
         :selected="otherCategoriesSelected"
         :color="SECONDARY_CATEGORY_COLOR"
         v-on:click="
-          transactionFilterStore.toggle(visibleCategoriesStore.visibleCategories.remainder?.categories)
+          transactionFilterStore.toggle(
+            visibleCategoriesStore.visibleCategories.remainder?.categories
+          )
         "
       ></CategoryFilterButton>
     </div>

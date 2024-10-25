@@ -15,8 +15,8 @@ const formattedStats = computed(() => {
     net: formatAmount(net),
     netClass:
       net >= 0
-        ? "totals__numbers__net--positive"
-        : "totals__numbers__net--negative",
+        ? 'totals__numbers__net--positive'
+        : 'totals__numbers__net--negative',
   };
 });
 </script>
@@ -40,7 +40,10 @@ const formattedStats = computed(() => {
     </span>
     <div
       class="totals__bar"
-      v-if="visibleCategoriesStore.visibleCategories.totalIncome || visibleCategoriesStore.visibleCategories.totalExpenses"
+      v-if="
+        visibleCategoriesStore.visibleCategories.totalIncome ||
+        visibleCategoriesStore.visibleCategories.totalExpenses
+      "
     >
       <div
         class="totals__bar__segment totals__bar__segment--income"
@@ -65,8 +68,8 @@ const formattedStats = computed(() => {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 0.5rem;
   grid-template-areas:
-    "income net expenses"
-    "bars bars bars";
+    'income net expenses'
+    'bars bars bars';
   gap: var(--generic-spacing);
 
   &__numbers {
@@ -120,10 +123,10 @@ const formattedStats = computed(() => {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto 1fr;
     grid-template-areas:
-      "income"
-      "net"
-      "expenses"
-      "bars";
+      'income'
+      'net'
+      'expenses'
+      'bars';
 
     &__bar {
       flex-direction: column-reverse;

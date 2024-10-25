@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const visible = defineModel<boolean>("visible");
+const visible = defineModel<boolean>('visible');
 const { transaction } = defineProps<{ transaction?: Transaction }>();
 
 const categoryMetadataStore = useCategoryMetadataStore();
@@ -8,12 +8,12 @@ const { t } = useI18n();
 const editedTransaction = ref<Transaction>(createDefaultTransaction());
 
 function createDefaultTransaction(): Transaction {
-    return {
-        id: '',
-        category: categoryMetadataStore.categoryMetadata[0]?.id,
-        timestamp: localDateToUtc(new Date()).getTime(),
-        amount: -1
-    };
+  return {
+    id: '',
+    category: categoryMetadataStore.categoryMetadata[0]?.id,
+    timestamp: localDateToUtc(new Date()).getTime(),
+    amount: -1,
+  };
 }
 
 const {
@@ -26,21 +26,27 @@ const commitInProgress = ref(false);
 const removeInProgress = ref(false);
 const error = ref<string>();
 
-const disabled = computed(() => commitInProgress.value || removeInProgress.value);
+const disabled = computed(
+  () => commitInProgress.value || removeInProgress.value
+);
 
 const title = computed(() =>
   transaction ? t('transactions.dialog.edit') : t('transactions.dialog.add')
 );
 
-watch(() => transaction, () => editedTransaction.value = transaction ?? createDefaultTransaction());
-watch(visible, () => error.value = undefined);
+watch(
+  () => transaction,
+  () => (editedTransaction.value = transaction ?? createDefaultTransaction())
+);
+watch(visible, () => (error.value = undefined));
 
-const hasChanges = computed(() => !transaction ||
-    editedTransaction.value && (
-        editedTransaction.value.amount !== transaction.amount ||
+const hasChanges = computed(
+  () =>
+    !transaction ||
+    (editedTransaction.value &&
+      (editedTransaction.value.amount !== transaction.amount ||
         editedTransaction.value.category !== transaction.category ||
-        editedTransaction.value.timestamp !== transaction.timestamp
-    )
+        editedTransaction.value.timestamp !== transaction.timestamp))
 );
 
 async function commit() {
@@ -89,7 +95,9 @@ async function remove() {
         </div>
       </template>
     </Suspense>
-    <Message v-if="error" severity="error" class="transaction-dialog__error">{{ error }}</Message>
+    <Message v-if="error" severity="error" class="transaction-dialog__error">{{
+      error
+    }}</Message>
     <div class="transaction-dialog__footer">
       <Button
         label="Cancel"
@@ -116,21 +124,21 @@ async function remove() {
 
 <style lang="scss">
 .transaction-dialog {
-    &__fallback {
-        display: flex;
-        flex-direction: column;
-        gap: var(--generic-spacing);
-    }
+  &__fallback {
+    display: flex;
+    flex-direction: column;
+    gap: var(--generic-spacing);
+  }
 
-    &__error {
-        margin-top: var(--generic-spacing);
-    }
+  &__error {
+    margin-top: var(--generic-spacing);
+  }
 
-    &__footer {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        margin-top: var(--generic-spacing);
-    }
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: var(--generic-spacing);
+  }
 }
 </style>

@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 
-export const useCategoryFilterStore = defineStore("transactionFilter", {
+export const useCategoryFilterStore = defineStore('transactionFilter', {
   state: () => ({
     selectedCategoryIds: null as Set<string> | null,
   }),

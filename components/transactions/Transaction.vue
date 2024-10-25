@@ -11,11 +11,10 @@ const category = computed(() =>
 );
 const dateFormatted = computed(() =>
   showDate
-    ? formatUtcDate(transaction.timestamp, { monthFormat: "long" })
+    ? formatUtcDate(transaction.timestamp, { monthFormat: 'long' })
     : null
 );
 const amount = computed(() => formatAmount(transaction.amount));
-
 </script>
 
 <template>

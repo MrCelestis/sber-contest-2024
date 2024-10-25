@@ -8,5 +8,6 @@
 }
 
 .p-buttongroup {
-    display: flex; /* to allow wrapping of buttons in group if content doesn't fit */
+    /* to allow wrapping of buttons in group if content doesn't fit */
+    display: flex;
 }

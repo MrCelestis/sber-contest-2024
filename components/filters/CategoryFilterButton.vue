@@ -1,12 +1,11 @@
 <script setup lang="ts">
-
 const { color, selected } = defineProps<{
   color: string;
   selected: boolean;
   categoryDetails: CategoryDetails;
 }>();
 
-const severity = computed(() => (selected ? "success" : "secondary"));
+const severity = computed(() => (selected ? 'success' : 'secondary'));
 </script>
 
 <template>

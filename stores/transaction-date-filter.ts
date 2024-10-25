@@ -1,21 +1,21 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 
 export const useTransactionDateFilterStore = defineStore(
-  "transactionDateFilterStore",
+  'transactionDateFilterStore',
   () => {
     const categoryFilterStore = useCategoryFilterStore();
 
-    const mode = useCookie<TransactionDateFilterMode>("dateFilterMode", {
-      default: () => "month",
+    const mode = useCookie<TransactionDateFilterMode>('dateFilterMode', {
+      default: () => 'month',
     });
-    const monthOffset = useCookie<number>("dateFilterMonthOffset", {
+    const monthOffset = useCookie<number>('dateFilterMonthOffset', {
       default: () => 0,
     });
-    const yearOffset = useCookie<number>("dateFilterYearOffset", {
+    const yearOffset = useCookie<number>('dateFilterYearOffset', {
       default: () => 0,
     });
     const customInterval = useCookie<[number, number] | null>(
-      "dateFilterCustomInterval",
+      'dateFilterCustomInterval',
       {
         default: () => null,
       }
@@ -32,7 +32,7 @@ export const useTransactionDateFilterStore = defineStore(
     const effectiveUtcInterval = computed(() => {
       //TODO: include last component entirely (-1 ms?)
       switch (mode.value) {
-        case "month": {
+        case 'month': {
           const now = new Date();
           const effectiveMonthStart = new Date(
             Date.UTC(
@@ -46,7 +46,7 @@ export const useTransactionDateFilterStore = defineStore(
           effectiveMonthEnd.setUTCDate(0); //-1 day = last day of effectiveMonthStart month
           return [effectiveMonthStart, effectiveMonthEnd];
         }
-        case "year": {
+        case 'year': {
           const now = new Date();
           const effectiveYearStart = new Date(
             Date.UTC(now.getUTCFullYear() + yearOffset.value, 0, 1)
@@ -58,8 +58,8 @@ export const useTransactionDateFilterStore = defineStore(
           effectiveYearEnd.setUTCDate(0); //-1 day = last day of effectiveYearStart month
           return [effectiveYearStart, effectiveYearEnd];
         }
-        case "custom":
-          return customInterval.value?.map(t => new Date(t));
+        case 'custom':
+          return customInterval.value?.map((t) => new Date(t));
       }
     });
     const select = (
@@ -68,7 +68,7 @@ export const useTransactionDateFilterStore = defineStore(
       utc = true
     ) => {
       mode.value = newMode;
-      if (newMode !== "custom" && newCustomInterval != null) {
+      if (newMode !== 'custom' && newCustomInterval != null) {
         throw new Error('Attempt to set custom interval for non-"custom" mode');
       }
       if (newCustomInterval) {
@@ -80,10 +80,10 @@ export const useTransactionDateFilterStore = defineStore(
 
     const selectAdjacentInterval = (offset: -1 | 1) => {
       switch (mode.value) {
-        case "month":
+        case 'month':
           monthOffset.value += offset;
           break;
-        case "year":
+        case 'year':
           yearOffset.value += offset;
           break;
       }
@@ -104,6 +104,6 @@ export const useTransactionDateFilterStore = defineStore(
   }
 );
 
-const transactionDateFilterModes = ["month", "year", "custom"] as const;
+const transactionDateFilterModes = ['month', 'year', 'custom'] as const;
 export type TransactionDateFilterMode =
   (typeof transactionDateFilterModes)[number];
