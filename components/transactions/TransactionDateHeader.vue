@@ -1,6 +1,7 @@
 <script setup lang="ts">
-const { timestamp } = defineProps<{
+const { timestamp, odd } = defineProps<{
   timestamp: number;
+  odd: boolean
 }>();
 const formattedDate = computed(() =>
   formatUtcDate(timestamp, { monthFormat: 'long' })
@@ -8,15 +9,20 @@ const formattedDate = computed(() =>
 </script>
 
 <template>
-  <h3 class="transaction-date-header">
+  <h3 class="transaction-date-header" :class="{ 'transaction-date-header--odd': odd }">
     {{ formattedDate }}
   </h3>
 </template>
 
-<style>
+<style lang="scss">
 .transaction-date-header {
   display: flex;
   align-items: center;
   margin: 0;
+  padding-left: var(--generic-spacing);
+
+  &--odd {
+    background-color: var(--p-button-secondary-background);
+  }
 }
 </style>

@@ -57,6 +57,7 @@ const showDate = computed(() => transactionSortStore.sort !== 'date');
           v-else
           :timestamp="item.dateHeaderTimestamp"
           :style="itemHeightStyle"
+          :odd="options.odd"
         ></TransactionDateHeader>
       </template>
     </VirtualScroller>

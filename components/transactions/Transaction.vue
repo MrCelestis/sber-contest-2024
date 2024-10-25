@@ -44,7 +44,7 @@ const amount = computed(() => formatAmount(transaction.amount));
   align-items: center;
   justify-content: space-between;
   gap: var(--generic-spacing);
-  padding: 0 var(--generic-spacing);
+  padding: 0 var(--generic-spacing) 0 calc(2 * var(--generic-spacing));
   cursor: pointer;
 
   &--odd {
