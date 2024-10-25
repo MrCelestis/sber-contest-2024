@@ -5,20 +5,25 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   devServer: {
-    port: 3001,
+    port: 3001
   },
   components: [
     {
       path: '~/components',
-      pathPrefix: false,
-    },
+      pathPrefix: false
+    }
   ],
   css: [
     '~/assets/css/main.css',
     '~/assets/css/primevue-overrides.css',
-    'primeicons/primeicons.css',
+    'primeicons/primeicons.css'
   ],
-  modules: ['@pinia/nuxt', '@primevue/nuxt-module', '@nuxtjs/i18n', '@nuxtjs/color-mode'],
+  modules: [
+    '@pinia/nuxt',
+    '@primevue/nuxt-module',
+    '@nuxtjs/i18n',
+    '@nuxtjs/color-mode'
+  ],
   primevue: {
     options: {
       ripple: true,
@@ -28,24 +33,24 @@ export default defineNuxtConfig({
         options: {
           prefix: 'p',
           darkModeSelector: 'system',
-          cssLayer: false,
-        },
-      },
-    },
+          cssLayer: false
+        }
+      }
+    }
   },
   i18n: {
     locales: ['en', 'ru'],
     defaultLocale: 'en',
-    detectBrowserLanguage: false, // auto-detect has major issues with cache
+    detectBrowserLanguage: false // auto-detect has major issues with cache
   },
   appConfig: {
     maxCategoriesInFilter: 5,
-    transactionsCacheSize: 5,
+    transactionsCacheSize: 5
   },
   runtimeConfig: {
     public: {
       apiBase: 'http://localhost:3000',
-      maxTransactions: 10000,
-    },
-  },
+      maxTransactions: 10000
+    }
+  }
 });

@@ -6,19 +6,19 @@ export default defineI18nConfig(() => ({
       dateFilter: {
         month: 'Month',
         year: 'Year',
-        custom: 'Custom',
+        custom: 'Custom'
       },
       chart: {
         alt: 'Failed to show chart',
         transactionLoadFailure: 'Failed to load transactions',
         transactionLimitExceeded: 'Too many transactions, adjust filter',
-        empty: 'No transactions found for selected period',
+        empty: 'No transactions found for selected period'
       },
       transactions: {
         add: 'Add expenses/income',
         dialog: {
           edit: 'Edit',
-          add: 'Add',
+          add: 'Add'
         },
         income: 'Income',
         expense: 'Expense',
@@ -30,27 +30,27 @@ export default defineI18nConfig(() => ({
         deleteFailure: 'Failed to delete transaction',
         sortByDate: 'By Date',
         sortByAmount: 'By Amount',
-        categoryOther: 'Other',
-      },
+        categoryOther: 'Other'
+      }
     },
     ru: {
       dateFilter: {
         month: 'Месяц',
         year: 'Год',
-        custom: 'Другое',
+        custom: 'Другое'
       },
       chart: {
         alt: 'Не удалось показать график',
         transactionLoadFailure: 'Ошибка загрузки транзакций',
         transactionLimitExceeded:
           'Слишком много транзакций в указанном диапазоне',
-        empty: 'Нет транзакций',
+        empty: 'Нет транзакций'
       },
       transactions: {
         add: 'Добавить доходы/расходы',
         dialog: {
           edit: 'Редактировать',
-          add: 'Добавить',
+          add: 'Добавить'
         },
         income: 'Доход',
         expense: 'Расход',
@@ -62,8 +62,8 @@ export default defineI18nConfig(() => ({
         deleteFailure: 'Не удалось удалить транзакцию',
         sortByDate: 'По Дате',
         sortByAmount: 'По Сумме',
-        categoryOther: 'Другое',
-      },
-    },
-  },
+        categoryOther: 'Другое'
+      }
+    }
+  }
 }));

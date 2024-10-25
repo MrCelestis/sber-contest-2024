@@ -12,7 +12,7 @@ export function formatUtcDate(
     year:
       monthFormat == undefined || currentYear === localDate.getFullYear()
         ? undefined
-        : '2-digit',
+        : '2-digit'
   });
 }
 
@@ -21,7 +21,7 @@ export function formatUtcMonth(date: Date | number): string {
   const localDate = utcDateToLocal(new Date(date));
   return localDate.toLocaleString('default', {
     month: 'long',
-    year: currentYear === localDate.getFullYear() ? undefined : '2-digit',
+    year: currentYear === localDate.getFullYear() ? undefined : '2-digit'
   });
 }
 

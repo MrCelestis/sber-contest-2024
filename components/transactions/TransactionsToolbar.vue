@@ -12,13 +12,13 @@ const sortMenuItems: MenuItem[] = [
   {
     label: t('transactions.sortByDate'),
     key: 'date',
-    command: () => transactionSortStore.select('date'),
+    command: () => transactionSortStore.select('date')
   },
   {
     label: t('transactions.sortByAmount'),
     key: 'amount',
-    command: () => transactionSortStore.select('amount'),
-  },
+    command: () => transactionSortStore.select('amount')
+  }
 ];
 
 const sortLabel = computed(

@@ -12,14 +12,14 @@ function createDefaultTransaction(): Transaction {
     id: '',
     category: categoryMetadataStore.categoryMetadata[0]?.id,
     timestamp: localDateToUtc(new Date()).getTime(),
-    amount: -1,
+    amount: -1
   };
 }
 
 const {
   add: addTransaction,
   remove: removeTransaction,
-  update: updateTransaction,
+  update: updateTransaction
 } = useTransactionsStore();
 
 const commitInProgress = ref(false);

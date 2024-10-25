@@ -1,13 +1,17 @@
 export const useCategoryMetadataStore = defineStore('categoryMetadata', () => {
   const runtimeConfig = useRuntimeConfig();
+  const { locale } = useI18n();
 
   // category metadata is fetched only once because it doesn't depend on computed params
   const { data, status } = useFetch('category-metadata', {
     baseURL: runtimeConfig.public.apiBase,
     deep: false,
-    params: {
-      _sort: 'text',
+    headers: {
+      'Accept-Language': locale.value
     },
+    params: {
+      _sort: 'text'
+    }
   });
   const categoryMetadata = computed(
     () => (data.value ?? []) as CategoryMetadata[]
@@ -22,7 +26,7 @@ export const useCategoryMetadataStore = defineStore('categoryMetadata', () => {
   return {
     categoryMetadata,
     categoryMetadataById,
-    loading: computed(() => status.value === 'pending'),
+    loading: computed(() => status.value === 'pending')
   };
 });
 

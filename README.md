@@ -138,3 +138,10 @@ Transaction modification dialog is loaded on demand.
 ### Dark mode
 
 App automatically detects dark mode and switches styles accordingly.
+
+### Localization
+
+All predefined text in the app uses i18n for translations.
+Default language is English; Russian is accessible at `/ru` URL (e.g. http://localhost:3001/ru).
+
+This doesn't affect fetched data, real API should serve category metadata with different translations. 'Accept-Language' header is sent by app to allow that.

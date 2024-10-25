@@ -15,7 +15,7 @@ export function getTransactionDisplayItemsByDate(
     if (truncatedTimestamp !== curTruncatedTimestamp) {
       curTruncatedTimestamp = truncatedTimestamp;
       result.push({
-        dateHeaderTimestamp: curTruncatedTimestamp,
+        dateHeaderTimestamp: curTruncatedTimestamp
       });
     }
     result.push({ transaction });

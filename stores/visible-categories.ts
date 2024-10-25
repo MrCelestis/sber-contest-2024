@@ -26,7 +26,7 @@ export const useVisibleCategoriesStore = defineStore(
             category: transaction.category,
             label: metadata?.text ?? '-',
             totalExpenses: 0,
-            iconUrl: metadata?.iconUrl ?? '',
+            iconUrl: metadata?.iconUrl ?? ''
           };
           categoryDetails.set(transaction.category, details);
         }
@@ -59,19 +59,19 @@ export const useVisibleCategoriesStore = defineStore(
               iconUrl: '',
               label: `${t('transactions.categoryOther')} (${
                 remainderCategories.length
-              })`,
+              })`
             };
       return {
         categoryDetails: primaryCategories,
         remainder: remainderData,
         totalExpenses,
-        totalIncome,
+        totalIncome
       };
     });
     return {
       visibleCategories: visibleCategoryDetails,
       loading: computed(() => transactionsStore.loading),
-      error: computed(() => transactionsStore.error),
+      error: computed(() => transactionsStore.error)
     };
   }
 );

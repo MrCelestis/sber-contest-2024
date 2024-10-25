@@ -10,7 +10,7 @@ const CATEGORY_COLORS = [
   '#53b74c',
   '#f1d33f',
   '#b973e5',
-  SECONDARY_CATEGORY_COLOR,
+  SECONDARY_CATEGORY_COLOR
 ] as const;
 
 const colorMode = useColorMode();
@@ -47,9 +47,9 @@ const chartData = computed(() => {
         backgroundColor:
           transactionFilterStore.selectedCategoryIds == null
             ? CATEGORY_COLORS
-            : getBackgroundColorWithSelection(),
-      },
-    ],
+            : getBackgroundColorWithSelection()
+      }
+    ]
   };
 });
 
@@ -81,15 +81,15 @@ const chartOptions: ChartOptions<any> = {
   transitions: {
     resize: {
       animation: {
-        duration: 200,
-      },
-    },
+        duration: 200
+      }
+    }
   },
   plugins: {
     legend: {
-      display: false,
-    },
-  },
+      display: false
+    }
+  }
 };
 const otherCategoriesSelected = computed(() =>
   areSetsEqual(

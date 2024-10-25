@@ -44,7 +44,7 @@ function getDataset(): { labels: string[]; data: number[] } {
   labels.push(formatTimestamp(curTimestamp));
   return {
     data,
-    labels,
+    labels
   };
 }
 
@@ -58,9 +58,9 @@ const chartData = computed(() => {
         label: 'Net',
         //typings issue: doesn't recognize `false` as valid option
         pointStyle: (data.length <= 31 ? 'circle' : false) as any,
-        pointRadius: 6,
-      },
-    ],
+        pointRadius: 6
+      }
+    ]
   };
 });
 
@@ -70,10 +70,10 @@ const chartOptions: ChartOptions<any> = {
     line: {
       borderColor: '#ff2200',
       borderWidth: 1,
-      cubicInterpolationMode: 'monotone',
-    },
+      cubicInterpolationMode: 'monotone'
+    }
   },
-  maintainAspectRatio: false,
+  maintainAspectRatio: false
 };
 </script>
 

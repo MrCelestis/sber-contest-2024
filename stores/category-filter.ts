@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useCategoryFilterStore = defineStore('transactionFilter', {
   state: () => ({
-    selectedCategoryIds: null as Set<string> | null,
+    selectedCategoryIds: null as Set<string> | null
   }),
   getters: {},
   actions: {
@@ -20,6 +20,6 @@ export const useCategoryFilterStore = defineStore('transactionFilter', {
     },
     reset() {
       this.selectedCategoryIds = null;
-    },
-  },
+    }
+  }
 });

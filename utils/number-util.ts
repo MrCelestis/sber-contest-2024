@@ -1,6 +1,6 @@
 const amountFormat = new Intl.NumberFormat(undefined, {
   maximumFractionDigits: 2,
-  useGrouping: true,
+  useGrouping: true
 });
 
 export function formatAmount(value: number) {

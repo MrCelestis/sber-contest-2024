@@ -10,7 +10,7 @@ const CHART_SKELETON_SIZE = '12rem';
 
 const chartTypes = ['category', 'history'] as const;
 const selectedChart = useCookie<(typeof chartTypes)[number]>('selectedChart', {
-  default: () => 'category',
+  default: () => 'category'
 });
 
 function switchChart(offset: number) {
@@ -42,8 +42,8 @@ const sampleCategoriesForPlaceholder = computed(() => {
       iconUrl: category.iconUrl,
       style: {
         left: `calc(50% + ${x}%)`,
-        top: `calc(50% + ${y}%)`,
-      },
+        top: `calc(50% + ${y}%)`
+      }
     };
   });
 });
@@ -53,7 +53,7 @@ const messageSeverityByErrorReason = new Map<
   string
 >([
   ['generic', 'error'],
-  ['limit_exceeded', 'warn'],
+  ['limit_exceeded', 'warn']
 ]);
 const messageSeverity = computed(
   () =>

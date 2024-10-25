@@ -11,7 +11,7 @@ const transactionType = ref<(typeof TRANSACTION_TYPES)[number]>(
 );
 const transactionTypeOptions = [
   { value: '+', label: t('transactions.income') },
-  { value: '-', label: t('transactions.expense') },
+  { value: '-', label: t('transactions.expense') }
 ];
 
 const MIN_AMOUNT = 0.01;
@@ -25,16 +25,16 @@ watch([transactionType, amount, date, category], () => {
   const formValues = {
     amount: transactionType.value === '+' ? amount.value : -amount.value,
     category: category.value,
-    timestamp: localDateToUtc(date.value).getTime(),
+    timestamp: localDateToUtc(date.value).getTime()
   };
   model.value = model.value
     ? {
         ...model.value,
-        ...formValues,
+        ...formValues
       }
     : {
         id: '',
-        ...formValues,
+        ...formValues
       };
 });
 

@@ -31,7 +31,7 @@ const modeButtonStates = computed<FilterButtonState[]>(() => [
         ? formatUtcMonth(effectiveUtcInterval.value?.[0] ?? 0)
         : t('dateFilter.month'),
     severity: getModeButtonSeverity(mode.value === 'month'),
-    command: () => transactionDateFilterStore.select('month'),
+    command: () => transactionDateFilterStore.select('month')
   },
   {
     label:
@@ -41,7 +41,7 @@ const modeButtonStates = computed<FilterButtonState[]>(() => [
           )
         : t('dateFilter.year'),
     severity: getModeButtonSeverity(mode.value === 'year'),
-    command: () => transactionDateFilterStore.select('year'),
+    command: () => transactionDateFilterStore.select('year')
   },
   {
     label:
@@ -53,8 +53,8 @@ const modeButtonStates = computed<FilterButtonState[]>(() => [
           )
         : t('dateFilter.custom'),
     severity: getModeButtonSeverity(mode.value === 'custom'),
-    command: () => (dialogVisible.value = true),
-  },
+    command: () => (dialogVisible.value = true)
+  }
 ]);
 
 function getModeButtonSeverity(selected: boolean) {

@@ -4,7 +4,7 @@ export const useTransactionSortStore = defineStore(
   'transactionSortStore',
   () => {
     const transactionSortCookie = useCookie('transactionSort', {
-      default: () => 'date' as TransactionSortOption,
+      default: () => 'date' as TransactionSortOption
     });
     const sort = computed(() => transactionSortCookie.value);
 

@@ -16,7 +16,7 @@ const formattedStats = computed(() => {
     netClass:
       net >= 0
         ? 'totals__numbers__net--positive'
-        : 'totals__numbers__net--negative',
+        : 'totals__numbers__net--negative'
   };
 });
 </script>

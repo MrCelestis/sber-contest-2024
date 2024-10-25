@@ -17,7 +17,7 @@ const severity = computed(() => (selected ? 'success' : 'secondary'));
     badgeSeverity="contrast"
     :class="{ 'category-filter-button--selected': selected }"
     :style="{
-      borderColor: selected ? null : color,
+      borderColor: selected ? null : color
     }"
   >
     <img

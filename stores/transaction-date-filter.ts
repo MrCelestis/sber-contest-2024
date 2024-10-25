@@ -6,18 +6,18 @@ export const useTransactionDateFilterStore = defineStore(
     const categoryFilterStore = useCategoryFilterStore();
 
     const mode = useCookie<TransactionDateFilterMode>('dateFilterMode', {
-      default: () => 'month',
+      default: () => 'month'
     });
     const monthOffset = useCookie<number>('dateFilterMonthOffset', {
-      default: () => 0,
+      default: () => 0
     });
     const yearOffset = useCookie<number>('dateFilterYearOffset', {
-      default: () => 0,
+      default: () => 0
     });
     const customInterval = useCookie<[number, number] | null>(
       'dateFilterCustomInterval',
       {
-        default: () => null,
+        default: () => null
       }
     );
 
@@ -99,7 +99,7 @@ export const useTransactionDateFilterStore = defineStore(
       customIntervalLocal,
       effectiveUtcInterval,
       select,
-      selectAdjacentInterval,
+      selectAdjacentInterval
     };
   }
 );

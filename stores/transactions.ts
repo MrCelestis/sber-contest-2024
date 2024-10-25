@@ -25,13 +25,13 @@ export const useTransactionsStore = defineStore('transactions', () => {
       timestamp_gte: startTimestamp,
       timestamp_lt: endTimestamp,
       _limit: runtimeConfig.public.maxTransactions,
-      _sort: '-timestamp', // DESC sort so that most recent transactions come first
+      _sort: '-timestamp' // DESC sort so that most recent transactions come first
     },
     key: key.value,
     immediate: false,
     deep: false,
     watch: false,
-    dedupe: 'defer',
+    dedupe: 'defer'
   });
 
   watch(
@@ -42,7 +42,7 @@ export const useTransactionsStore = defineStore('transactions', () => {
         cache.set(key.value, {
           data: (data.value ?? []) as Transaction[],
           startTimestamp: startTimestamp.value,
-          endTimestamp: endTimestamp.value,
+          endTimestamp: endTimestamp.value
         });
       }
     }
@@ -77,7 +77,7 @@ export const useTransactionsStore = defineStore('transactions', () => {
     await $fetch('transactions', {
       baseURL: runtimeConfig.public.apiBase,
       method: 'POST',
-      body: transaction,
+      body: transaction
     });
     //invalidate all matching intervals, this will re-run query is it's used ATM
     await invalidateRelatedQueries(transaction.timestamp);
@@ -87,7 +87,7 @@ export const useTransactionsStore = defineStore('transactions', () => {
     await $fetch(`transactions/${transaction.id}`, {
       baseURL: runtimeConfig.public.apiBase,
       method: 'PUT',
-      body: transaction,
+      body: transaction
     });
     //invalidate all matching intervals, this will re-run query is it's used ATM
     await invalidateRelatedQueries(transaction.timestamp);
@@ -96,7 +96,7 @@ export const useTransactionsStore = defineStore('transactions', () => {
   const remove = async (transaction: Transaction) => {
     await $fetch(`transactions/${transaction.id}`, {
       baseURL: runtimeConfig.public.apiBase,
-      method: 'DELETE',
+      method: 'DELETE'
     });
     //invalidate all matching intervals, this will re-run query is it's used ATM
     await invalidateRelatedQueries(transaction.timestamp);
@@ -133,7 +133,7 @@ export const useTransactionsStore = defineStore('transactions', () => {
     add,
     remove,
     update,
-    execute: executeInternal,
+    execute: executeInternal
   };
 });
 
