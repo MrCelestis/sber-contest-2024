@@ -30,7 +30,7 @@ const formattedStats = computed(() => {
       >
     </span>
     <span class="totals__numbers__net" :class="formattedStats.netClass"
-      >Net: {{ formattedStats.net }}</span
+      >{{ $t('transactions.net') }}: {{ formattedStats.net }}</span
     >
     <span class="totals__numbers__expenses">
       {{ formattedStats.expenses }}

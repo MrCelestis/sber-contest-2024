@@ -26,7 +26,7 @@ const severity = computed(() => (selected ? 'success' : 'secondary'));
       class="category-filter-button__image"
       alt=""
     />
-    {{ categoryDetails.label }}
+    <span class="category-filter-button__text">{{ categoryDetails.label }}</span>
   </Button>
 </template>
 
@@ -35,5 +35,12 @@ const severity = computed(() => (selected ? 'success' : 'secondary'));
   filter: invert(
     100%
   ); /* assume all icons are black, invert when selected to be visible on contrast background */
+}
+
+.category-filter-button__text {
+    max-width: 8rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 </style>

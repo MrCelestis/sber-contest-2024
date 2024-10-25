@@ -22,7 +22,7 @@ const amount = computed(() => formatAmount(transaction.amount));
     <div v-if="showDate" class="transaction__date">{{ dateFormatted }}</div>
     <div class="transaction__category">
       <img v-if="category" v-bind:src="category.iconUrl" alt="" />
-      <div>{{ category?.text }}</div>
+      <div class="transaction__category__text">{{ category?.text }}</div>
     </div>
     <div
       class="transaction__amount"
@@ -54,6 +54,12 @@ const amount = computed(() => formatAmount(transaction.amount));
     display: flex;
     min-width: 40%;
     gap: var(--generic-spacing);
+
+    &__text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   &__date {
