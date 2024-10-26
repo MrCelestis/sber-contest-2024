@@ -57,18 +57,23 @@ export default defineNuxtConfig({
   // It's generally needed for preview deployment on Vercel, because server side there can only
   // use the same origin and external API is not intended.
   // If you need to use it in prod, set SERVE_MOCK_API to 'true'
-  serverHandlers: process.env.NODE_ENV === 'development' || process.env.SERVE_MOCK_API === 'true'
-    ? [
-        {
-          route: '/api/transactions',
-          handler: '~/server/mock-api/transactions.ts'
-        },
-        {
-          route: '/api/category-metadata',
-          handler: '~/server/mock-api/category-metadata.ts'
-        }
-      ]
-    : [],
+  serverHandlers:
+    process.env.NODE_ENV === 'development' ||
+    process.env.SERVE_MOCK_API === 'true'
+      ? [
+          {
+            route: '/api/transactions',
+            handler: '~/server/mock-api/transactions.ts'
+          },
+          {
+            route: '/api/category-metadata',
+            handler: '~/server/mock-api/category-metadata.ts'
+          }
+        ]
+      : [],
+  nitro: {
+    preset: 'vercel'
+  },
   appConfig: {
     /**
      * Of there are more categories in view than this value, the remainder will be grouped together.
