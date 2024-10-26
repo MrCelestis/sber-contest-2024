@@ -5,6 +5,7 @@ const { transaction, showDate, odd } = defineProps<{
   odd?: boolean;
 }>();
 
+const { t } = useI18n();
 const categoryMetadataStore = useCategoryMetadataStore();
 const category = computed(() =>
   categoryMetadataStore.categoryMetadataById.get(transaction.category)
@@ -16,6 +17,7 @@ const dateFormatted = computed(() =>
 );
 const amount = computed(() => formatAmount(transaction.amount));
 const testId = computed(() => `transaction:${transaction.id}`);
+const categoryText = computed(() => transaction.amount >= 0 ? t('transactions.income') : category.value?.text);
 </script>
 
 <template>
@@ -35,7 +37,7 @@ const testId = computed(() => `transaction:${transaction.id}`);
     <div
       class="transaction__category"
       :aria-label="
-        $t('transactions.categoryAria', { category: category?.text })
+        $t('transactions.categoryAria', { category: categoryText })
       "
     >
       <img
@@ -44,7 +46,7 @@ const testId = computed(() => `transaction:${transaction.id}`);
         v-bind:src="category.iconUrl"
         alt=""
       />
-      <div class="transaction__category__text">{{ category?.text }}</div>
+      <div class="transaction__category__text">{{ categoryText }}</div>
     </div>
     <div
       class="transaction__amount"
