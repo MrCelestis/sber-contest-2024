@@ -70,7 +70,12 @@ const errorMessage = computed(() =>
 </script>
 
 <template>
-  <div class="chart-area">
+  <div
+    class="chart-area"
+    role="group"
+    id="chartArea"
+    :aria-busy="visibleCategoriesStore.loading"
+  >
     <div
       class="chart-area__container"
       v-if="visibleCategoriesStore.visibleCategories.categoryDetails.length"
@@ -81,6 +86,7 @@ const errorMessage = computed(() =>
         icon="pi pi-angle-left"
         text
         severity="secondary"
+        :aria-label="$t('chart.previousChartAria')"
         @click="switchChart(-1)"
       />
       <CategoryChart v-if="selectedChart === 'category'" />
@@ -90,10 +96,11 @@ const errorMessage = computed(() =>
         icon="pi pi-angle-right"
         text
         severity="secondary"
+        :aria-label="$t('chart.nextChartAria')"
         @click="switchChart(1)"
       />
     </div>
-    <div v-else class="chart-area__blank-space">
+    <div v-else class="chart-area__blank-space" role="group">
       <Skeleton
         v-if="visibleCategoriesStore.loading"
         :height="CHART_SKELETON_SIZE"
@@ -101,7 +108,7 @@ const errorMessage = computed(() =>
         :border-radius="CHART_SKELETON_SIZE"
       />
       <template v-else>
-        <div class="chart-area__blank-space__placeholder">
+        <div class="chart-area__blank-space__placeholder" aria-hidden="true">
           <img
             v-for="category of sampleCategoriesForPlaceholder"
             class="chart-area__blank-space__placeholder__image"
@@ -115,7 +122,10 @@ const errorMessage = computed(() =>
           :severity="messageSeverity"
           class="chart-area__blank-space__message"
         >
-          <span v-if="visibleCategoriesStore.error" data-testid="chartAreaError">
+          <span
+            v-if="visibleCategoriesStore.error"
+            data-testid="chartAreaError"
+          >
             <i class="pi pi-exclamation-triangle"></i>
             {{ errorMessage }}
           </span>

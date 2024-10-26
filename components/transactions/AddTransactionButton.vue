@@ -15,6 +15,8 @@ const label = computed(() => (showLabel ? t('transactions.add') : ''));
     icon="pi pi-plus"
     rounded
     :label="label"
+    aria-haspopup="dialog"
+    :aria-label="$t('transactions.add')"
     @click="transactionDialogVisible = true"
   />
   <TransactionDialog v-model:visible="transactionDialogVisible" />

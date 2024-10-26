@@ -24,8 +24,19 @@ const testId = computed(() => `transaction:${transaction.id}`);
     :class="{ 'transaction--odd': odd }"
     :data-testid="testId"
   >
-    <div v-if="showDate" class="transaction__date">{{ dateFormatted }}</div>
-    <div class="transaction__category">
+    <div
+      v-if="showDate"
+      class="transaction__date"
+      :aria-label="$t('transactions.dateAria', { date: dateFormatted })"
+    >
+      {{ dateFormatted }}
+    </div>
+    <div
+      class="transaction__category"
+      :aria-label="
+        $t('transactions.categoryAria', { category: category?.text })
+      "
+    >
       <img
         class="transaction__category__image"
         v-if="category"
@@ -36,6 +47,10 @@ const testId = computed(() => `transaction:${transaction.id}`);
     </div>
     <div
       class="transaction__amount"
+      role="math"
+      :aria-label="
+        $t('transactions.amountAria', { amount: transaction.amount })
+      "
       :class="{ 'transaction__amount--positive': transaction.amount > 0 }"
     >
       <span v-if="transaction.amount > 0">+</span>{{ amount }}

@@ -90,7 +90,11 @@ async function remove() {
     <Suspense>
       <LazyTransactionEntry v-model="editedTransaction"></LazyTransactionEntry>
       <template #fallback>
-        <div class="transaction-dialog__fallback">
+        <div
+          class="transaction-dialog__fallback"
+          aria-busy="true"
+          role="progressbar"
+        >
           <Skeleton v-for="n in 5"></Skeleton>
         </div>
       </template>
@@ -98,22 +102,23 @@ async function remove() {
     <Message v-if="error" severity="error" class="transaction-dialog__error">{{
       error
     }}</Message>
-    <div class="transaction-dialog__footer">
+    <div class="transaction-dialog__footer" role="toolbar">
       <Button
-        label="Cancel"
+        :label="$t('transactions.dialog.cancel')"
+        type="submit"
         severity="secondary"
         @click="visible = false"
       ></Button>
       <Button
         v-if="transaction"
-        label="Delete"
+        :label="$t('transactions.dialog.delete')"
         severity="danger"
         :loading="removeInProgress"
         :disabled="disabled"
         @click="remove"
       ></Button>
       <Button
-        label="Save"
+        :label="$t('transactions.dialog.save')"
         :loading="commitInProgress"
         :disabled="disabled || !hasChanges"
         @click="commit"

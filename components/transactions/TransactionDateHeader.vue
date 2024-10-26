@@ -11,6 +11,7 @@ const formattedDate = computed(() =>
 <template>
   <h3
     class="transaction-date-header"
+    :aria-label="$t('transactions.dateHeaderAria')"
     :class="{ 'transaction-date-header--odd': odd }"
   >
     {{ formattedDate }}

@@ -6,19 +6,38 @@ export default defineI18nConfig(() => ({
       dateFilter: {
         month: 'Month',
         year: 'Year',
-        custom: 'Custom'
+        custom: 'Custom',
+        dialogHeader: 'Date range',
+        prevTimeIntervalAria: 'Select previous time interval',
+        nextTimeIntervalAria: 'Select next time interval',
+        modeAria: 'Select date range: {mode}'
+      },
+      categoryFilter: {
+        selectCategoryAria: 'Click to check filter by {category} category or to uncheck it'
       },
       chart: {
         alt: 'Failed to show chart',
         transactionLoadFailure: 'Failed to load transactions',
         transactionLimitExceeded: 'Too many transactions, adjust filter',
-        empty: 'No expenses found for selected period'
+        empty: 'No expenses found for selected period',
+        previousChartAria: 'Select previous chart type',
+        nextChartAria: 'Select next chart type',
+        categoryChartAria: 'Expenses by category chart',
+        historyChartAria: 'Net balance history chart'
+      },
+      totals: {
+        incomeAria: 'Total income for selected period',
+        expensesAria: 'Total expenses for selected period',
+        netAria: 'Total net amount for selected period'
       },
       transactions: {
         add: 'Add expenses/income',
         dialog: {
           edit: 'Edit',
-          add: 'Add'
+          add: 'Add',
+          save: 'Save',
+          cancel: 'Cancel',
+          delete: 'Delete'
         },
         income: 'Income',
         expense: 'Expense',
@@ -30,27 +49,49 @@ export default defineI18nConfig(() => ({
         deleteFailure: 'Failed to delete transaction',
         sortByDate: 'By Date',
         sortByAmount: 'By Amount',
-        categoryOther: 'Other'
+        categoryOther: 'Other',
+        dateAria: 'Date {date}',
+        categoryAria: 'Category {category}',
+        amountAria: 'Amount {amount}',
+        dateHeaderAria: 'Transactions for date',
+        typeAria: 'Transaction type (expense/income)',
+        sortAria: 'Select transaction sort mode'
       }
     },
     ru: {
       dateFilter: {
         month: 'Месяц',
         year: 'Год',
-        custom: 'Другое'
+        custom: 'Другое',
+        dialogHeader: 'Диапазон дат',
+        prevTimeIntervalAria: 'Выбрать предыдущий временной интервал',
+        nextTimeIntervalAria: 'Выбрать следующий временной интервал',
+        modeAria: 'Выбрать диапазон дат: {mode}'
       },
       chart: {
         alt: 'Не удалось показать график',
         transactionLoadFailure: 'Ошибка загрузки транзакций',
         transactionLimitExceeded:
           'Слишком много транзакций в указанном диапазоне',
-        empty: 'Нет расходов'
+        empty: 'Нет расходов',
+        previousChartAria: 'Выбрать предыдущий тип графика',
+        nextChartAria: 'Выбрать следующий тип графика',
+        categoryChartAria: 'График расходов по категориям',
+        historyChartAria: 'График истории баланса'
+      },
+      totals: {
+        incomeAria: 'Суммарный доход за выбранный период',
+        expensesAria: 'Суммарный расход за выбранный период',
+        netAria: 'Суммарный баланс за выбранный период'
       },
       transactions: {
         add: 'Добавить доходы/расходы',
         dialog: {
           edit: 'Редактировать',
-          add: 'Добавить'
+          add: 'Добавить',
+          save: 'Сохранить',
+          cancel: 'Отмена',
+          delete: 'Удалить'
         },
         income: 'Доход',
         expense: 'Расход',
@@ -62,7 +103,13 @@ export default defineI18nConfig(() => ({
         deleteFailure: 'Не удалось удалить транзакцию',
         sortByDate: 'По Дате',
         sortByAmount: 'По Сумме',
-        categoryOther: 'Другое'
+        categoryOther: 'Другое',
+        dateAria: 'Дата {date}',
+        categoryAria: 'Категория {category}',
+        amountAria: 'Сумма {amount}',
+        dateHeaderAria: 'Транзакции за дату',
+        typeAria: 'Тип транзакции (доход/расход)',
+        sortAria: 'Выбрать сортировку транзакций'
       }
     }
   }

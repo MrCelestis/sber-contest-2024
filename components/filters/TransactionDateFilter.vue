@@ -21,6 +21,7 @@ const customInterval = computed(
 interface FilterButtonState {
   label: string;
   severity: string;
+  ariaChecked: boolean;
   command: () => void;
 }
 
@@ -31,6 +32,7 @@ const modeButtonStates = computed<FilterButtonState[]>(() => [
         ? formatUtcMonth(effectiveUtcInterval.value?.[0] ?? 0)
         : t('dateFilter.month'),
     severity: getModeButtonSeverity(mode.value === 'month'),
+    ariaChecked: mode.value === 'month',
     command: () => transactionDateFilterStore.select('month')
   },
   {
@@ -41,6 +43,7 @@ const modeButtonStates = computed<FilterButtonState[]>(() => [
           )
         : t('dateFilter.year'),
     severity: getModeButtonSeverity(mode.value === 'year'),
+    ariaChecked: mode.value === 'year',
     command: () => transactionDateFilterStore.select('year')
   },
   {
@@ -53,6 +56,7 @@ const modeButtonStates = computed<FilterButtonState[]>(() => [
           )
         : t('dateFilter.custom'),
     severity: getModeButtonSeverity(mode.value === 'custom'),
+    ariaChecked: mode.value === 'custom',
     command: () => (dialogVisible.value = true)
   }
 ]);
@@ -81,12 +85,17 @@ watch(transactionDateFilterStore, () => transactionsStore.execute());
 </script>
 
 <template>
-  <div class="transaction-date-filter">
+  <div
+    class="transaction-date-filter"
+    role="form"
+    aria-controls="transactionsList chartArea totals"
+  >
     <Button
       icon="pi pi-angle-left"
       severity="secondary"
       :disabled="mode === 'custom'"
       data-testid="dateFilterPrev"
+      :aria-label="$t('dateFilter.prevTimeIntervalAria')"
       @click="transactionDateFilterStore.selectAdjacentInterval(-1)"
     >
     </Button>
@@ -94,6 +103,8 @@ watch(transactionDateFilterStore, () => transactionsStore.execute());
       <Button
         v-for="buttonState of modeButtonStates"
         :severity="buttonState.severity"
+        :aria-checked="buttonState.ariaChecked"
+        :aria-label="$t('dateFilter.modeAria', { mode: buttonState.label })"
         @click="buttonState.command"
       >
         <span class="transaction-date-filter__mode-button__text">{{
@@ -106,6 +117,7 @@ watch(transactionDateFilterStore, () => transactionsStore.execute());
       severity="secondary"
       :disabled="mode === 'custom'"
       data-testid="dateFilterNext"
+      :aria-label="$t('dateFilter.nextTimeIntervalAria')"
       @click="transactionDateFilterStore.selectAdjacentInterval(1)"
     >
     </Button>
@@ -113,10 +125,10 @@ watch(transactionDateFilterStore, () => transactionsStore.execute());
   <Dialog
     v-model:visible="dialogVisible"
     modal
-    header="Date range"
+    :header="$t('dateFilter.dialogHeader')"
     dismissable-mask
   >
-    <div class="transaction-date-filter__dialog">
+    <div class="transaction-date-filter__dialog" role="form">
       <div>
         <DatePicker v-model="dateRange" selectionMode="range" inline />
       </div>
@@ -127,7 +139,7 @@ watch(transactionDateFilterStore, () => transactionsStore.execute());
           severity="secondary"
           @click="dismissDateRange"
         ></Button>
-        <Button type="button" label="Save" @click="confirmDateRange"></Button>
+        <Button type="submit" label="Save" @click="confirmDateRange"></Button>
       </div>
     </div>
   </Dialog>

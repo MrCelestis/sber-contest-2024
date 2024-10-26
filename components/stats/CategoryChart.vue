@@ -120,7 +120,7 @@ const totalExpenses = computed(() => {
 </script>
 
 <template>
-  <div class="category-chart">
+  <div class="category-chart" role="group">
     <div
       class="category-chart__container"
       v-if="visibleCategoriesStore.visibleCategories.categoryDetails.length"
@@ -129,12 +129,17 @@ const totalExpenses = computed(() => {
       <Doughnut
         :options="chartOptions"
         :data="chartData"
-        aria-label="Expenses by category"
-        aria-describedby="my-data-table"
+        role="img"
+        :aria-label="$t('chart.categoryChartAria')"
+        aria-describedby="categoryChartTotals"
       >
         {{ $t('chart.alt') }}
       </Doughnut>
-      <div class="category-chart__container__overlay">
+      <div
+        class="category-chart__container__overlay"
+        id="categoryChartTotals"
+        role="math"
+      >
         <div
           v-if="totalIncome"
           class="category-chart__container__overlay__income"
@@ -150,7 +155,7 @@ const totalExpenses = computed(() => {
         </div>
       </div>
     </div>
-    <div class="category-chart__filter">
+    <div class="category-chart__filter" role="list" aria-controls="transactionsList categoryChartTotals">
       <CategoryFilterButton
         v-for="(categoryDetails, index) of visibleCategoriesStore
           .visibleCategories.categoryDetails"

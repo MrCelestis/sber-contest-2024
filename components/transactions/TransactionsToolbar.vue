@@ -31,24 +31,25 @@ const sortMenuRef = useTemplateRef('sortMenu');
 </script>
 
 <template>
-  <div class="transactions-toolbar">
+  <div class="transactions-toolbar" role="toolbar">
     <AddTransactionButton v-if="showAddButton" />
     <Button
       class="transactions-toolbar__sort"
       type="button"
       severity="secondary"
       @click="sortMenuRef?.toggle"
+      :aria-label="$t('transactions.sortAria')"
       aria-haspopup="true"
-      aria-controls="transaction_sort_menu"
+      aria-controls="transactionSortMenu"
     >
       <i class="pi pi-sort-amount-down"></i>
       {{ sortLabel }}
     </Button>
     <Menu
       ref="sortMenu"
-      id="transaction_sort_menu"
+      id="transactionSortMenu"
       :model="sortMenuItems"
-      :popup="true"
+      popup
     />
   </div>
 </template>

@@ -19,6 +19,8 @@ const severity = computed(() => (selected ? 'success' : 'secondary'));
     :style="{
       borderColor: selected ? null : color
     }"
+    role="checkbox"
+    :aria-label="$t('categoryFilter.selectCategoryAria', { category: categoryDetails.label })"
   >
     <img
       v-if="categoryDetails.iconUrl"

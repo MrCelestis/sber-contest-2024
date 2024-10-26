@@ -34,13 +34,14 @@ const showDate = computed(() => transactionSortStore.sort !== 'date');
 </script>
 
 <template>
-  <div class="transactions">
+  <div class="transactions" id="transactionsList">
     <TransactionsToolbar :show-add-button="displayItems.length > 0" />
     <VirtualScroller
       v-if="displayItems.length && !transactionsStore.loading"
       :items="displayItems"
       :itemSize="ITEM_HEIGHT_PX"
       :delay="10"
+      role="list"
       class="transactions__scroller"
     >
       <template v-slot:item="{ item, options }">
@@ -50,6 +51,8 @@ const showDate = computed(() => transactionSortStore.sort !== 'date');
           :odd="options.odd"
           :transaction="item.transaction"
           :showDate="showDate"
+          aria-haspopup="dialog"
+          role="listitem"
           @click="() => (transactionToEdit = item.transaction)"
         >
         </Transaction>
@@ -58,10 +61,15 @@ const showDate = computed(() => transactionSortStore.sort !== 'date');
           :timestamp="item.dateHeaderTimestamp"
           :style="itemHeightStyle"
           :odd="options.odd"
+          role="listitem"
         ></TransactionDateHeader>
       </template>
     </VirtualScroller>
-    <div v-else class="transactions__blank-space">
+    <div
+      v-else
+      class="transactions__blank-space"
+      :aria-busy="transactionsStore.loading"
+    >
       <template v-if="transactionsStore.loading">
         <Skeleton v-for="i in 4" />
       </template>

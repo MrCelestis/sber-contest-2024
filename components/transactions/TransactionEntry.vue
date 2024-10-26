@@ -43,14 +43,14 @@ const optionStyle = { height: OPTION_SIZE_PX + 'px' };
 </script>
 
 <template>
-  <div class="transaction-entry">
+  <form class="transaction-entry">
     <SelectButton
       v-model="transactionType"
       :options="transactionTypeOptions"
       :disabled="disabled"
       optionLabel="label"
       optionValue="value"
-      aria-labelledby="basic"
+      :aria-label="$t('transactions.typeAria')"
     />
     <div class="transaction-entry__field">
       <label for="category">{{ $t('transactions.category') }}</label>
@@ -94,7 +94,7 @@ const optionStyle = { height: OPTION_SIZE_PX + 'px' };
         :disabled="disabled"
       />
     </div>
-  </div>
+</form>
 </template>
 
 <style lang="scss">

@@ -22,8 +22,12 @@ const formattedStats = computed(() => {
 </script>
 
 <template>
-  <div class="totals">
-    <span class="totals__numbers__income" data-testid="totalsIncome">
+  <div class="totals" role="math" id="totals">
+    <span
+      class="totals__numbers__income"
+      data-testid="totalsIncome"
+      :aria-label="$t('totals.incomeAria')"
+    >
       {{ formattedStats.income }}
       <span v-if="visibleCategoriesStore.visibleCategories.totalIncome"
         >({{ formattedStats.incomePercent }})</span
@@ -33,15 +37,21 @@ const formattedStats = computed(() => {
       class="totals__numbers__net"
       :class="formattedStats.netClass"
       data-testid="totalsNet"
+      :aria-label="$t('totals.netAria')"
       >{{ $t('transactions.net') }}: {{ formattedStats.net }}</span
     >
-    <span class="totals__numbers__expenses" data-testid="totalsExpenses">
+    <span
+      class="totals__numbers__expenses"
+      data-testid="totalsExpenses"
+      :aria-label="$t('totals.expensesAria')"
+    >
       {{ formattedStats.expenses }}
       <span v-if="visibleCategoriesStore.visibleCategories.totalExpenses"
         >({{ formattedStats.expensesPercent }})</span
       >
     </span>
     <div
+      aria-hidden
       class="totals__bar"
       v-if="
         visibleCategoriesStore.visibleCategories.totalIncome ||

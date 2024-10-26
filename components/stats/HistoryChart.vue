@@ -78,11 +78,11 @@ const chartOptions: ChartOptions<any> = {
 </script>
 
 <template>
-  <div class="history-chart">
+  <div class="history-chart" role="img">
     <Line
       :options="chartOptions"
       :data="chartData"
-      aria-label="History"
+      :aria-label="$t('chart.historyChartAria')"
       aria-describedby="my-data-table"
     >
       {{ $t('chart.alt') }}
