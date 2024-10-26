@@ -9,7 +9,7 @@ export default defineConfig({
   workers: 1,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:3001',
+    baseURL: 'http://localhost:3000',
     screenshot: 'on',
     headless: true
   },
@@ -27,6 +27,6 @@ export default defineConfig({
   /* Start local dev server before starting the tests */
   webServer: {
     command: 'npm run dev',
-    port: 3001
+    port: 3000
   }
 });

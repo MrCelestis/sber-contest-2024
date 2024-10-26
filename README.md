@@ -20,7 +20,7 @@ npm install
 
 ## Development Server
 
-Start the development server (nuxt app host) on `http://localhost:3001`:
+Start the development server (nuxt app host) on `http://localhost:3000`:
 
 ```bash
 npm run dev
@@ -29,7 +29,7 @@ npm run dev
 ## Mock data servers
 
 Mock data (expense category metadata and transactions) can be served for
-development using mock server (port 3000):
+development using mock server (port 3001):
 
 ```bash
 npm run mock-server:start
@@ -37,8 +37,8 @@ npm run mock-server:start
 
 It starts json-server supporting basic CRUD operations on entities at the following routes:
 
-- http://localhost:3000/category-metadata
-- http://localhost:3000/transactions
+- http://localhost:3001/category-metadata
+- http://localhost:3001/transactions
 
 Server can be used with a larger data set simulating long term use:
 
@@ -142,7 +142,7 @@ App automatically detects dark mode and switches styles accordingly.
 ### Localization
 
 All predefined text in the app uses i18n for translations.
-Default language is English; Russian is accessible at `/ru` URL (e.g. http://localhost:3001/ru).
+Default language is English; Russian is accessible at `/ru` URL (e.g. http://localhost:3000/ru).
 
 This doesn't affect fetched data, real API should serve category metadata with different translations. 'Accept-Language' header is sent by app to allow that.
 

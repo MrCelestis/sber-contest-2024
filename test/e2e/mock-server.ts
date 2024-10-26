@@ -15,7 +15,7 @@ export interface MockServer {
 export function setupMockServer(): Promise<MockServer> {
   return new Promise<MockServer>((resolve) => {
     const server = express();
-    const port = 3000;
+    const port = 3001;
     server.use(cors());
     let serverInstance: ReturnType<typeof server.listen> | null = null;
 
