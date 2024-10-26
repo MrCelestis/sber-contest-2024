@@ -23,6 +23,7 @@ const testId = computed(() => `transaction:${transaction.id}`);
     class="transaction"
     :class="{ 'transaction--odd': odd }"
     :data-testid="testId"
+    tabindex="0"
   >
     <div
       v-if="showDate"
@@ -73,6 +74,10 @@ const testId = computed(() => `transaction:${transaction.id}`);
 
   &:hover {
     background-color: var(--p-button-secondary-hover-background);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--p-button-secondary-focus-ring-color);
   }
 
   &__category {

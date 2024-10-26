@@ -140,7 +140,6 @@ const errorMessage = computed(() =>
 .chart-area {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   height: 100%;
   gap: var(--generic-spacing);
 

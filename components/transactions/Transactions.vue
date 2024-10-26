@@ -36,6 +36,7 @@ const showDate = computed(() => transactionSortStore.sort !== 'date');
 <template>
   <div class="transactions" id="transactionsList">
     <TransactionsToolbar :show-add-button="displayItems.length > 0" />
+    <!--optimized for large lists, only renders items which are in viewport-->
     <VirtualScroller
       v-if="displayItems.length && !transactionsStore.loading"
       :items="displayItems"
@@ -53,7 +54,8 @@ const showDate = computed(() => transactionSortStore.sort !== 'date');
           :showDate="showDate"
           aria-haspopup="dialog"
           role="listitem"
-          @click="() => (transactionToEdit = item.transaction)"
+          @keydown.enter="transactionToEdit = item.transaction"
+          @click="transactionToEdit = item.transaction"
         >
         </Transaction>
         <TransactionDateHeader
@@ -88,7 +90,6 @@ const showDate = computed(() => transactionSortStore.sort !== 'date');
   display: flex;
   height: 100%;
   flex-direction: column;
-  overflow: hidden;
   position: relative;
   gap: var(--generic-spacing);
 

@@ -54,12 +54,19 @@ export default defineNuxtConfig({
     detectBrowserLanguage: false // auto-detect has major issues with cache
   },
   appConfig: {
+    /**
+     * Of there are more categories in view than this value, the remainder will be grouped together.
+     * If you increase this value you must ensure that there are sufficient predefined colors
+     * in CategoryChart.vue
+     */
     maxCategoriesInFilter: 5,
+    /** Capacity of transactions LRU cache. This number of last transaction responses will be cached. */
     transactionsCacheSize: 5
   },
   runtimeConfig: {
     public: {
       apiBase: 'http://localhost:3000',
+      /** App will show error if number of transactions in view is at least this value */
       maxTransactions: 10000
     }
   }
