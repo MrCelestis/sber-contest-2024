@@ -23,16 +23,19 @@ const formattedStats = computed(() => {
 
 <template>
   <div class="totals">
-    <span class="totals__numbers__income">
+    <span class="totals__numbers__income" data-testid="totalsIncome">
       {{ formattedStats.income }}
       <span v-if="visibleCategoriesStore.visibleCategories.totalIncome"
         >({{ formattedStats.incomePercent }})</span
       >
     </span>
-    <span class="totals__numbers__net" :class="formattedStats.netClass"
+    <span
+      class="totals__numbers__net"
+      :class="formattedStats.netClass"
+      data-testid="totalsNet"
       >{{ $t('transactions.net') }}: {{ formattedStats.net }}</span
     >
-    <span class="totals__numbers__expenses">
+    <span class="totals__numbers__expenses" data-testid="totalsExpenses">
       {{ formattedStats.expenses }}
       <span v-if="visibleCategoriesStore.visibleCategories.totalExpenses"
         >({{ formattedStats.expensesPercent }})</span

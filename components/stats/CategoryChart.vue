@@ -138,10 +138,14 @@ const totalExpenses = computed(() => {
         <div
           v-if="totalIncome"
           class="category-chart__container__overlay__income"
+          data-testid="chartTotalIncome"
         >
           {{ totalIncome }}
         </div>
-        <div class="category-chart__container__overlay__expenses">
+        <div
+          class="category-chart__container__overlay__expenses"
+          data-testid="chartTotalExpenses"
+        >
           {{ totalExpenses }}
         </div>
       </div>
@@ -156,6 +160,7 @@ const totalExpenses = computed(() => {
             (transactionFilterStore.selectedCategoryIds?.size === 1 && transactionFilterStore.selectedCategoryIds?.has(categoryDetails.category!)) ?? false
           "
         :color="CATEGORY_COLORS[index]"
+        :data-testid="`category-filter:${categoryDetails.category}`"
         @click="transactionFilterStore.toggle([categoryDetails.category!])"
       ></CategoryFilterButton>
       <CategoryFilterButton

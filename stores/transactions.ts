@@ -16,7 +16,8 @@ export const useTransactionsStore = defineStore('transactions', () => {
     () => transactionDateFilterStore.effectiveUtcInterval
   );
   const startTimestamp = computed(() => interval.value?.[0].getTime() ?? 0);
-  const endTimestamp = computed(() => interval.value?.[1].getTime() ?? 0);
+  //add 1 day -1ms to make the last day inclusive
+  const endTimestamp = computed(() => interval.value ? (interval.value[1].getTime() + MS_IN_ONE_DAY - 1) : 0);
   const key = computed(() => `${startTimestamp.value}-${endTimestamp.value}`);
 
   const { data, status, execute, error } = useFetch(`transactions`, {

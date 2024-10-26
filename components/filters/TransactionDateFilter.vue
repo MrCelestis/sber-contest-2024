@@ -86,6 +86,7 @@ watch(transactionDateFilterStore, () => transactionsStore.execute());
       icon="pi pi-angle-left"
       severity="secondary"
       :disabled="mode === 'custom'"
+      data-testid="dateFilterPrev"
       @click="transactionDateFilterStore.selectAdjacentInterval(-1)"
     >
     </Button>
@@ -104,6 +105,7 @@ watch(transactionDateFilterStore, () => transactionsStore.execute());
       icon="pi pi-angle-right"
       severity="secondary"
       :disabled="mode === 'custom'"
+      data-testid="dateFilterNext"
       @click="transactionDateFilterStore.selectAdjacentInterval(1)"
     >
     </Button>

@@ -2,7 +2,7 @@
 const { transaction, showDate, odd } = defineProps<{
   transaction: Transaction;
   showDate: boolean;
-  odd: boolean;
+  odd?: boolean;
 }>();
 
 const categoryMetadataStore = useCategoryMetadataStore();
@@ -15,10 +15,15 @@ const dateFormatted = computed(() =>
     : null
 );
 const amount = computed(() => formatAmount(transaction.amount));
+const testId = computed(() => `transaction:${transaction.id}`);
 </script>
 
 <template>
-  <div class="transaction" :class="{ 'transaction--odd': odd }">
+  <div
+    class="transaction"
+    :class="{ 'transaction--odd': odd }"
+    :data-testid="testId"
+  >
     <div v-if="showDate" class="transaction__date">{{ dateFormatted }}</div>
     <div class="transaction__category">
       <img

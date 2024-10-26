@@ -13,6 +13,15 @@ export default defineNuxtConfig({
       pathPrefix: false
     }
   ],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler' // prevents scss deprecation warnings
+        }
+      }
+    }
+  },
   css: [
     '~/assets/css/main.css',
     '~/assets/css/primevue-overrides.css',
@@ -22,7 +31,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@primevue/nuxt-module',
     '@nuxtjs/i18n',
-    '@nuxtjs/color-mode'
+    '@nuxtjs/color-mode',
+    '@nuxt/test-utils/module'
   ],
   primevue: {
     options: {

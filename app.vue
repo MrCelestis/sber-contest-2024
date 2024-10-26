@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="app" data-testid="app">
     <Card class="app__header">
       <template #content><AppHeader /></template>
     </Card>

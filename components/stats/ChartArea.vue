@@ -85,7 +85,6 @@ const errorMessage = computed(() =>
       />
       <CategoryChart v-if="selectedChart === 'category'" />
       <HistoryChart v-else-if="selectedChart === 'history'" />
-      <!--TODO: lazy?-->
       <Button
         class="chart-area__container__arrow"
         icon="pi pi-angle-right"
@@ -116,7 +115,7 @@ const errorMessage = computed(() =>
           :severity="messageSeverity"
           class="chart-area__blank-space__message"
         >
-          <span v-if="visibleCategoriesStore.error">
+          <span v-if="visibleCategoriesStore.error" data-testid="chartAreaError">
             <i class="pi pi-exclamation-triangle"></i>
             {{ errorMessage }}
           </span>

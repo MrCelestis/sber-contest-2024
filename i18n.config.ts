@@ -12,7 +12,7 @@ export default defineI18nConfig(() => ({
         alt: 'Failed to show chart',
         transactionLoadFailure: 'Failed to load transactions',
         transactionLimitExceeded: 'Too many transactions, adjust filter',
-        empty: 'No transactions found for selected period'
+        empty: 'No expenses found for selected period'
       },
       transactions: {
         add: 'Add expenses/income',
@@ -44,7 +44,7 @@ export default defineI18nConfig(() => ({
         transactionLoadFailure: 'Ошибка загрузки транзакций',
         transactionLimitExceeded:
           'Слишком много транзакций в указанном диапазоне',
-        empty: 'Нет транзакций'
+        empty: 'Нет расходов'
       },
       transactions: {
         add: 'Добавить доходы/расходы',

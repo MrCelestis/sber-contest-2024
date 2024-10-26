@@ -12,7 +12,7 @@ Generally the app provides a way to manage personal budget:
 
 ## Setup
 
-Make sure to install the dependencies:
+Make sure to install the dependencies (Node 18):
 
 ```bash
 npm install
@@ -145,3 +145,30 @@ All predefined text in the app uses i18n for translations.
 Default language is English; Russian is accessible at `/ru` URL (e.g. http://localhost:3001/ru).
 
 This doesn't affect fetched data, real API should serve category metadata with different translations. 'Accept-Language' header is sent by app to allow that.
+
+### Unit and component tests
+
+To run unit and nuxt component tests via vitest use
+
+```bash
+npm run test
+```
+
+### End-to-end tests
+
+To run e2e tests you need to initialize playwright using 
+
+```bash
+npx playwright install
+```
+
+and then run tests via
+
+```bash
+npm run e2e
+```
+To use Playwright UI run with ui option:
+
+```bash
+npm run e2e:ui
+```
