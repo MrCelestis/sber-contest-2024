@@ -123,7 +123,7 @@ it can handle a lot of items w/o UX issues.
 User may choose how to show transactions: grouped by date or as a flat list sorted by
 absolute transaction amount.
 
-Here user can also add a new transaction or edit any existing one.
+Here user can also add a new transaction or edit/delete any existing one.
 
 ### Data limits
 
