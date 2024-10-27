@@ -61,7 +61,7 @@ export const useVisibleCategoriesStore = defineStore(
                 remainderCategories.length
               })`
             };
-      return {
+      return <VisibleCategoryDetails>{
         categoryDetails: primaryCategories,
         remainder: remainderData,
         totalExpenses,
@@ -69,12 +69,32 @@ export const useVisibleCategoriesStore = defineStore(
       };
     });
     return {
-      visibleCategories: visibleCategoryDetails,
+      visibleCategories: computed(() =>
+        transactionsStore.loading
+          ? <VisibleCategoryDetails>{
+              categoryDetails: [],
+              remainder: null,
+              totalIncome: 0,
+              totalExpenses: 0
+            }
+          : visibleCategoryDetails.value
+      ),
       loading: computed(() => transactionsStore.loading),
       error: computed(() => transactionsStore.error)
     };
   }
 );
+
+export interface VisibleCategoryDetails {
+  categoryDetails: CategoryDetails[];
+  remainder: VisibleCategoryRemainder | null;
+  totalExpenses: number;
+  totalIncome: number;
+}
+
+export interface VisibleCategoryRemainder extends CategoryDetails {
+  categories: Set<string>;
+}
 
 export interface CategoryDetails {
   category: string | null;

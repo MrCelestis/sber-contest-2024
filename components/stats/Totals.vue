@@ -2,6 +2,7 @@
 const visibleCategoriesStore = useVisibleCategoriesStore();
 
 const formattedStats = computed(() => {
+  const loading = visibleCategoriesStore.loading;
   const income = visibleCategoriesStore.visibleCategories.totalIncome;
   const expenses = visibleCategoriesStore.visibleCategories.totalExpenses;
   const sum = income - expenses; // expenses < 0

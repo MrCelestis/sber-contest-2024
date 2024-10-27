@@ -86,7 +86,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBase: '/api/', //set to http://localhost:3001 to use mock server via json-server (npm run mock-server:start)
+      apiBase: process.env.NUXT_PUBLIC_API_BASE ?? '/api/', //set to http://localhost:3001 to use mock server via json-server (npm run mock-server:start)
       /** App will show error if number of transactions in view is at least this value */
       maxTransactions: 10000
     }

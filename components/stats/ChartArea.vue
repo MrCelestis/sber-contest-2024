@@ -78,7 +78,7 @@ const errorMessage = computed(() =>
   >
     <div
       class="chart-area__container"
-      v-if="visibleCategoriesStore.visibleCategories.categoryDetails.length"
+      v-if="visibleCategoriesStore.visibleCategories.categoryDetails.length && !visibleCategoriesStore.loading"
     >
       <!-- v-if on chart area prevents it from jumping due to initial resize (due to categories being rendered) -->
       <Button
