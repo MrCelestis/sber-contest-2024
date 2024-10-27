@@ -4,6 +4,7 @@ import type { ChartOptions } from 'chart.js';
 
 const transactionsStore = useTransactionsStore();
 const transactionDateFilterStore = useTransactionDateFilterStore();
+const { t } = useI18n();
 
 function getDataset(): { labels: string[]; data: number[] } {
   const transactions = transactionsStore.transactions;
@@ -55,7 +56,7 @@ const chartData = computed(() => {
     datasets: [
       {
         data,
-        label: 'Net',
+        label: t('chart.net'),
         //typings issue: doesn't recognize `false` as valid option
         pointStyle: (data.length <= 31 ? 'circle' : false) as any,
         pointRadius: 6

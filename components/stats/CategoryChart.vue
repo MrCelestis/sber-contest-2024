@@ -197,6 +197,7 @@ const totalExpenses = computed(() => {
     justify-content: center;
     flex-grow: 1;
     position: relative;
+    animation: 700ms linear 1 appear; //this is mostly to prevent chart from jumping due to positioning
 
     &__overlay {
       display: flex;
@@ -223,6 +224,7 @@ const totalExpenses = computed(() => {
     flex-wrap: wrap;
     justify-content: center;
     gap: var(--generic-spacing);
+    animation: 700ms linear 1 appear;
 
     &__remove {
       height: auto !important;

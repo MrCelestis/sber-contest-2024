@@ -22,3 +22,17 @@ html,
 #__nuxt {
     height: 100%;
 }
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+
+    70% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

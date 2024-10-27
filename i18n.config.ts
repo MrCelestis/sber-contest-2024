@@ -23,7 +23,8 @@ export default defineI18nConfig(() => ({
         previousChartAria: 'Select previous chart type',
         nextChartAria: 'Select next chart type',
         categoryChartAria: 'Expenses by category chart',
-        historyChartAria: 'Net balance history chart'
+        historyChartAria: 'Net balance history chart',
+        net: "Net"
       },
       totals: {
         incomeAria: 'Total income for selected period',
@@ -68,6 +69,9 @@ export default defineI18nConfig(() => ({
         nextTimeIntervalAria: 'Выбрать следующий временной интервал',
         modeAria: 'Выбрать диапазон дат: {mode}'
       },
+      categoryFilter: {
+        selectCategoryAria: 'Нажмите чтобы фильтровать по категории {category} или снять выбранный фильтр'
+      },
       chart: {
         alt: 'Не удалось показать график',
         transactionLoadFailure: 'Ошибка загрузки транзакций',
@@ -77,7 +81,8 @@ export default defineI18nConfig(() => ({
         previousChartAria: 'Выбрать предыдущий тип графика',
         nextChartAria: 'Выбрать следующий тип графика',
         categoryChartAria: 'График расходов по категориям',
-        historyChartAria: 'График истории баланса'
+        historyChartAria: 'График истории баланса',
+        net: "Баланс"
       },
       totals: {
         incomeAria: 'Суммарный доход за выбранный период',

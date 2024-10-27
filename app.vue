@@ -60,4 +60,15 @@
       'transactions transactions transactions';
   }
 }
+
+@media (orientation: landscape) {
+  .app {
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: auto 2fr 5rem;
+    grid-template-areas:
+      'header transactions'
+      'chart transactions'
+      'totals transactions';
+  }
+}
 </style>

@@ -30,7 +30,6 @@ export const useTransactionDateFilterStore = defineStore(
         : null;
     });
     const effectiveUtcInterval = computed(() => {
-      //TODO: include last component entirely (-1 ms?)
       switch (mode.value) {
         case 'month': {
           const now = new Date();

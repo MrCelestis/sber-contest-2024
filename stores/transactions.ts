@@ -66,11 +66,8 @@ export const useTransactionsStore = defineStore('transactions', () => {
         timestamp >= entry.startTimestamp && timestamp <= entry.endTimestamp
     );
     if (timestamp >= startTimestamp.value && timestamp <= endTimestamp.value) {
-      console.log('intersecting interval, refresh');
       //reload current query if intersecting interval
       await execute();
-    } else {
-      console.log('NO intersecting interval');
     }
   }
 

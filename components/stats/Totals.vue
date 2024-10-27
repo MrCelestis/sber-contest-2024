@@ -115,6 +115,7 @@ const formattedStats = computed(() => {
   &__bar {
     grid-area: bars;
     display: flex;
+    animation: 700ms linear 1 appear;
 
     &__segment {
       transition: flex-basis linear 500ms;
