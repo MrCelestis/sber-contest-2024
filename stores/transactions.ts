@@ -5,12 +5,12 @@ export const useTransactionsStore = defineStore('transactions', () => {
   const runtimeConfig = useRuntimeConfig();
   const appConfig = useAppConfig();
 
-  //   const cache = new LRUCache<{
-  //     data: Transaction[];
-  //     startTimestamp: number;
-  //     endTimestamp: number;
-  //   }>(appConfig.transactionsCacheSize);
-  //   const currentCachedResponse = ref<Transaction[]>();
+  const cache = new LRUCache<{
+    data: Transaction[];
+    startTimestamp: number;
+    endTimestamp: number;
+  }>(appConfig.transactionsCacheSize);
+  const currentCachedResponse = ref<Transaction[]>();
 
   // need computed to refresh query params to re-fetch
   const interval = computed(
@@ -38,39 +38,37 @@ export const useTransactionsStore = defineStore('transactions', () => {
     dedupe: 'defer'
   });
 
-  //   watch(
-  //     () => data.value,
-  //     () => {
-  //       if (!error.value) {
-  //         // fill cache if success
-  //         cache.set(key.value, {
-  //           data: (data.value ?? []) as Transaction[],
-  //           startTimestamp: startTimestamp.value,
-  //           endTimestamp: endTimestamp.value
-  //         });
-  //       }
-  //     }
-  //   );
+  watch(
+    () => data.value,
+    () => {
+      if (!error.value) {
+        // fill cache if success
+        cache.set(key.value, {
+          data: (data.value ?? []) as Transaction[],
+          startTimestamp: startTimestamp.value,
+          endTimestamp: endTimestamp.value
+        });
+      }
+    }
+  );
 
   async function executeInternal() {
     initialized.value = true;
-    console.log('EXECUTE!');
-    return await execute();
-    // const cached = cache.get(key.value);
-    // if (cached) {
-    //   currentCachedResponse.value = cached.data;
-    // } else {
-    //   currentCachedResponse.value = undefined;
-    //   return await execute();
-    // }
+    const cached = cache.get(key.value);
+    if (cached) {
+      currentCachedResponse.value = cached.data;
+    } else {
+      currentCachedResponse.value = undefined;
+      return await execute();
+    }
   }
 
   async function invalidateRelatedQueries(timestamp: number) {
     //invalidate cache entries with intersecting interval
-    // cache.clear(
-    //   (entry) =>
-    //     timestamp >= entry.startTimestamp && timestamp <= entry.endTimestamp
-    // );
+    cache.clear(
+      (entry) =>
+        timestamp >= entry.startTimestamp && timestamp <= entry.endTimestamp
+    );
     if (timestamp >= startTimestamp.value && timestamp <= endTimestamp.value) {
       //reload current query if intersecting interval
       await execute();
@@ -107,8 +105,7 @@ export const useTransactionsStore = defineStore('transactions', () => {
   };
 
   const transactionsRespectingCache = computed(
-    () =>
-      /*currentCachedResponse.value ?? */ (data.value ?? []) as Transaction[]
+    () => currentCachedResponse.value ?? ((data.value ?? []) as Transaction[])
   );
 
   const limitExceeded = computed(
@@ -125,7 +122,7 @@ export const useTransactionsStore = defineStore('transactions', () => {
     if (limitExceeded.value) {
       return 'limit_exceeded';
     }
-    if (/*!currentCachedResponse.value && */ error.value) {
+    if (!currentCachedResponse.value && error.value) {
       return 'generic';
     }
     return null;
@@ -135,7 +132,7 @@ export const useTransactionsStore = defineStore('transactions', () => {
     transactions: effectiveTransactions,
     loading: computed(
       () =>
-        /*!currentCachedResponse.value && */ status.value === 'pending' ||
+        (!currentCachedResponse.value && status.value === 'pending') ||
         (data.value == null && !effectiveError.value)
     ),
     error: effectiveError,
