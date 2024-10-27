@@ -17,7 +17,9 @@ const dateFormatted = computed(() =>
 );
 const amount = computed(() => formatAmount(transaction.amount));
 const testId = computed(() => `transaction:${transaction.id}`);
-const categoryText = computed(() => transaction.amount >= 0 ? t('transactions.income') : category.value?.text);
+const categoryText = computed(() =>
+  transaction.amount >= 0 ? t('transactions.income') : category.value?.text
+);
 </script>
 
 <template>
@@ -27,18 +29,19 @@ const categoryText = computed(() => transaction.amount >= 0 ? t('transactions.in
     :data-testid="testId"
     tabindex="0"
   >
-    <div
-      v-if="showDate"
-      class="transaction__date"
-      :aria-label="$t('transactions.dateAria', { date: dateFormatted })"
+    <!--avoid hydration issues related to different locale format-->
+    <ClientOnly>
+      <div
+        v-if="showDate"
+        class="transaction__date"
+        :aria-label="$t('transactions.dateAria', { date: dateFormatted })"
+      >
+        {{ dateFormatted }}
+      </div></ClientOnly
     >
-      {{ dateFormatted }}
-    </div>
     <div
       class="transaction__category"
-      :aria-label="
-        $t('transactions.categoryAria', { category: categoryText })
-      "
+      :aria-label="$t('transactions.categoryAria', { category: categoryText })"
     >
       <img
         class="transaction__category__image"
@@ -48,16 +51,19 @@ const categoryText = computed(() => transaction.amount >= 0 ? t('transactions.in
       />
       <div class="transaction__category__text">{{ categoryText }}</div>
     </div>
-    <div
-      class="transaction__amount"
-      role="math"
-      :aria-label="
-        $t('transactions.amountAria', { amount: transaction.amount })
-      "
-      :class="{ 'transaction__amount--positive': transaction.amount > 0 }"
-    >
-      <span v-if="transaction.amount > 0">+</span>{{ amount }}
-    </div>
+    <!--avoid hydration issues related to different locale format-->
+    <ClientOnly>
+      <div
+        class="transaction__amount"
+        role="math"
+        :aria-label="
+          $t('transactions.amountAria', { amount: transaction.amount })
+        "
+        :class="{ 'transaction__amount--positive': transaction.amount > 0 }"
+      >
+        <span v-if="transaction.amount > 0">+</span>{{ amount }}
+      </div>
+    </ClientOnly>
   </div>
 </template>
 

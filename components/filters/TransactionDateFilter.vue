@@ -79,7 +79,6 @@ function confirmDateRange() {
 function dismissDateRange() {
   dialogVisible.value = false;
 }
-
 </script>
 
 <template>
@@ -98,17 +97,20 @@ function dismissDateRange() {
     >
     </Button>
     <ButtonGroup>
-      <Button
-        v-for="buttonState of modeButtonStates"
-        :severity="buttonState.severity"
-        :aria-checked="buttonState.ariaChecked"
-        :aria-label="$t('dateFilter.modeAria', { mode: buttonState.label })"
-        @click="buttonState.command"
-      >
-        <span class="transaction-date-filter__mode-button__text">{{
-          buttonState.label
-        }}</span>
-      </Button>
+      <!--avoid hydration issues related to different locale format-->
+      <ClientOnly>
+        <Button
+          v-for="buttonState of modeButtonStates"
+          :severity="buttonState.severity"
+          :aria-checked="buttonState.ariaChecked"
+          :aria-label="$t('dateFilter.modeAria', { mode: buttonState.label })"
+          @click="buttonState.command"
+        >
+          <span class="transaction-date-filter__mode-button__text">{{
+            buttonState.label
+          }}</span>
+        </Button>
+      </ClientOnly>
     </ButtonGroup>
     <Button
       icon="pi pi-angle-right"

@@ -63,7 +63,6 @@ const showDate = computed(() => transactionSortStore.sort !== 'date');
           :timestamp="item.dateHeaderTimestamp"
           :style="itemHeightStyle"
           :odd="options.odd"
-          role="listitem"
         ></TransactionDateHeader>
       </template>
     </VirtualScroller>

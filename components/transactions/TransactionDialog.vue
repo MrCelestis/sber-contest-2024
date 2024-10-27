@@ -8,10 +8,11 @@ const { t } = useI18n();
 const editedTransaction = ref<Transaction>(createDefaultTransaction());
 
 function createDefaultTransaction(): Transaction {
+  const now = new Date();
   return {
     id: '',
     category: categoryMetadataStore.categoryMetadata[0]?.id,
-    timestamp: localDateToUtc(new Date()).getTime(),
+    timestamp: Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()),//local->UTC
     amount: -1
   };
 }

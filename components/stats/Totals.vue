@@ -2,7 +2,6 @@
 const visibleCategoriesStore = useVisibleCategoriesStore();
 
 const formattedStats = computed(() => {
-  const loading = visibleCategoriesStore.loading;
   const income = visibleCategoriesStore.visibleCategories.totalIncome;
   const expenses = visibleCategoriesStore.visibleCategories.totalExpenses;
   const sum = income - expenses; // expenses < 0
@@ -23,52 +22,55 @@ const formattedStats = computed(() => {
 </script>
 
 <template>
-  <div class="totals" role="math" id="totals">
-    <span
-      class="totals__numbers__income"
-      data-testid="totalsIncome"
-      :aria-label="$t('totals.incomeAria')"
-    >
-      {{ formattedStats.income }}
-      <span v-if="visibleCategoriesStore.visibleCategories.totalIncome"
-        >({{ formattedStats.incomePercent }})</span
+  <!--avoid hydration issues related to different locale format-->
+  <ClientOnly>
+    <div class="totals" role="math" id="totals">
+      <span
+        class="totals__numbers__income"
+        data-testid="totalsIncome"
+        :aria-label="$t('totals.incomeAria')"
       >
-    </span>
-    <span
-      class="totals__numbers__net"
-      :class="formattedStats.netClass"
-      data-testid="totalsNet"
-      :aria-label="$t('totals.netAria')"
-      >{{ $t('transactions.net') }}: {{ formattedStats.net }}</span
-    >
-    <span
-      class="totals__numbers__expenses"
-      data-testid="totalsExpenses"
-      :aria-label="$t('totals.expensesAria')"
-    >
-      {{ formattedStats.expenses }}
-      <span v-if="visibleCategoriesStore.visibleCategories.totalExpenses"
-        >({{ formattedStats.expensesPercent }})</span
+        {{ formattedStats.income }}
+        <span v-if="visibleCategoriesStore.visibleCategories.totalIncome"
+          >({{ formattedStats.incomePercent }})</span
+        >
+      </span>
+      <span
+        class="totals__numbers__net"
+        :class="formattedStats.netClass"
+        data-testid="totalsNet"
+        :aria-label="$t('totals.netAria')"
+        >{{ $t('transactions.net') }}: {{ formattedStats.net }}</span
       >
-    </span>
-    <div
-      aria-hidden
-      class="totals__bar"
-      v-if="
-        visibleCategoriesStore.visibleCategories.totalIncome ||
-        visibleCategoriesStore.visibleCategories.totalExpenses
-      "
-    >
+      <span
+        class="totals__numbers__expenses"
+        data-testid="totalsExpenses"
+        :aria-label="$t('totals.expensesAria')"
+      >
+        {{ formattedStats.expenses }}
+        <span v-if="visibleCategoriesStore.visibleCategories.totalExpenses"
+          >({{ formattedStats.expensesPercent }})</span
+        >
+      </span>
       <div
-        class="totals__bar__segment totals__bar__segment--income"
-        :style="{ flexBasis: formattedStats.incomePercent }"
-      ></div>
-      <div
-        class="totals__bar__segment totals__bar__segment--expenses"
-        :style="{ flexBasis: formattedStats.expensesPercent }"
-      ></div>
+        aria-hidden
+        class="totals__bar"
+        v-if="
+          visibleCategoriesStore.visibleCategories.totalIncome ||
+          visibleCategoriesStore.visibleCategories.totalExpenses
+        "
+      >
+        <div
+          class="totals__bar__segment totals__bar__segment--income"
+          :style="{ flexBasis: formattedStats.incomePercent }"
+        ></div>
+        <div
+          class="totals__bar__segment totals__bar__segment--expenses"
+          :style="{ flexBasis: formattedStats.expensesPercent }"
+        ></div>
+      </div>
     </div>
-  </div>
+  </ClientOnly>
 </template>
 
 <style lang="scss">

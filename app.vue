@@ -16,6 +16,18 @@
 </template>
 
 <script setup lang="ts">
+const { t, locale } = useI18n();
+
+useHead({
+  title: t('title'),
+  htmlAttrs: {
+    lang: locale
+  }
+});
+useSeoMeta({
+  title: t('title'),
+  description: t('seoDescription')
+});
 const transactionDateFilterStore = useTransactionDateFilterStore();
 const transactionsStore = useTransactionsStore();
 

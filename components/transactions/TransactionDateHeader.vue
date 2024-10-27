@@ -9,13 +9,16 @@ const formattedDate = computed(() =>
 </script>
 
 <template>
-  <h3
-    class="transaction-date-header"
-    :aria-label="$t('transactions.dateHeaderAria')"
-    :class="{ 'transaction-date-header--odd': odd }"
-  >
-    {{ formattedDate }}
-  </h3>
+  <ClientOnly>
+    <!--avoid hydration issues related to different locale format-->
+    <div
+      class="transaction-date-header"
+      :aria-label="$t('transactions.dateHeaderAria')"
+      :class="{ 'transaction-date-header--odd': odd }"
+    >
+      {{ formattedDate }}
+    </div>
+  </ClientOnly>
 </template>
 
 <style lang="scss">

@@ -6,8 +6,8 @@ body {
     margin: 0;
     height: 100%;
     --generic-spacing: 0.5rem;
-    --positive-color: #65b12d;
-    --negative-color: #f36a6a;
+    --positive-color: #548e29;
+    --negative-color: #ca4848;
     --p-card-body-padding: 1rem;
 }
 

@@ -3,6 +3,8 @@ export default defineI18nConfig(() => ({
   locale: 'en',
   messages: {
     en: {
+      title: 'Personal budget',
+      seoDescription: 'Pet project for managing personal budget',
       dateFilter: {
         month: 'Month',
         year: 'Year',
@@ -13,7 +15,8 @@ export default defineI18nConfig(() => ({
         modeAria: 'Select date range: {mode}'
       },
       categoryFilter: {
-        selectCategoryAria: 'Click to check filter by {category} category or to uncheck it'
+        selectCategoryAria:
+          'Click to check filter by {category} category or to uncheck it'
       },
       chart: {
         alt: 'Failed to show chart',
@@ -24,7 +27,7 @@ export default defineI18nConfig(() => ({
         nextChartAria: 'Select next chart type',
         categoryChartAria: 'Expenses by category chart',
         historyChartAria: 'Net balance history chart',
-        net: "Net"
+        net: 'Net'
       },
       totals: {
         incomeAria: 'Total income for selected period',
@@ -60,6 +63,8 @@ export default defineI18nConfig(() => ({
       }
     },
     ru: {
+      title: 'Личный бюджет',
+      seoDescription: 'Пэт-проект для личного бюджета',
       dateFilter: {
         month: 'Месяц',
         year: 'Год',
@@ -70,7 +75,8 @@ export default defineI18nConfig(() => ({
         modeAria: 'Выбрать диапазон дат: {mode}'
       },
       categoryFilter: {
-        selectCategoryAria: 'Нажмите чтобы фильтровать по категории {category} или снять выбранный фильтр'
+        selectCategoryAria:
+          'Нажмите чтобы фильтровать по категории {category} или снять выбранный фильтр'
       },
       chart: {
         alt: 'Не удалось показать график',
@@ -82,7 +88,7 @@ export default defineI18nConfig(() => ({
         nextChartAria: 'Выбрать следующий тип графика',
         categoryChartAria: 'График расходов по категориям',
         historyChartAria: 'График истории баланса',
-        net: "Баланс"
+        net: 'Баланс'
       },
       totals: {
         incomeAria: 'Суммарный доход за выбранный период',
