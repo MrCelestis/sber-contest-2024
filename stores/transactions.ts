@@ -1,15 +1,16 @@
 export const useTransactionsStore = defineStore('transactions', () => {
   const transactionDateFilterStore = useTransactionDateFilterStore();
+  const initialized = ref(false);
 
   const runtimeConfig = useRuntimeConfig();
   const appConfig = useAppConfig();
 
-  const cache = new LRUCache<{
-    data: Transaction[];
-    startTimestamp: number;
-    endTimestamp: number;
-  }>(appConfig.transactionsCacheSize);
-  const currentCachedResponse = ref<Transaction[]>();
+  //   const cache = new LRUCache<{
+  //     data: Transaction[];
+  //     startTimestamp: number;
+  //     endTimestamp: number;
+  //   }>(appConfig.transactionsCacheSize);
+  //   const currentCachedResponse = ref<Transaction[]>();
 
   // need computed to refresh query params to re-fetch
   const interval = computed(
@@ -17,7 +18,9 @@ export const useTransactionsStore = defineStore('transactions', () => {
   );
   const startTimestamp = computed(() => interval.value?.[0].getTime() ?? 0);
   //add 1 day -1ms to make the last day inclusive
-  const endTimestamp = computed(() => interval.value ? (interval.value[1].getTime() + MS_IN_ONE_DAY - 1) : 0);
+  const endTimestamp = computed(() =>
+    interval.value ? interval.value[1].getTime() + MS_IN_ONE_DAY - 1 : 0
+  );
   const key = computed(() => `${startTimestamp.value}-${endTimestamp.value}`);
 
   const { data, status, execute, error } = useFetch(`transactions`, {
@@ -35,36 +38,39 @@ export const useTransactionsStore = defineStore('transactions', () => {
     dedupe: 'defer'
   });
 
-  watch(
-    () => data.value,
-    () => {
-      if (!error.value) {
-        // fill cache if success
-        cache.set(key.value, {
-          data: (data.value ?? []) as Transaction[],
-          startTimestamp: startTimestamp.value,
-          endTimestamp: endTimestamp.value
-        });
-      }
-    }
-  );
+  //   watch(
+  //     () => data.value,
+  //     () => {
+  //       if (!error.value) {
+  //         // fill cache if success
+  //         cache.set(key.value, {
+  //           data: (data.value ?? []) as Transaction[],
+  //           startTimestamp: startTimestamp.value,
+  //           endTimestamp: endTimestamp.value
+  //         });
+  //       }
+  //     }
+  //   );
 
   async function executeInternal() {
-    const cached = cache.get(key.value);
-    if (cached) {
-      currentCachedResponse.value = cached.data;
-    } else {
-      currentCachedResponse.value = undefined;
-      return await execute();
-    }
+    initialized.value = true;
+    console.log('EXECUTE!');
+    return await execute();
+    // const cached = cache.get(key.value);
+    // if (cached) {
+    //   currentCachedResponse.value = cached.data;
+    // } else {
+    //   currentCachedResponse.value = undefined;
+    //   return await execute();
+    // }
   }
 
   async function invalidateRelatedQueries(timestamp: number) {
     //invalidate cache entries with intersecting interval
-    cache.clear(
-      (entry) =>
-        timestamp >= entry.startTimestamp && timestamp <= entry.endTimestamp
-    );
+    // cache.clear(
+    //   (entry) =>
+    //     timestamp >= entry.startTimestamp && timestamp <= entry.endTimestamp
+    // );
     if (timestamp >= startTimestamp.value && timestamp <= endTimestamp.value) {
       //reload current query if intersecting interval
       await execute();
@@ -101,7 +107,8 @@ export const useTransactionsStore = defineStore('transactions', () => {
   };
 
   const transactionsRespectingCache = computed(
-    () => (currentCachedResponse.value ?? data.value ?? []) as Transaction[]
+    () =>
+      /*currentCachedResponse.value ?? */ (data.value ?? []) as Transaction[]
   );
 
   const limitExceeded = computed(
@@ -114,20 +121,24 @@ export const useTransactionsStore = defineStore('transactions', () => {
     limitExceeded.value ? [] : transactionsRespectingCache.value
   );
 
+  const effectiveError = computed<TransactionsLoadReason | null>(() => {
+    if (limitExceeded.value) {
+      return 'limit_exceeded';
+    }
+    if (/*!currentCachedResponse.value && */ error.value) {
+      return 'generic';
+    }
+    return null;
+  });
   return {
+    initialized,
     transactions: effectiveTransactions,
     loading: computed(
-      () => !currentCachedResponse.value && status.value === 'pending'
+      () =>
+        /*!currentCachedResponse.value && */ status.value === 'pending' ||
+        (data.value == null && !effectiveError.value)
     ),
-    error: computed<TransactionsLoadReason | null>(() => {
-      if (limitExceeded.value) {
-        return 'limit_exceeded';
-      }
-      if (!currentCachedResponse.value && error.value) {
-        return 'generic';
-      }
-      return null;
-    }),
+    error: effectiveError,
     add,
     remove,
     update,

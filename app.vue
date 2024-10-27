@@ -15,7 +15,17 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const transactionDateFilterStore = useTransactionDateFilterStore();
+const transactionsStore = useTransactionsStore();
+
+// refresh transactions based on new filter
+watch(transactionDateFilterStore, () => transactionsStore.execute());
+// if (!transactionsStore.initialized) {
+//   // needed for SSR
+//   await transactionsStore.execute();
+// }
+</script>
 
 <style lang="scss">
 .app {

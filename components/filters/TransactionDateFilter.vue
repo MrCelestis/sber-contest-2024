@@ -80,8 +80,6 @@ function dismissDateRange() {
   dialogVisible.value = false;
 }
 
-// refresh transactions based on new filter
-watch(transactionDateFilterStore, () => transactionsStore.execute());
 </script>
 
 <template>
