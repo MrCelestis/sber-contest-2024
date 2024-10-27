@@ -188,6 +188,7 @@ const totalExpenses = computed(() => {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-width: 0;
   gap: var(--generic-spacing);
 
   &__container {
@@ -195,6 +196,7 @@ const totalExpenses = computed(() => {
     min-height: 0; // Allows chart canvas to shrink correctly if it doesn't fit
     max-height: 75%; // Somewhat prevents jumping due to resize when categories appear
     justify-content: center;
+    align-items: center;
     flex-grow: 1;
     position: relative;
     animation: 700ms linear 1 appear; //this is mostly to prevent chart from jumping due to positioning

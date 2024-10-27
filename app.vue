@@ -60,18 +60,7 @@ if (!transactionsStore.initialized) {
   }
 }
 
-@media (min-width: 500px) {
-  .app {
-    grid-template-columns: 4fr 4fr minmax(9rem, auto);
-    grid-template-rows: auto 2fr 3fr;
-    grid-template-areas:
-      'header header header'
-      'chart chart totals'
-      'transactions transactions transactions';
-  }
-}
-
-@media (orientation: landscape) {
+@media (min-height: 600px) and (min-width: 600px) {
   .app {
     grid-template-columns: 3fr 2fr;
     grid-template-rows: auto 2fr 5rem;
