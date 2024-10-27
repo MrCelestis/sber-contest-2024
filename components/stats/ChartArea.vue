@@ -78,7 +78,10 @@ const errorMessage = computed(() =>
   >
     <div
       class="chart-area__container"
-      v-if="visibleCategoriesStore.visibleCategories.categoryDetails.length && !visibleCategoriesStore.loading"
+      v-if="
+        visibleCategoriesStore.visibleCategories.categoryDetails.length &&
+        !visibleCategoriesStore.loading
+      "
     >
       <!-- v-if on chart area prevents it from jumping due to initial resize (due to categories being rendered) -->
       <Button
@@ -89,8 +92,10 @@ const errorMessage = computed(() =>
         :aria-label="$t('chart.previousChartAria')"
         @click="switchChart(-1)"
       />
-      <CategoryChart v-if="selectedChart === 'category'" />
-      <HistoryChart v-else-if="selectedChart === 'history'" />
+      <ClientOnly>
+        <CategoryChart v-if="selectedChart === 'category'" />
+        <HistoryChart v-else-if="selectedChart === 'history'" />
+      </ClientOnly>
       <Button
         class="chart-area__container__arrow"
         icon="pi pi-angle-right"
