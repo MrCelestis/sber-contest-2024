@@ -5,6 +5,9 @@ export default defineI18nConfig(() => ({
     en: {
       title: 'Personal budget',
       seoDescription: 'Pet project for managing personal budget',
+      mockApiWarningTitle: 'Mock API is used',
+      mockApiWarningDetail:
+        "This app deployment uses mock API, which doesn't persist user data. Requests will work, but don't expect data to stay. App can be deployed locally to use json-server API.",
       dateFilter: {
         month: 'Month',
         year: 'Year',
@@ -65,6 +68,9 @@ export default defineI18nConfig(() => ({
     ru: {
       title: 'Личный бюджет',
       seoDescription: 'Пэт-проект для личного бюджета',
+      mockApiWarningTitle: 'Используется API заглушка',
+      mockApiWarningDetail:
+        'Приложение использует заглушку для API, которая не сохраняет пользовательские изменения. Некоторые запросы будут работать, но данные могут пропасть. Для использования json-server API разверните проект локально.',
       dateFilter: {
         month: 'Месяц',
         year: 'Год',

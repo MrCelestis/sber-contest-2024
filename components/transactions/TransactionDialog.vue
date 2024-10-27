@@ -145,6 +145,7 @@ async function remove() {
     justify-content: space-between;
     width: 100%;
     margin-top: var(--generic-spacing);
+    gap: var(--generic-spacing);
   }
 }
 </style>

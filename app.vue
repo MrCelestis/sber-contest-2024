@@ -1,22 +1,9 @@
-<template>
-  <div class="app" data-testid="app">
-    <Card class="app__header">
-      <template #content><AppHeader /></template>
-    </Card>
-    <Card class="app__chart">
-      <template #content><ChartArea /></template>
-    </Card>
-    <Card class="app__totals"
-      ><template #content> <Totals /> </template
-    ></Card>
-    <Card class="app__transactions">
-      <template #content><Transactions /></template>
-    </Card>
-  </div>
-</template>
-
 <script setup lang="ts">
+import { useToast } from 'primevue/usetoast';
+
 const { t, locale } = useI18n();
+const toast = useToast();
+const runtimeCofig = useRuntimeConfig();
 
 useHead({
   title: t('title'),
@@ -37,7 +24,36 @@ if (!transactionsStore.initialized) {
   // needed for SSR
   await transactionsStore.execute();
 }
+
+if (runtimeCofig.public.showMockApiWarning) {
+  setTimeout(() => {
+    toast.add({
+      severity: 'warn',
+      summary: t('mockApiWarningTitle'),
+      detail: t('mockApiWarningDetail'),
+      life: 8000
+    });
+  }, 3000);
+}
 </script>
+
+<template>
+  <div class="app" data-testid="app">
+    <Toast />
+    <Card class="app__header">
+      <template #content><AppHeader /></template>
+    </Card>
+    <Card class="app__chart">
+      <template #content><ChartArea /></template>
+    </Card>
+    <Card class="app__totals"
+      ><template #content> <Totals /> </template
+    ></Card>
+    <Card class="app__transactions">
+      <template #content><Transactions /></template>
+    </Card>
+  </div>
+</template>
 
 <style lang="scss">
 .app {

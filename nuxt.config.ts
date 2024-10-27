@@ -109,7 +109,10 @@ export default defineNuxtConfig({
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE ?? '/api/', //set to http://localhost:3001 to use mock server via json-server (npm run mock-server:start)
       /** App will show error if number of transactions in view is at least this value */
-      maxTransactions: 10000
+      maxTransactions: 10000,
+      /**  */
+      showMockApiWarning:
+        process.env.NUXT_PUBLIC_SHOW_MOCK_API_WARNING === 'true'
     }
   }
 });
