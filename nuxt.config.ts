@@ -63,7 +63,23 @@ export default defineNuxtConfig({
       ? [
           {
             route: '/api/transactions',
-            handler: '~/server/mock-api/transactions.ts'
+            method: 'get',
+            handler: '~/server/mock-api/transactions.get.ts'
+          },
+          {
+            route: '/api/transactions',
+            method: 'post',
+            handler: '~/server/mock-api/transactions.post.ts'
+          },
+          {
+            route: '/api/transactions/:id',
+            method: 'put',
+            handler: '~/server/mock-api/transactions.put.ts'
+          },
+          {
+            route: '/api/transactions/:id',
+            method: 'delete',
+            handler: '~/server/mock-api/transactions.delete.ts'
           },
           {
             route: '/api/category-metadata',
@@ -72,7 +88,12 @@ export default defineNuxtConfig({
         ]
       : [],
   nitro: {
-    preset: 'vercel'
+    preset: 'vercel',
+    storage: {
+      mockApi: {
+        driver: 'memory'
+      }
+    }
   },
   appConfig: {
     /**
