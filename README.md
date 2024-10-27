@@ -94,6 +94,16 @@ npm run preview
 App has a single view with various cards. It's built with responsive grid and switches
 card arrangement depending on screen size.
 
+### Brief overview of used tech and libraries
+
+- App is built on Nuxt 3 with SSR support.
+- PrimeVue is used as a UI kit and for virtual scroll.
+- Pinia is used for stores to centralize app logic and reduce computations.
+- ChartJS is used to display charts.
+- Styles use written in SCSS with BEM naming convention.
+- i18n library is used for translation.
+- Testing is done via Vitest and Playwright.
+
 ### Header
 
 Header contains transaction filter with 3 modes: Month, Year and Custom.
@@ -134,9 +144,13 @@ quite large and sensible app use won't result in exceeding this limit.
 
 There is no limit for categories because too many might overwhelm user and such usage is undesired.
 
-### Caching
+### Fetching data and caching
 
 App caches category metadata query and never re-runs it.
+
+Transactions are fetched with timestamp filter corresponding to selected interval.
+Timestamps are assumed to be UTC date-only epoch timestamps, they are formatted in
+local format. Transactions are requested with sorting by timestamp.
 
 Transaction queries are cached using Least Recently Used cache, number of entries is
 configurable (defaults to 5).
