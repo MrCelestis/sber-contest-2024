@@ -1,4 +1,7 @@
-import { getTimestampFromKey, TRANSACTION_KEY_PREFIX } from './transaction-util';
+import {
+  getTimestampFromKey,
+  TRANSACTION_KEY_PREFIX
+} from './transaction-util';
 
 //this is dev api only, should be disabled in prod build
 export default defineEventHandler(async (event) => {
@@ -17,9 +20,10 @@ export default defineEventHandler(async (event) => {
     })
     .slice(0, limit);
 
+  //storedTransactions.getItems doesn't return values
   const result = await Promise.all(
     filteredKeys.map((k) => storedTransactions.getItem(k))
   );
-  //storedTransactions.getItems doesn't return values
+  result.sort((a: any, b: any) => Number(b.timestamp) - Number(a.timestamp));
   return result;
 });
