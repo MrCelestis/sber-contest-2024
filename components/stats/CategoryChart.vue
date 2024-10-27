@@ -225,7 +225,7 @@ const totalExpenses = computed(() => {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: var(--generic-spacing);
+    gap: calc(var(--generic-spacing) / 2);
     animation: 700ms linear 1 appear;
 
     &__remove {

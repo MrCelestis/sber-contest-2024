@@ -59,7 +59,7 @@ if (runtimeCofig.public.showMockApiWarning) {
 .app {
   display: grid;
   height: 100%;
-  grid-template-rows: auto 40vh 5rem 3fr;
+  grid-template-rows: auto 37vh 3rem 3fr;
   grid-template-areas:
     'header'
     'chart'
@@ -96,6 +96,7 @@ if (runtimeCofig.public.showMockApiWarning) {
       'header transactions'
       'chart transactions'
       'totals transactions';
+    --p-card-body-padding: calc(2 * var(--generic-spacing));
   }
 }
 </style>

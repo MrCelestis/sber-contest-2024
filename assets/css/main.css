@@ -8,7 +8,7 @@ body {
     --generic-spacing: 0.5rem;
     --positive-color: #548e29;
     --negative-color: #ca4848;
-    --p-card-body-padding: 1rem;
+    --p-card-body-padding: var(--generic-spacing);
 }
 
 @media (prefers-color-scheme: dark) {
