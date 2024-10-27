@@ -10,6 +10,13 @@ Generally the app provides a way to manage personal budget:
 - delete transactions
 - edit transactions
 
+Github: https://github.com/MrCelestis/sber-contest-2024
+
+Demo deployment (note that server integration is partial):
+
+https://sber-contest-2024-ui.vercel.app/
+https://sber-contest-2024-ui.vercel.app/ru (russian translated version)
+
 ## Setup
 
 Make sure to install the dependencies (Node 18):

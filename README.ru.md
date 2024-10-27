@@ -10,6 +10,13 @@
 - удаление транзакций
 - редактирование транзакций
 
+Github: https://github.com/MrCelestis/sber-contest-2024
+
+Demo деплой (интеграция с сервером частичная):
+
+https://sber-contest-2024-ui.vercel.app/
+https://sber-contest-2024-ui.vercel.app/ru (русский перевод)
+
 ## Настройка
 
 Установите зависимости (Node 18):
