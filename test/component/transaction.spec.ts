@@ -39,6 +39,11 @@ describe('Transaction', () => {
         plugins: [testingPinia],
         mocks: {
           $t: (msg: string) => msg
+        },
+        stubs: {
+          ClientOnly: {
+            template: '<slot></slot>'
+          }
         }
       }
     });
