@@ -28,7 +28,7 @@ function generateDataSet() {
     transactions.push({
       id: String(100000 + i),
       amount: 40000 + randomInt(120000),
-      category: "1",
+      category: "",
       timestamp: today - randomInt(500) * msInOneDay
     });
   }

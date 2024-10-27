@@ -28,12 +28,31 @@ npm run dev
 
 ## Mock data servers
 
+App has 2 mock servers (and a 3rd one for e2e tests).
+
+### nitro mock server
+
+Nitro mock server is used in demo environments that don't allow external API to be accessed
+from Nuxt server side (used in SSR). By default it's also served in dev mode.
+
+Use of this server is configured by `nuxt.config.runtimeConfig.public.apiBase: '/api/'` (default). Absolute URL is used for test Vercel deployment.
+
+This server uses memory storage and it WILL lose your data on restart.
+On Vercel this will NOT provide persistent data, so it's just for demo purposes.
+
+Server uses generated `large-db.json` (see below) and also has a way to respond with
+translated categories using `category-names.ru.json`.
+
+### json-server
+
 Mock data (expense category metadata and transactions) can be served for
-development using mock server (port 3001):
+development using mock server using json-server (port 3001):
 
 ```bash
 npm run mock-server:start
 ```
+
+To use it you need to set `nuxt.config.runtimeConfig.public.apiBase: 'http://localhost:3001'`
 
 It starts json-server supporting basic CRUD operations on entities at the following routes:
 
@@ -144,7 +163,8 @@ App automatically detects dark mode and switches styles accordingly.
 All predefined text in the app uses i18n for translations.
 Default language is English; Russian is accessible at `/ru` URL (e.g. http://localhost:3000/ru).
 
-This doesn't affect fetched data, real API should serve category metadata with different translations. 'Accept-Language' header is sent by app to allow that.
+'Accept-Language' header is sent by app to request preferred category translation.
+Mock server using json-server doesn't support that, but mock nitro server (served under dev mode) does.
 
 ### Unit and component tests
 
