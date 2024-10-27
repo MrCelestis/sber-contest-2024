@@ -30,3 +30,4 @@ mock-server/large-db.json
 # Test data
 test-output
 playwright-report
+coverage
