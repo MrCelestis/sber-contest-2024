@@ -21,10 +21,10 @@ const transactionsStore = useTransactionsStore();
 
 // refresh transactions based on new filter
 watch(transactionDateFilterStore, () => transactionsStore.execute());
-// if (!transactionsStore.initialized) {
-//   // needed for SSR
-//   await transactionsStore.execute();
-// }
+if (!transactionsStore.initialized) {
+  // needed for SSR
+  await transactionsStore.execute();
+}
 </script>
 
 <style lang="scss">
